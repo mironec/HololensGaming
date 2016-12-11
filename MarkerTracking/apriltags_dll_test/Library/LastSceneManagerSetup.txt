@@ -1,0 +1,4 @@
+sceneSetups:
+- path: C:/Users/tschmidt/Documents/dev/unity/apriltag_dll_test/Assets/main.unity
+  isLoaded: 1
+  isActive: 1
