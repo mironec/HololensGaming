@@ -277,6 +277,7 @@
     <Compile Include="Assets\HoloToolkit\Utilities\Tests\TextToSpeechManagerTest.cs" />
     <Compile Include="Assets\Scripts\CustomGestureManager.cs" />
     <Compile Include="Assets\Scripts\GestureAction.cs" />
+    <Compile Include="Assets\Scripts\Scheduler.cs" />
     <Compile Include="Assets\Scripts\VisualEffects.cs" />
   </ItemGroup>
   <ItemGroup>

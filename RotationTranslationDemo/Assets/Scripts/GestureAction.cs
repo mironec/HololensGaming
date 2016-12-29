@@ -20,20 +20,20 @@ public class GestureAction : MonoBehaviour
 
     void Start()
     {
-        /*MeshFilter[] meshFilters = GetComponentsInChildren<MeshFilter>();
+        MeshFilter[] meshFilters = GetComponentsInChildren<MeshFilter>();
         CombineInstance[] combine = new CombineInstance[meshFilters.Length];
         int i = 0;
         while (i < meshFilters.Length)
         {
             combine[i].mesh = meshFilters[i].sharedMesh;
             combine[i].transform = meshFilters[i].transform.localToWorldMatrix;
-            meshFilters[i].gameObject.SetActive(false);
+            //meshFilters[i].gameObject.SetActive(false);
             i++;
         }
-        transform.GetComponent<MeshFilter>().mesh = new Mesh();
-        transform.GetComponent<MeshFilter>().mesh.CombineMeshes(combine);
-        transform.gameObject.SetActive(true);
-        transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);*/
+        transform.GetComponent<MeshCollider>().sharedMesh = new Mesh();
+        transform.GetComponent<MeshCollider>().sharedMesh.CombineMeshes(combine);
+        //transform.gameObject.SetActive(true);
+        //transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
         initialPosition = transform.position;
     }
 
@@ -133,6 +133,10 @@ public class GestureAction : MonoBehaviour
         if (beingManipulated)
         {
             transform.position = initialPosition + CustomGestureManager.Instance.ManipulationOffset * TranslationSensitivity;
+            if (transform.position.y < SurfaceMeshesToPlanes.Instance.FloorYPosition)
+                transform.position = new Vector3(transform.position.x, SurfaceMeshesToPlanes.Instance.FloorYPosition, transform.position.z);
+            if (transform.position.y > SurfaceMeshesToPlanes.Instance.CeilingYPosition)
+                transform.position = new Vector3(transform.position.x, SurfaceMeshesToPlanes.Instance.CeilingYPosition, transform.position.z);
         }
     }
 
