@@ -81,7 +81,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>C:\Users\tschmidt\Documents\dev\HoloToolkit-master\Sharing\Src\External\apriltag-2015-03-18\src;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)..\apriltag-2015-03-18\src;$(IncludePath)</IncludePath>
     <OutDir>$(SolutionDir)\output\editor\$(Configuration)\</OutDir>
     <IntDir>vs_int_dir\$(Platform)\$(Configuration)\</IntDir>
     <TargetName>apriltags</TargetName>
@@ -92,7 +92,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>C:\Users\tschmidt\Documents\dev\HoloToolkit-master\Sharing\Src\External\apriltag-2015-03-18\src;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)..\apriltag-2015-03-18\src;$(IncludePath)</IncludePath>
     <OutDir>$(SolutionDir)\output\editor\$(Configuration)\</OutDir>
     <IntDir>vs_int_dir\$(Platform)\$(Configuration)\</IntDir>
     <TargetName>apriltags</TargetName>
@@ -126,7 +126,7 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\Users\tschmidt\Documents\dev\HoloToolkit-master\Sharing\Src\External\apriltag-2015-03-18\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)..\apriltag-2015-03-18\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>apriltag_WinDesktop_$(PlatformTarget)_$(Configuration).lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
@@ -167,7 +167,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>C:\Users\tschmidt\Documents\dev\HoloToolkit-master\Sharing\Src\External\apriltag-2015-03-18\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)..\apriltag-2015-03-18\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>apriltag_WinDesktop_$(PlatformTarget)_$(Configuration).lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>

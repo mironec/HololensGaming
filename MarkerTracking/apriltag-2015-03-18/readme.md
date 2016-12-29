@@ -1,0 +1,1 @@
+This is the apriltag library port from the HoloToolkit repository [https://github.com/Microsoft/HoloToolkit/](https://github.com/Microsoft/HoloToolkit/).
