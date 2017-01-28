@@ -8,7 +8,8 @@ using System;
 public class aruco_tracker : MonoBehaviour {
     // Original Video parameters
     public int deviceNumber;
-    public RawImage overlay;
+    //public RawImage overlay;
+    public MeshRenderer overlay_quad;
     public Camera cam;
     
     public GameObject marker_quad_prefab;
@@ -53,7 +54,8 @@ public class aruco_tracker : MonoBehaviour {
             init(cam_width, cam_height);
             dll_inited = true;
 
-            overlay.texture = _webcamTexture;
+            //overlay.texture = _webcamTexture;
+            overlay_quad.material.mainTexture = _webcamTexture;
         }
         else
         {
@@ -82,6 +84,7 @@ public class aruco_tracker : MonoBehaviour {
     {
         GameObject quad = GameObject.Instantiate(marker_quad_prefab);
         quad.transform.localScale = new Vector3(0.088f, 0.088f, 0.088f); //Matches the real world marker scale, 1 unit = 1m
+        quad.transform.parent = cam.transform;
         return quad;
     }
 
@@ -141,7 +144,7 @@ public class aruco_tracker : MonoBehaviour {
             for (int i = 0; i < marker_count; i++)
             {
                 Vector3 tvec = new Vector3((float)tvecs[i * 3], (float)tvecs[i * 3 + 1], (float)tvecs[i * 3 + 2]);
-                quad_instances[i].transform.position = tvec;
+                quad_instances[i].transform.localPosition = tvec;
 
                 Vector3 rvec = new Vector3((float)rvecs[i * 3], (float)rvecs[i * 3 + 1], (float)rvecs[i * 3 + 2]);
                
@@ -151,7 +154,7 @@ public class aruco_tracker : MonoBehaviour {
                 //the rvec from OpenCV is a compact axis-angle format. The direction of the vector is the axis, and the length of it is the angle to rotate about (i.e. theta)
                 //From this stackoverflow answer: http://stackoverflow.com/questions/12933284/rodrigues-into-eulerangles-and-vice-versa
                 Quaternion new_rot = Quaternion.AngleAxis(theta * Mathf.Rad2Deg, rvec);
-                quad_instances[i].transform.rotation = new_rot;
+                quad_instances[i].transform.localRotation = new_rot;
             }
         }
 	}
