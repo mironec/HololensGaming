@@ -101,7 +101,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <GenerateManifest>false</GenerateManifest>
     <IgnoreImportLibrary>false</IgnoreImportLibrary>
-    <IncludePath>C:\Users\tschmidt\Documents\dev\HoloToolkit-master\Sharing\Src\External\apriltag-2015-03-18\src;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)..\apriltag-2015-03-18\src;$(IncludePath)</IncludePath>
     <TargetName>apriltags</TargetName>
     <OutDir>$(SolutionDir)\output\hololens\$(Configuration)\</OutDir>
     <IntDir>vs_int_dir\$(Platform)\$(Configuration)\</IntDir>
@@ -109,7 +109,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <GenerateManifest>false</GenerateManifest>
     <IgnoreImportLibrary>false</IgnoreImportLibrary>
-    <IncludePath>C:\Users\tschmidt\Documents\dev\HoloToolkit-master\Sharing\Src\External\apriltag-2015-03-18\src;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)..\apriltag-2015-03-18\src;$(IncludePath)</IncludePath>
     <TargetName>apriltags</TargetName>
     <OutDir>$(SolutionDir)\output\hololens\$(Configuration)\</OutDir>
     <IntDir>vs_int_dir\$(Platform)\$(Configuration)\</IntDir>
@@ -142,7 +142,7 @@
       <SubSystem>Console</SubSystem>
       <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
       <GenerateWindowsMetadata>false</GenerateWindowsMetadata>
-      <AdditionalLibraryDirectories>C:\Users\tschmidt\Documents\dev\HoloToolkit-master\Sharing\Src\External\apriltag-2015-03-18\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)..\apriltag-2015-03-18\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>apriltag_UAP_$(PlatformTarget)_$(Configuration).lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
@@ -156,7 +156,7 @@
       <SubSystem>Console</SubSystem>
       <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
       <GenerateWindowsMetadata>false</GenerateWindowsMetadata>
-      <AdditionalLibraryDirectories>C:\Users\tschmidt\Documents\dev\HoloToolkit-master\Sharing\Src\External\apriltag-2015-03-18\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)..\apriltag-2015-03-18\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>apriltag_UAP_$(PlatformTarget)_$(Configuration).lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>

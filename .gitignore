@@ -1,4 +1,14 @@
 App/
 vs_int_dir/
+MarkerTracking/apriltag-2015-03-18/lib
+MarkerTracking/apriltag-2015-03-18/tmp
+MarkerTracking/opencv_aruco_test/x64
+MarkerTracking/opencv_aruco_test/opencv_aruco_test/x64
+MarkerTracking/aruco_plugin_test/aruco_plugin_test.sln
+MarkerTracking/aruco_lib_plugin/aruco/builds/*
+
 Temp/
+Library/
 .vs/
+*.VC.db
+*.opendb
