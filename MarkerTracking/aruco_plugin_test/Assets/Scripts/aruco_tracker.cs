@@ -20,6 +20,8 @@ public class aruco_tracker : MonoBehaviour {
     private int cam_width;
     private int cam_height;
 
+    private float webcam_fov;
+
     [DllImport("aruco_plugin")]
     public static extern void init(int width, int height);
 
@@ -74,10 +76,8 @@ public class aruco_tracker : MonoBehaviour {
         //Taken from this stackoverflow answer:
         // http://stackoverflow.com/questions/36561593/opencv-rotation-rodrigues-and-translation-vectors-for-positioning-3d-object-in
         float focal_y = 1.0240612805194348e+03f;
-        float vfov = 2.0f * Mathf.Atan(0.5f * resolution.y / focal_y) * Mathf.Rad2Deg;
-        cam.fieldOfView = vfov;
+        webcam_fov = 2.0f * Mathf.Atan(0.5f * resolution.y / focal_y) * Mathf.Rad2Deg;
         cam.aspect = resolution.x / resolution.y;
-
     }
 
     GameObject make_marker_quad()
@@ -144,6 +144,7 @@ public class aruco_tracker : MonoBehaviour {
             for (int i = 0; i < marker_count; i++)
             {
                 Vector3 tvec = new Vector3((float)tvecs[i * 3], (float)tvecs[i * 3 + 1], (float)tvecs[i * 3 + 2]);
+                tvec.z *= webcam_fov / cam.fieldOfView;
                 quad_instances[i].transform.localPosition = tvec;
 
                 Vector3 rvec = new Vector3((float)rvecs[i * 3], (float)rvecs[i * 3 + 1], (float)rvecs[i * 3 + 2]);

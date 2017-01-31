@@ -8,7 +8,7 @@ public class frustrum_plane : MonoBehaviour {
     public Camera tracking_camera;
 
         //Necessary because the actual fov of the camera gets changed by the unity holographic emulation -.-
-    public float holo_fov = 17.537272544789690035827652800127f;
+    //public float holo_fov = 17.537272544789690035827652800127f;
         //Set if you are running hololens emulation
     public bool holo_emulation = false;
 
@@ -19,8 +19,8 @@ public class frustrum_plane : MonoBehaviour {
             Debug.LogWarning(this.name + " is not a child of " + tracking_camera.name + ", the camera it is tracking.");
         }
         float distance = transform.localPosition.z;
+
         float fov = tracking_camera.fieldOfView;
-        if (holo_emulation) fov = holo_fov;
         float frustrum_height = 2.0f * distance * Mathf.Tan(fov * 0.5f * Mathf.Deg2Rad);
         float frustrum_width = frustrum_height * tracking_camera.aspect;
 
