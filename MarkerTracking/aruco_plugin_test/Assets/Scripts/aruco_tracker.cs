@@ -8,7 +8,8 @@ using System;
 public class aruco_tracker : MonoBehaviour {
     // Original Video parameters
     public int deviceNumber;
-    //public RawImage overlay;
+    public Texture2D test_img;
+    public bool use_test_img = false;
     public MeshRenderer overlay_quad;
     public Camera cam;
     
@@ -43,25 +44,37 @@ public class aruco_tracker : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        WebCamDevice[] devices = WebCamTexture.devices;
-        if (devices.Length > 0)
+        if(use_test_img)
         {
-            Debug.Log("Got devices");
-            _webcamTexture = new WebCamTexture(devices[deviceNumber].name, 1280, 720, 30);
-            // Play the video source
-            _webcamTexture.Play();
-            cam_width = _webcamTexture.width;
-            cam_height = _webcamTexture.height;
-
+            cam_width = test_img.width;
+            cam_height = test_img.height;
             init(cam_width, cam_height);
             dll_inited = true;
 
-            //overlay.texture = _webcamTexture;
-            overlay_quad.material.mainTexture = _webcamTexture;
+            overlay_quad.material.mainTexture = test_img;
         }
         else
         {
-            Debug.Log("No webcam found!");
+            WebCamDevice[] devices = WebCamTexture.devices;
+            if (devices.Length > 0)
+            {
+                Debug.Log("Got devices");
+                _webcamTexture = new WebCamTexture(devices[deviceNumber].name, 1280, 720, 30);
+                // Play the video source
+                _webcamTexture.Play();
+                cam_width = _webcamTexture.width;
+                cam_height = _webcamTexture.height;
+
+                init(cam_width, cam_height);
+                dll_inited = true;
+
+                //overlay.texture = _webcamTexture;
+                overlay_quad.material.mainTexture = _webcamTexture;
+            }
+            else
+            {
+                Debug.Log("No webcam found!");
+            }
         }
 
         PrintDelegate plugin_delegate = new PrintDelegate(PluginDebugLog);
@@ -95,7 +108,15 @@ public class aruco_tracker : MonoBehaviour {
 
     // Update is called once per frame
     void Update () {
-        Color32[] colors = _webcamTexture.GetPixels32();
+        Color32[] colors;
+        if(use_test_img)
+        {
+            colors = test_img.GetPixels32();
+        }
+        else
+        {
+            colors = _webcamTexture.GetPixels32();
+        }
         IntPtr imageHandle = getImageHandle(colors);
 
         int marker_count = 0;

@@ -7,11 +7,6 @@ public class frustrum_plane : MonoBehaviour {
         //The camera to be tracked. This object should be a parent of this camera
     public Camera tracking_camera;
 
-        //Necessary because the actual fov of the camera gets changed by the unity holographic emulation -.-
-    //public float holo_fov = 17.537272544789690035827652800127f;
-        //Set if you are running hololens emulation
-    public bool holo_emulation = false;
-
 	// Use this for initialization
 	void Start () {
         if(!this.transform.IsChildOf(tracking_camera.transform))
