@@ -102,6 +102,9 @@
     <GenerateManifest>false</GenerateManifest>
     <IgnoreImportLibrary>false</IgnoreImportLibrary>
     <IncludePath>$(ProjectDir)include;$(IncludePath)</IncludePath>
+    <OutDir>$(SolutionDir)\output\hololens\$(Configuration)\</OutDir>
+    <IntDir>vs_int_dir\$(Platform)\$(Configuration)\</IntDir>
+    <TargetName>aruco_plugin</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <GenerateManifest>false</GenerateManifest>
@@ -131,7 +134,7 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
-      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <CompileAsWinRT>false</CompileAsWinRT>
       <AdditionalIncludeDirectories />
     </ClCompile>
