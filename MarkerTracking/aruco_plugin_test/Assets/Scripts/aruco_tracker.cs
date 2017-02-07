@@ -42,9 +42,25 @@ public class aruco_tracker : MonoBehaviour {
 
     private Vector2 resolution;
 
+    //static aruco_tracker()
+    //{
+
+    //    String currentPath = Environment.GetEnvironmentVariable("PATH", EnvironmentVariableTarget.Process);
+    //    char separator = System.IO.Path.DirectorySeparatorChar;
+    //    String dllPath = Environment.CurrentDirectory + separator + "Assets" + separator + "Plugins" + separator + "Editor" + separator + "x64";
+    //    Debug.Log(currentPath);
+    //    Debug.Log(dllPath);
+    //    if (currentPath.Contains(dllPath) == false)
+    //    {
+    //        Environment.SetEnvironmentVariable("PATH", currentPath + System.IO.Path.PathSeparator + dllPath, EnvironmentVariableTarget.Process);
+    //    }
+    //    Debug.Log(Environment.GetEnvironmentVariable("PATH", EnvironmentVariableTarget.Process));
+    //}
     // Use this for initialization
     void Start () {
-        if(use_test_img)
+        
+
+        if (use_test_img)
         {
             cam_width = test_img.width;
             cam_height = test_img.height;
@@ -124,8 +140,17 @@ public class aruco_tracker : MonoBehaviour {
         IntPtr out_corners = IntPtr.Zero;
         IntPtr out_rvecs = IntPtr.Zero;
         IntPtr out_tvecs = IntPtr.Zero;
-
-        detect_markers(imageHandle, ref marker_count, ref out_ids, ref out_corners, ref out_rvecs, ref out_tvecs);
+        
+        try
+        {
+            detect_markers(imageHandle, ref marker_count, ref out_ids, ref out_corners, ref out_rvecs, ref out_tvecs);
+        }
+        catch(SEHException exc)
+        {
+            Debug.Log("exception caught!");
+            Debug.Log(exc.Message);
+            Debug.Log(exc.Source);
+        }
 
             //Add/remove quads to match how many we saw
         if (quad_instances.Count > marker_count)
