@@ -41,25 +41,11 @@ public class aruco_tracker : MonoBehaviour {
     private bool dll_inited = false;
 
     private Vector2 resolution;
-
-    //static aruco_tracker()
-    //{
-
-    //    String currentPath = Environment.GetEnvironmentVariable("PATH", EnvironmentVariableTarget.Process);
-    //    char separator = System.IO.Path.DirectorySeparatorChar;
-    //    String dllPath = Environment.CurrentDirectory + separator + "Assets" + separator + "Plugins" + separator + "Editor" + separator + "x64";
-    //    Debug.Log(currentPath);
-    //    Debug.Log(dllPath);
-    //    if (currentPath.Contains(dllPath) == false)
-    //    {
-    //        Environment.SetEnvironmentVariable("PATH", currentPath + System.IO.Path.PathSeparator + dllPath, EnvironmentVariableTarget.Process);
-    //    }
-    //    Debug.Log(Environment.GetEnvironmentVariable("PATH", EnvironmentVariableTarget.Process));
-    //}
-    // Use this for initialization
+    
+    private Color32[] colors;
+    
     void Start () {
         
-
         if (use_test_img)
         {
             cam_width = test_img.width;
@@ -68,6 +54,7 @@ public class aruco_tracker : MonoBehaviour {
             dll_inited = true;
 
             overlay_quad.material.mainTexture = test_img;
+            colors = test_img.GetPixels32();
         }
         else
         {
@@ -86,6 +73,7 @@ public class aruco_tracker : MonoBehaviour {
 
                 //overlay.texture = _webcamTexture;
                 overlay_quad.material.mainTexture = _webcamTexture;
+                colors = new Color32[cam_width * cam_height];
             }
             else
             {
@@ -107,6 +95,8 @@ public class aruco_tracker : MonoBehaviour {
         float focal_y = 1.0240612805194348e+03f;
         webcam_fov = 2.0f * Mathf.Atan(0.5f * resolution.y / focal_y) * Mathf.Rad2Deg;
         cam.aspect = resolution.x / resolution.y;
+
+        
     }
 
     GameObject make_marker_quad()
@@ -121,38 +111,36 @@ public class aruco_tracker : MonoBehaviour {
     {
         if(dll_inited) destroy();
     }
-
+    
     // Update is called once per frame
     void Update () {
-        Color32[] colors;
-        if(use_test_img)
+        if (!dll_inited) return;
+        if (!use_test_img)
         {
-            colors = test_img.GetPixels32();
+            _webcamTexture.GetPixels32(colors);
         }
-        else
-        {
-            colors = _webcamTexture.GetPixels32();
-        }
-        IntPtr imageHandle = getImageHandle(colors);
+        
+        //IntPtr imageHandle = getImageHandle(colors);
+        GCHandle imageHandle = GCHandle.Alloc(colors, GCHandleType.Pinned);
 
         int marker_count = 0;
         IntPtr out_ids = IntPtr.Zero;
         IntPtr out_corners = IntPtr.Zero;
         IntPtr out_rvecs = IntPtr.Zero;
         IntPtr out_tvecs = IntPtr.Zero;
-        
-        try
-        {
-            detect_markers(imageHandle, ref marker_count, ref out_ids, ref out_corners, ref out_rvecs, ref out_tvecs);
-        }
-        catch(SEHException exc)
-        {
-            Debug.Log("exception caught!");
-            Debug.Log(exc.Message);
-            Debug.Log(exc.Source);
-        }
 
-            //Add/remove quads to match how many we saw
+            //This call may trigger a stack overflow exception from within the dll if the application is close to the memory limit of the HoloLens. 
+            //This isn't really a stack overflow, but instead an exception thrown from with OpenCV when failing to allocate memory.
+            //This can happen if the unity application allocates large amounts of memory over time, in which case the GC may wait until the heap reaches the maximum memory available to collect and free memory.
+            //In that case, this unmanaged call may run before space is freed up by the GC, so internal allocations done by OpenCV hit the memory limit, throwing the exception.
+            //The easiest way to prevent this is to never hit the memory limit, or never allocate so fast that the GC will let the heap approach maximum size.
+            //However, if necessary it is possible to use GC.AddMemoryPressure to make it aware of an approximate amount of memory used by the dll (probably 1 - 2 times the image size in bytes, as it creates some copies of it for color conversion)
+            //I tried this, but it seems to just cause the GC to collect every frame, which is terrible for performance. Because of that it's not implemented here.
+            //:todo: Look into a way to detect that the application is close to the maximum memory allowed (through a C# call or possibly a hardcoded value adjusted for the HoloLens (on emulator: 964 MB +- 4 MB maybe)) and force a GC.collect call if we're close to it.
+        detect_markers(imageHandle.AddrOfPinnedObject(), ref marker_count, ref out_ids, ref out_corners, ref out_rvecs, ref out_tvecs);
+
+        imageHandle.Free();
+        //Add/remove quads to match how many we saw
         if (quad_instances.Count > marker_count)
         {
             //Clear out any instances we don't need anymore
@@ -205,23 +193,6 @@ public class aruco_tracker : MonoBehaviour {
             }
         }
 	}
-
-    private static IntPtr getImageHandle(object colors)
-    {
-        IntPtr ptr;
-        GCHandle handle = default(GCHandle);
-        try
-        {
-            handle = GCHandle.Alloc(colors, GCHandleType.Pinned);
-            ptr = handle.AddrOfPinnedObject();
-        }
-        finally
-        {
-            if (handle != default(GCHandle))
-                handle.Free();
-        }
-        return ptr;
-    }
 
     static void PluginDebugLog(string str)
     {

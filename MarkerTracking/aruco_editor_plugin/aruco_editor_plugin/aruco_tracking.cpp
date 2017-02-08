@@ -120,6 +120,14 @@ extern "C" {
 		delete ids;
 		delete corners;
 		delete corners_flat;
+
+		delete tvecs;
+		delete rvecs;
+		delete tvecs_flat;
+		delete rvecs_flat;
+
+		delete camera_matrix;
+		delete dist_coeffs;
 	}
 
 	void set_debug_cb(PrintFunc ptr) {
