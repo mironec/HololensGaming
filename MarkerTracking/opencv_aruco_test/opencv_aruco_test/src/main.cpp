@@ -24,13 +24,13 @@ using namespace std;
 void getCameraParameters(Mat &camera_matrix, Mat &dist_coeffs) {
 	camera_matrix.create(3, 3, CV_64F);
 	camera_matrix.at<double>(0, 0) = 1.0240612805194348e+03;
-	camera_matrix.at<double>(1, 0) = 0.0;
-	camera_matrix.at<double>(2, 0) = 6.3218846628075391e+02;
 	camera_matrix.at<double>(0, 1) = 0.0;
+	camera_matrix.at<double>(0, 2) = 6.3218846628075391e+02;
+	camera_matrix.at<double>(1, 0) = 0.0;
 	camera_matrix.at<double>(1, 1) = 1.0240612805194348e+03;
-	camera_matrix.at<double>(2, 1) = 3.6227541578720428e+02;
-	camera_matrix.at<double>(0, 2) = 0.0;
-	camera_matrix.at<double>(1, 2) = 0.0;
+	camera_matrix.at<double>(1, 2) = 3.6227541578720428e+02;
+	camera_matrix.at<double>(2, 0) = 0.0;
+	camera_matrix.at<double>(2, 1) = 0.0;
 	camera_matrix.at<double>(2, 2) = 1.0;
 
 	dist_coeffs.create(5, 1, CV_64F);
@@ -42,7 +42,8 @@ void getCameraParameters(Mat &camera_matrix, Mat &dist_coeffs) {
 }
 
 int main(int ac, char** av) {
-	VideoCapture capture(0); //try to open string, this will attempt to open it as a video file or image sequence
+	//VideoCapture capture(0); //try to open string, this will attempt to open it as a video file or image sequence
+	VideoCapture capture("test_vid.mp4"); //try to open string, this will attempt to open it as a video file or image sequence
 	capture.set(CV_CAP_PROP_FRAME_WIDTH, 1280/2);
 	capture.set(CV_CAP_PROP_FRAME_HEIGHT, 720/2);
 	string window_name = "video | q or esc to quit";
@@ -55,6 +56,8 @@ int main(int ac, char** av) {
 	getCameraParameters(cameraMatrix, distCoeffs);
 
 
+	int frame_count = 0;
+
 	for (;;) {
 		capture >> frame;
 		if (frame.empty())
@@ -63,6 +66,11 @@ int main(int ac, char** av) {
 		vector<int> ids;
 		vector<vector<Point2f>> corners;
 		aruco::detectMarkers(frame, dictionary, corners, ids);
+
+		cout << "frame ";
+		cout << frame_count;
+		cout << ": ";
+		frame_count++;
 
 		if (ids.size() > 0) {
 			aruco::drawDetectedMarkers(frame, corners, ids);
@@ -73,14 +81,23 @@ int main(int ac, char** av) {
 			for (int i = 0; i < ids.size(); i++) {
 				aruco::drawAxis(frame, cameraMatrix, distCoeffs, rvecs[i], tvecs[i], 0.044);
 
+				cout << "Txyz=";
+				for (int j = 0; j < 3; j++)
+					cout << tvecs[i](j) << " ";
+
+				for(int j=0; j<3; j++) 
+					cout << rvecs[i](j) << " ";
+
+				
 					//This is to inspect the translation vectors and validate calculated distance from camera compared to actual distance.`
 				//Vec3d tvec = tvecs[i];
 				//double len = sqrt(tvec(0) * tvec(0) + tvec(1) * tvec(1) + tvec(2) * tvec(2));
 				//cout << tvec << " " << len << endl;
 				
 			}
-		}
 			
+		}
+		cout << "\n";
 
 		imshow(window_name, frame);
 		char key = (char)waitKey(30); //delay N millis, usually long enough to display and capture input

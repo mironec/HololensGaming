@@ -13,6 +13,9 @@ public class GestureAction : MonoBehaviour
     [Tooltip("Translation sensitivity controls the speed of the translation.")]
     public float TranslationSensitivity = 10.0f;
 
+    [Tooltip("The main camera gameObject.")]
+    public GameObject playerCamera;
+
     private bool doingTranslation = false;
     private bool doingRotation = false;
     private bool beingManipulated = false;
@@ -20,6 +23,13 @@ public class GestureAction : MonoBehaviour
 
     void Start()
     {
+        initialPosition = transform.position;
+        transform.position = Vector3.zero;
+        Vector3 scale = transform.localScale;
+        transform.localScale = Vector3.one;
+        Quaternion rotation = transform.rotation;
+        transform.rotation = Quaternion.identity;
+
         MeshFilter[] meshFilters = GetComponentsInChildren<MeshFilter>();
         CombineInstance[] combine = new CombineInstance[meshFilters.Length];
         int i = 0;
@@ -27,14 +37,18 @@ public class GestureAction : MonoBehaviour
         {
             combine[i].mesh = meshFilters[i].sharedMesh;
             combine[i].transform = meshFilters[i].transform.localToWorldMatrix;
-            //meshFilters[i].gameObject.SetActive(false);
+            meshFilters[i].gameObject.SetActive(false);
             i++;
         }
         transform.GetComponent<MeshCollider>().sharedMesh = new Mesh();
         transform.GetComponent<MeshCollider>().sharedMesh.CombineMeshes(combine);
-        //transform.gameObject.SetActive(true);
-        //transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
-        initialPosition = transform.position;
+        gameObject.AddComponent<MeshFilter>();
+        gameObject.GetComponent<MeshFilter>().sharedMesh = transform.GetComponent<MeshCollider>().sharedMesh;
+        gameObject.SetActive(true);
+
+        transform.position = initialPosition;
+        transform.localScale = scale;
+        transform.rotation = rotation;
     }
 
     void Awake()
@@ -100,13 +114,15 @@ public class GestureAction : MonoBehaviour
 
     private void PerformRotation()
     {
-        if (IsThisFocusedByGaze() && CustomGestureManager.Instance.ManipulationInProgress)
+        if (/*IsThisFocusedByGaze() && */CustomGestureManager.Instance.ManipulationInProgress)
         {
             float rotationAroundY = CustomGestureManager.Instance.ManipulationOffset.x * RotationSensitivity;
-            float rotationAroundZ = CustomGestureManager.Instance.ManipulationOffset.y * RotationSensitivity;
-            float rotationAroundX = CustomGestureManager.Instance.ManipulationOffset.z * RotationSensitivity;
+            float rotationAroundCamera = CustomGestureManager.Instance.ManipulationOffset.y * RotationSensitivity;
 
-            transform.Rotate(new Vector3(rotationAroundX, rotationAroundY, rotationAroundZ));
+            transform.Rotate(new Vector3(0.0f, -rotationAroundY, 0.0f), Space.World);
+            transform.RotateAround(transform.position, Vector3.Cross(Vector3.up, playerCamera.transform.forward), rotationAroundCamera);
+            Debug.Log("rotationAroundCamera: " + rotationAroundCamera);
+            Debug.Log("playerCamera.forward: " + playerCamera.transform.forward);
         }
     }
 

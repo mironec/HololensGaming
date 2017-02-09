@@ -99,13 +99,13 @@ extern "C" {
 	void getCameraParameters(Mat &camera_matrix, Mat &dist_coeffs) {
 		camera_matrix.create(3, 3, CV_64F);
 		camera_matrix.at<double>(0, 0) = 1.0240612805194348e+03;
-		camera_matrix.at<double>(1, 0) = 0.0;
-		camera_matrix.at<double>(2, 0) = 6.3218846628075391e+02;
 		camera_matrix.at<double>(0, 1) = 0.0;
+		camera_matrix.at<double>(0, 2) = 6.3218846628075391e+02;
+		camera_matrix.at<double>(1, 0) = 0.0;
 		camera_matrix.at<double>(1, 1) = 1.0240612805194348e+03;
-		camera_matrix.at<double>(2, 1) = 3.6227541578720428e+02;
-		camera_matrix.at<double>(0, 2) = 0.0;
-		camera_matrix.at<double>(1, 2) = 0.0;
+		camera_matrix.at<double>(1, 2) = 3.6227541578720428e+02;
+		camera_matrix.at<double>(2, 0) = 0.0;
+		camera_matrix.at<double>(2, 1) = 0.0;
 		camera_matrix.at<double>(2, 2) = 1.0;
 
 		dist_coeffs.create(5, 1, CV_64F);
@@ -120,6 +120,14 @@ extern "C" {
 		delete ids;
 		delete corners;
 		delete corners_flat;
+
+		delete tvecs;
+		delete rvecs;
+		delete tvecs_flat;
+		delete rvecs_flat;
+
+		delete camera_matrix;
+		delete dist_coeffs;
 	}
 
 	void set_debug_cb(PrintFunc ptr) {
