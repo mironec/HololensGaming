@@ -12,19 +12,20 @@ public class aruco_tracker : MonoBehaviour {
     public bool use_test_img = false;
     public MeshRenderer overlay_quad;
     public Camera cam;
+    public bool hololens;
     
     public GameObject marker_quad_prefab;
 
     private List<GameObject> quad_instances;
 
     private WebCamTexture _webcamTexture;
-    private int cam_width;
-    private int cam_height;
+    private int cam_width = -1;
+    private int cam_height = -1;
 
     private float webcam_fov;
 
     [DllImport("aruco_plugin")]
-    public static extern void init(int width, int height);
+    public static extern void init(int width, int height, IntPtr camera_params);
 
     [DllImport("aruco_plugin")]
     public static extern int detect_markers(IntPtr unity_img, ref int marker_count, ref IntPtr out_ids, ref IntPtr out_corners, ref IntPtr out_rvecs, ref IntPtr out_tvecs);
@@ -43,6 +44,8 @@ public class aruco_tracker : MonoBehaviour {
     private Vector2 resolution;
     
     private Color32[] colors;
+
+    private float[] camera_params;
     
     void Start () {
         
@@ -50,8 +53,6 @@ public class aruco_tracker : MonoBehaviour {
         {
             cam_width = test_img.width;
             cam_height = test_img.height;
-            init(cam_width, cam_height);
-            dll_inited = true;
 
             overlay_quad.material.mainTexture = test_img;
             colors = test_img.GetPixels32();
@@ -68,9 +69,6 @@ public class aruco_tracker : MonoBehaviour {
                 cam_width = _webcamTexture.width;
                 cam_height = _webcamTexture.height;
 
-                init(cam_width, cam_height);
-                dll_inited = true;
-
                 //overlay.texture = _webcamTexture;
                 overlay_quad.material.mainTexture = _webcamTexture;
                 colors = new Color32[cam_width * cam_height];
@@ -81,22 +79,63 @@ public class aruco_tracker : MonoBehaviour {
             }
         }
 
+        if(cam_width != -1)
+        {
+            init_camera_params();
+
+            GCHandle params_handle = GCHandle.Alloc(camera_params, GCHandleType.Pinned);
+            init(cam_width, cam_height, params_handle.AddrOfPinnedObject());
+            params_handle.Free();
+            dll_inited = true;
+        }
+
         PrintDelegate plugin_delegate = new PrintDelegate(PluginDebugLog);
         IntPtr delegate_ptr = Marshal.GetFunctionPointerForDelegate(plugin_delegate);
         set_debug_cb(delegate_ptr);
 
         quad_instances = new List<GameObject>();
 
-        //todo: fix the duplicate of cam_width/cam_height and resolution
-        resolution = new Vector2(1280, 720);
-
         //Taken from this stackoverflow answer:
         // http://stackoverflow.com/questions/36561593/opencv-rotation-rodrigues-and-translation-vectors-for-positioning-3d-object-in
-        float focal_y = 1.0240612805194348e+03f;
-        webcam_fov = 2.0f * Mathf.Atan(0.5f * resolution.y / focal_y) * Mathf.Rad2Deg;
-        cam.aspect = resolution.x / resolution.y;
+        float focal_y = camera_params[1];
+        webcam_fov = 2.0f * Mathf.Atan(0.5f * cam_height / focal_y) * Mathf.Rad2Deg;
+        cam.aspect = (float)cam_width / cam_height;
+    }
 
-        
+    void init_camera_params()
+    {
+        camera_params = new float[4 + 5];
+        if(hololens)
+        {
+                //Hololens camera parameters based on camera photos, which are 1408x792, which is different to the 1280x720 images that the script will get while running on the hololens!
+                //However, they can fairly easily be scaled by multiplying all of the first 4 values by 720/792 (or 1280/1408, they have the same aspect ratio so it makes no difference)
+            camera_params[0] = 1.6226756644523603e+03f;
+            camera_params[1] = 1.6226756644523603e+03f;
+            //camera_params[2] = 6.2516688711209542e+02f;
+            //camera_params[3] = 3.8018373700505418e+02f;
+                //The opencv calibration program didn't emit useful values for some reason, but normally these are simply half of the image width/height
+            camera_params[2] = 1408/2;
+            camera_params[3] = 792/2;
+            camera_params[4] = -5.6781211352631726e-03f;
+            camera_params[5] = -1.1566538973188603e+00f;
+            camera_params[6] = -1.3849725342370161e-03f;
+            camera_params[7] = -3.9288657236615111e-03f;
+            camera_params[8] = 9.4499768251174778e+00f;
+        }
+        else
+        {
+            camera_params[0] = 1.0240612805194348e+03f;
+            camera_params[1] = 1.0240612805194348e+03f;
+            camera_params[2] = 6.3218846628075391e+02f;
+            //camera_params[3] = 3.6227541578720428e+02f;
+            //camera_params[4] = 7.9272342555005190e-02f;
+            camera_params[2] = 1280 / 2;
+            camera_params[3] = 720 / 2;
+            camera_params[5] = -1.7557543937376724e-01f;
+            camera_params[6] = 6.0915748810957840e-04f;
+            camera_params[7] = -2.9391344753009105e-03f;
+            camera_params[8] = 1.0650125708199540e-01f;
+        }
     }
 
     GameObject make_marker_quad()
