@@ -13,6 +13,9 @@ public class aruco_tracker : MonoBehaviour {
     public MeshRenderer overlay_quad;
     public Camera cam;
     public bool hololens;
+
+        //The real world marker size, in meters
+    public float marker_size;
     
     public GameObject marker_quad_prefab;
 
@@ -25,7 +28,7 @@ public class aruco_tracker : MonoBehaviour {
     private float webcam_fov;
 
     [DllImport("aruco_plugin")]
-    public static extern void init(int width, int height, IntPtr camera_params);
+    public static extern void init(int width, int height, float marker_size, IntPtr camera_params);
 
     [DllImport("aruco_plugin")]
     public static extern int detect_markers(IntPtr unity_img, ref int marker_count, ref IntPtr out_ids, ref IntPtr out_corners, ref IntPtr out_rvecs, ref IntPtr out_tvecs);
@@ -84,7 +87,7 @@ public class aruco_tracker : MonoBehaviour {
             init_camera_params();
 
             GCHandle params_handle = GCHandle.Alloc(camera_params, GCHandleType.Pinned);
-            init(cam_width, cam_height, params_handle.AddrOfPinnedObject());
+            init(cam_width, cam_height, marker_size, params_handle.AddrOfPinnedObject());
             params_handle.Free();
             dll_inited = true;
         }
@@ -149,10 +152,10 @@ public class aruco_tracker : MonoBehaviour {
         }
     }
 
-    GameObject make_marker_quad()
+    GameObject make_marker_obj()
     {
         GameObject quad = GameObject.Instantiate(marker_quad_prefab);
-        quad.transform.localScale = new Vector3(0.088f, 0.088f, 0.088f); //Matches the real world marker scale, 1 unit = 1m
+        quad.transform.localScale = new Vector3(marker_size, marker_size, marker_size);
         quad.transform.parent = cam.transform;
         return quad;
     }
@@ -205,7 +208,7 @@ public class aruco_tracker : MonoBehaviour {
             int to_add = marker_count - quad_instances.Count;
             for (int i = 0; i < to_add; i++)
             {
-                quad_instances.Add(make_marker_quad());
+                quad_instances.Add(make_marker_obj());
             }
         }
 

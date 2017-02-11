@@ -9,9 +9,9 @@ extern "C" {
 	Ptr<aruco::Dictionary> dict;
 
 	int img_width, img_height;
+	float marker_size;
 
-		//Using pointers everywhere may get messy, making a class to hold all of this and just having a pointer to one instance at the global level may be useful in the future
-
+		//Using pointers everywhere may get messy, making a class to hold all of this and just having a pointer to one instance at the global level could be useful in the future
 	Mat *camera_matrix;
 	Mat *dist_coeffs;
 
@@ -25,11 +25,11 @@ extern "C" {
 	vector<Vec3d> *rvecs;
 	vector<double> *rvecs_flat;
 
-
 		//camera_params are the camera focal lengths (x,y), the principal point values (x,y), each from the opencv camera matrix, and then the 5 camera distortion values
-	void init(int _img_width, int _img_height, float *camera_params) {
+	void init(int _img_width, int _img_height, float _marker_size, float *_camera_params) {
 		img_width = _img_width;
 		img_height = _img_height;
+		marker_size = _marker_size;
 
 		dict = aruco::getPredefinedDictionary(aruco::DICT_ARUCO_ORIGINAL);
 
@@ -46,26 +46,26 @@ extern "C" {
 		dist_coeffs = new Mat();
 
 		camera_matrix->create(3, 3, CV_64F);
-		camera_matrix->at<double>(0, 0) = camera_params[0];
+		camera_matrix->at<double>(0, 0) = _camera_params[0];
 		camera_matrix->at<double>(0, 1) = 0.0;
-		camera_matrix->at<double>(0, 2) = camera_params[2];
+		camera_matrix->at<double>(0, 2) = _camera_params[2];
 		camera_matrix->at<double>(1, 0) = 0.0;
-		camera_matrix->at<double>(1, 1) = camera_params[1];
-		camera_matrix->at<double>(1, 2) = camera_params[3];
+		camera_matrix->at<double>(1, 1) = _camera_params[1];
+		camera_matrix->at<double>(1, 2) = _camera_params[3];
 		camera_matrix->at<double>(2, 0) = 0.0;
 		camera_matrix->at<double>(2, 1) = 0.0;
 		camera_matrix->at<double>(2, 2) = 1.0;
 
 		dist_coeffs->create(5, 1, CV_64F);
-		dist_coeffs->at<double>(0, 0) = camera_params[4];
-		dist_coeffs->at<double>(0, 1) = camera_params[5];
-		dist_coeffs->at<double>(0, 2) = camera_params[6];
-		dist_coeffs->at<double>(0, 3) = camera_params[7];
-		dist_coeffs->at<double>(0, 4) = camera_params[8];
+		dist_coeffs->at<double>(0, 0) = _camera_params[4];
+		dist_coeffs->at<double>(0, 1) = _camera_params[5];
+		dist_coeffs->at<double>(0, 2) = _camera_params[6];
+		dist_coeffs->at<double>(0, 3) = _camera_params[7];
+		dist_coeffs->at<double>(0, 4) = _camera_params[8];
 	}
 
-	int detect_markers(unsigned char *unity_img, int* out_ids_len, int** out_ids, float** out_corners, double** out_rvecs, double** out_tvecs) { //pointer to array (int*) of ids, pointer to variable that we'll write array length into
-		Mat img = Mat(img_height, img_width, CV_8UC4, unity_img, img_width * 4);
+	int detect_markers(unsigned char *_unity_img, int* _out_ids_len, int** _out_ids, float** _out_corners, double** _out_rvecs, double** _out_tvecs) { //pointer to array (int*) of ids, pointer to variable that we'll write array length into
+		Mat img = Mat(img_height, img_width, CV_8UC4, _unity_img, img_width * 4);
 		Mat gray;
 
 		cvtColor(img, gray, CV_RGBA2GRAY);
@@ -76,11 +76,11 @@ extern "C" {
 		//Also, ids has to be allocated non-local, otherwise it goes out of scope after this function ends..
 
 		int marker_count = ids->size();
-		*out_ids_len = marker_count;
-		*out_ids = NULL;
-		*out_corners = NULL;
-		if (*out_ids_len > 0) {
-			aruco::estimatePoseSingleMarkers(*corners, 0.088, *camera_matrix, *dist_coeffs, *rvecs, *tvecs);
+		*_out_ids_len = marker_count;
+		*_out_ids = NULL;
+		*_out_corners = NULL;
+		if (*_out_ids_len > 0) {
+			aruco::estimatePoseSingleMarkers(*corners, marker_size, *camera_matrix, *dist_coeffs, *rvecs, *tvecs);
 
 			corners_flat->resize(marker_count * 8); //For each marker, we have 4 corner points, each of which are 2 floats. So we need markers * 8 floats overall;
 			rvecs_flat->resize(marker_count * 3); // 1 rvec per marker, 3 doubles per Vec3d
@@ -97,10 +97,10 @@ extern "C" {
 
 			}
 
-			*out_ids = ids->data();
-			*out_corners = corners_flat->data();
-			*out_rvecs = rvecs_flat->data();
-			*out_tvecs = tvecs_flat->data();
+			*_out_ids = ids->data();
+			*_out_corners = corners_flat->data();
+			*_out_rvecs = rvecs_flat->data();
+			*_out_tvecs = tvecs_flat->data();
 		}
 
 		int result = ids->size();
