@@ -137,13 +137,15 @@
     <Filter Include="include\opencv2\aruco">
       <UniqueIdentifier>{93d30216-5bb4-4f90-8a79-412a8d10b76a}</UniqueIdentifier>
     </Filter>
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="aruco_tracking.cpp" />
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{782de5b3-1cf0-4ee2-8f12-46292491c214}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{abd702d8-a16d-4781-ba01-ee8146401514}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="targetver.h" />
-    <ClInclude Include="aruco_tracking.h" />
     <ClInclude Include="include\opencv\ml.h">
       <Filter>include\opencv</Filter>
     </ClInclude>
@@ -1122,8 +1124,16 @@
     <ClInclude Include="include\opencv2\aruco.hpp">
       <Filter>include\opencv2</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\aruco_tracking.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\src\aruco_tracking.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

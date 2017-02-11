@@ -7,9 +7,9 @@ MarkerTracking/opencv_aruco_test/x64
 MarkerTracking/opencv_aruco_test/opencv_aruco_test/x64
 MarkerTracking/aruco_plugin_test/aruco_plugin_test.sln
 MarkerTracking/aruco_lib_plugin/aruco/builds/*
-MarkerTracking/aruco_hololens_plugin/output
-MarkerTracking/aruco_hololens_plugin/packages
-MarkerTracking/aruco_hololens_plugin/aruco_hololens_plugin/include
+MarkerTracking/aruco_plugin/output
+MarkerTracking/aruco_plugin/packages
+MarkerTracking/aruco_plugin/hololens/include
 Temp/
 Library/
 .vs/
