@@ -121,6 +121,17 @@ public class aruco_tracker : MonoBehaviour {
             camera_params[6] = -1.3849725342370161e-03f;
             camera_params[7] = -3.9288657236615111e-03f;
             camera_params[8] = 9.4499768251174778e+00f;
+
+            if(!use_test_img)
+            {
+                    //Assuming here that test images are of 1408x792 size, as emitted by the hololens camera app, and using the webcam will give us 1280x720 images
+                    //Since the calibration parameters were generated from the test images, we have to downscale the camera matrix values by the size ratio.
+                float size_rescalar = (float)1280 / 1408;
+                camera_params[0] *= size_rescalar;
+                camera_params[1] *= size_rescalar;
+                camera_params[2] *= size_rescalar;
+                camera_params[3] *= size_rescalar;
+            }
         }
         else
         {
