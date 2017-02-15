@@ -38,8 +38,14 @@ public class GoalTrigger : MonoBehaviour {
     private void OnTriggerEnter(Collider other) {
         if(Collider.Equals(ball_collider, other)) {
             on_goal_reached.Invoke();
+            ball_inside = true;
         }
+    }
 
-        ball_inside = true;
+    private void OnTriggerExit(Collider other) {
+        if (Collider.Equals(ball_collider, other))
+        {
+            ball_inside = false;
+        }
     }
 }

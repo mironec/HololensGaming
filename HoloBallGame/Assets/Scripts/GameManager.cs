@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using HoloToolkit.Unity.InputModule;
 
-public class GameManager : MonoBehaviour {
+public class GameManager : MonoBehaviour, IInputClickHandler {
     public static event Action<GameObject> on_ball_set;
 
     public GameObject ball;
@@ -24,9 +26,12 @@ public class GameManager : MonoBehaviour {
 
         StartCoroutine(emit_start_events());
         goal_trigger.on_goal_reached += on_goal_reached;
+
+        InputManager.Instance.AddGlobalListener(gameObject);
+        pause_game();
 	}
 
-        //Delaying events that are emitted on start by one frame so we can be sure everyone has subscribed during Start() calls
+    //Delaying events that are emitted on start by one frame so we can be sure everyone has subscribed during Start() calls
     private IEnumerator emit_start_events() {
         yield return null;
         on_ball_set.Invoke(ball);
@@ -34,36 +39,17 @@ public class GameManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if(Input.GetKeyDown(KeyCode.Space)) {
-            if(level_complete) {
-                reset_game();
-                unpause_game();
-            }
-            else {
-                if (paused) {
-                    unpause_game();
-                }
-                else {
-                    pause_game();
-                }
-            }
-        }
-
-        if(Input.GetKeyDown(KeyCode.R)) {
-            reset_game();
-            pause_game();
-        }
 	}
 
     void on_goal_reached() {
-        pause_game();
+        //pause_game();
         level_complete = true;
         Debug.Log("Goal reached!");
         victory_text.SetActive(true);
     }
 
     void pause_game() {
-        //Time.timeScale = 0.0f;
+        Time.timeScale = 0.0f;
         paused = true;
     }
 
@@ -73,11 +59,32 @@ public class GameManager : MonoBehaviour {
     }
 
     void reset_game() {
+        //SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         level_complete = false;
         ball.transform.position = ball_start_pos;
         ball.transform.rotation = ball_start_rot;
         Rigidbody ball_rb = ball.GetComponent<Rigidbody>();
         ball_rb.velocity = Vector3.zero;
         ball_rb.angularVelocity = Vector3.zero;
+    }
+
+    public void OnInputClicked(InputClickedEventData eventData)
+    {
+        if (level_complete)
+        {
+            reset_game();
+            unpause_game();
+        }
+        else
+        {
+            if (paused)
+            {
+                unpause_game();
+            }
+            else
+            {
+                pause_game();
+            }
+        }
     }
 }

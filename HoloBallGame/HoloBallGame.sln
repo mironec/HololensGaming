@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2015
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HoloBallGame", "HoloBallGame.csproj", "{C8C1F45B-B32C-6207-2E7E-18B0DD9FD7A1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HoloBallGame.Editor", "HoloBallGame.Editor.csproj", "{7474C613-E61B-149C-A700-6EE9EA56ED09}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -13,6 +15,10 @@ Global
 		{C8C1F45B-B32C-6207-2E7E-18B0DD9FD7A1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C8C1F45B-B32C-6207-2E7E-18B0DD9FD7A1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C8C1F45B-B32C-6207-2E7E-18B0DD9FD7A1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7474C613-E61B-149C-A700-6EE9EA56ED09}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7474C613-E61B-149C-A700-6EE9EA56ED09}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7474C613-E61B-149C-A700-6EE9EA56ED09}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7474C613-E61B-149C-A700-6EE9EA56ED09}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
