@@ -46,12 +46,12 @@ extern "C" {
 		dist_coeffs = new Mat();
 
 		camera_matrix->create(3, 3, CV_64F);
-		camera_matrix->at<double>(0, 0) = _camera_params[0];
+		camera_matrix->at<double>(0, 0) = _camera_params[0] * 0.25;
 		camera_matrix->at<double>(0, 1) = 0.0;
-		camera_matrix->at<double>(0, 2) = _camera_params[2];
+		camera_matrix->at<double>(0, 2) = _camera_params[2] * 0.25;
 		camera_matrix->at<double>(1, 0) = 0.0;
-		camera_matrix->at<double>(1, 1) = _camera_params[1];
-		camera_matrix->at<double>(1, 2) = _camera_params[3];
+		camera_matrix->at<double>(1, 1) = _camera_params[1] * 0.25;
+		camera_matrix->at<double>(1, 2) = _camera_params[3] * 0.25;
 		camera_matrix->at<double>(2, 0) = 0.0;
 		camera_matrix->at<double>(2, 1) = 0.0;
 		camera_matrix->at<double>(2, 2) = 1.0;
@@ -66,9 +66,11 @@ extern "C" {
 
 	int detect_markers(unsigned char *_unity_img, int* _out_ids_len, int** _out_ids, float** _out_corners, double** _out_rvecs, double** _out_tvecs) { //pointer to array (int*) of ids, pointer to variable that we'll write array length into
 		Mat img = Mat(img_height, img_width, CV_8UC4, _unity_img, img_width * 4);
+		Mat resized;
+		resize(img, resized, Size(img_width / 4, img_height / 4));
 		Mat gray;
 
-		cvtColor(img, gray, CV_RGBA2GRAY);
+		cvtColor(resized, gray, CV_RGBA2GRAY);
 		
 		aruco::detectMarkers(gray, dict, *corners, *ids);
 

@@ -6,13 +6,14 @@ using System.Runtime.InteropServices;
 using System;
 
 public class aruco_tracker : MonoBehaviour {
-    // Original Video parameters
     public int deviceNumber;
     public Texture2D test_img;
     public bool use_test_img = false;
     public MeshRenderer overlay_quad;
     public Camera cam;
     public bool hololens;
+    public int desired_width;
+    public int desired_height;
 
         //The real world marker size, in meters
     public float marker_size;
@@ -66,11 +67,14 @@ public class aruco_tracker : MonoBehaviour {
             if (devices.Length > 0)
             {
                 Debug.Log("Got devices");
-                _webcamTexture = new WebCamTexture(devices[deviceNumber].name, 1280, 720, 30);
+                _webcamTexture = new WebCamTexture(devices[deviceNumber].name, desired_width, desired_height, 30);
                 // Play the video source
                 _webcamTexture.Play();
                 cam_width = _webcamTexture.width;
                 cam_height = _webcamTexture.height;
+
+                Debug.Log(cam_width);
+                Debug.Log(cam_height);
 
                 //overlay.texture = _webcamTexture;
                 overlay_quad.material.mainTexture = _webcamTexture;
@@ -110,8 +114,7 @@ public class aruco_tracker : MonoBehaviour {
         camera_params = new float[4 + 5];
         if(hololens)
         {
-                //Hololens camera parameters based on camera photos, which are 1408x792, which is different to the 1280x720 images that the script will get while running on the hololens!
-                //However, they can fairly easily be scaled by multiplying all of the first 4 values by 720/792 (or 1280/1408, they have the same aspect ratio so it makes no difference)
+                //Hololens camera parameters based on camera photos, which are 1408x792, at 48 horizontal FOV
             camera_params[0] = 1.6226756644523603e+03f;
             camera_params[1] = 1.6226756644523603e+03f;
             //camera_params[2] = 6.2516688711209542e+02f;
@@ -124,27 +127,17 @@ public class aruco_tracker : MonoBehaviour {
             camera_params[6] = -1.3849725342370161e-03f;
             camera_params[7] = -3.9288657236615111e-03f;
             camera_params[8] = 9.4499768251174778e+00f;
-
-            if(!use_test_img)
-            {
-                    //Assuming here that test images are of 1408x792 size, as emitted by the hololens camera app, and using the webcam will give us 1280x720 images
-                    //Since the calibration parameters were generated from the test images, we have to downscale the camera matrix values by the size ratio.
-                float size_rescalar = (float)1280 / 1408;
-                camera_params[0] *= size_rescalar;
-                camera_params[1] *= size_rescalar;
-                camera_params[2] *= size_rescalar;
-                camera_params[3] *= size_rescalar;
-            }
         }
         else
         {
+                //Parameters for a Macbook 15" webcam from 1280x720 image
             camera_params[0] = 1.0240612805194348e+03f;
             camera_params[1] = 1.0240612805194348e+03f;
-            camera_params[2] = 6.3218846628075391e+02f;
-            //camera_params[3] = 3.6227541578720428e+02f;
-            //camera_params[4] = 7.9272342555005190e-02f;
             camera_params[2] = 1280 / 2;
             camera_params[3] = 720 / 2;
+            //camera_params[2] = 6.3218846628075391e+02f;
+            //camera_params[3] = 3.6227541578720428e+02f;
+            camera_params[4] = 7.9272342555005190e-02f;
             camera_params[5] = -1.7557543937376724e-01f;
             camera_params[6] = 6.0915748810957840e-04f;
             camera_params[7] = -2.9391344753009105e-03f;
@@ -231,7 +224,6 @@ public class aruco_tracker : MonoBehaviour {
             for (int i = 0; i < marker_count; i++)
             {
                 Vector3 tvec = new Vector3((float)tvecs[i * 3], (float)tvecs[i * 3 + 1], (float)tvecs[i * 3 + 2]);
-                tvec.z *= webcam_fov / cam.fieldOfView;
                 quad_instances[i].transform.localPosition = tvec;
 
                 Vector3 rvec = new Vector3((float)rvecs[i * 3], (float)rvecs[i * 3 + 1], (float)rvecs[i * 3 + 2]);
