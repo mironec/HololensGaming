@@ -7,6 +7,8 @@ public class GameManager : MonoBehaviour {
     public static event Action<GameObject> on_ball_set;
 
     public GameObject ball;
+    public GameObject victory_text;
+
     Vector3 ball_start_pos;
     Quaternion ball_start_rot;
 
@@ -57,10 +59,11 @@ public class GameManager : MonoBehaviour {
         pause_game();
         level_complete = true;
         Debug.Log("Goal reached!");
+        victory_text.SetActive(true);
     }
 
     void pause_game() {
-        Time.timeScale = 0.0f;
+        //Time.timeScale = 0.0f;
         paused = true;
     }
 
