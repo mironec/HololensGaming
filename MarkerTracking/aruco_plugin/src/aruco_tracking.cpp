@@ -10,6 +10,7 @@ extern "C" {
 
 	int img_width, img_height;
 	float marker_size;
+	int size_reduce;
 
 		//Using pointers everywhere may get messy, making a class to hold all of this and just having a pointer to one instance at the global level could be useful in the future
 	Mat *camera_matrix;
@@ -26,10 +27,14 @@ extern "C" {
 	vector<double> *rvecs_flat;
 
 		//camera_params are the camera focal lengths (x,y), the principal point values (x,y), each from the opencv camera matrix, and then the 5 camera distortion values
-	void init(int _img_width, int _img_height, float _marker_size, float *_camera_params) {
+		//1/_size_reduce is the ratio by which to reduce image size before detection. _size_reduce will be constrained to >= 1
+		//corner coordinates for markers are currently in the resized image coordinates, not the original ones
+	void init(int _img_width, int _img_height, float _marker_size, float *_camera_params, int _size_reduce) {
 		img_width = _img_width;
 		img_height = _img_height;
 		marker_size = _marker_size;
+		size_reduce = _size_reduce;
+		if (size_reduce < 1) size_reduce = 1;
 
 		dict = aruco::getPredefinedDictionary(aruco::DICT_ARUCO_ORIGINAL);
 
@@ -45,13 +50,14 @@ extern "C" {
 		camera_matrix = new Mat();
 		dist_coeffs = new Mat();
 
+		double scale_ratio = 1.0 / size_reduce;
 		camera_matrix->create(3, 3, CV_64F);
-		camera_matrix->at<double>(0, 0) = _camera_params[0] * 0.25;
+		camera_matrix->at<double>(0, 0) = _camera_params[0] * scale_ratio;
 		camera_matrix->at<double>(0, 1) = 0.0;
-		camera_matrix->at<double>(0, 2) = _camera_params[2] * 0.25;
+		camera_matrix->at<double>(0, 2) = _camera_params[2] * scale_ratio;
 		camera_matrix->at<double>(1, 0) = 0.0;
-		camera_matrix->at<double>(1, 1) = _camera_params[1] * 0.25;
-		camera_matrix->at<double>(1, 2) = _camera_params[3] * 0.25;
+		camera_matrix->at<double>(1, 1) = _camera_params[1] * scale_ratio;
+		camera_matrix->at<double>(1, 2) = _camera_params[3] * scale_ratio;
 		camera_matrix->at<double>(2, 0) = 0.0;
 		camera_matrix->at<double>(2, 1) = 0.0;
 		camera_matrix->at<double>(2, 2) = 1.0;
@@ -66,11 +72,16 @@ extern "C" {
 
 	int detect_markers(unsigned char *_unity_img, int* _out_ids_len, int** _out_ids, float** _out_corners, double** _out_rvecs, double** _out_tvecs) { //pointer to array (int*) of ids, pointer to variable that we'll write array length into
 		Mat img = Mat(img_height, img_width, CV_8UC4, _unity_img, img_width * 4);
-		Mat resized;
-		resize(img, resized, Size(img_width / 4, img_height / 4));
 		Mat gray;
 
-		cvtColor(resized, gray, CV_RGBA2GRAY);
+		if (size_reduce > 1) {
+			Mat resized;
+			resize(img, resized, Size(img_width / size_reduce, img_height / size_reduce));
+			cvtColor(resized, gray, CV_RGBA2GRAY);
+		}
+		else {
+			cvtColor(img, gray, CV_RGBA2GRAY);
+		}
 		
 		aruco::detectMarkers(gray, dict, *corners, *ids);
 

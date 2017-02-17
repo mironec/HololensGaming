@@ -17,6 +17,7 @@ public class aruco_tracker : MonoBehaviour {
 
         //The real world marker size, in meters
     public float marker_size;
+    public int size_reduce;
     
     public GameObject marker_quad_prefab;
 
@@ -29,7 +30,7 @@ public class aruco_tracker : MonoBehaviour {
     private float webcam_fov;
 
     [DllImport("aruco_plugin")]
-    public static extern void init(int width, int height, float marker_size, IntPtr camera_params);
+    public static extern void init(int width, int height, float marker_size, IntPtr camera_params, int size_reduce);
 
     [DllImport("aruco_plugin")]
     public static extern int detect_markers(IntPtr unity_img, ref int marker_count, ref IntPtr out_ids, ref IntPtr out_corners, ref IntPtr out_rvecs, ref IntPtr out_tvecs);
@@ -91,7 +92,7 @@ public class aruco_tracker : MonoBehaviour {
             init_camera_params();
 
             GCHandle params_handle = GCHandle.Alloc(camera_params, GCHandleType.Pinned);
-            init(cam_width, cam_height, marker_size, params_handle.AddrOfPinnedObject());
+            init(cam_width, cam_height, marker_size, params_handle.AddrOfPinnedObject(), size_reduce);
             params_handle.Free();
             dll_inited = true;
         }
