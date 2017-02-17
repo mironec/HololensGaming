@@ -84,7 +84,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Scripts\aruco_tracker.cs" />
+    <Compile Include="Assets\Scripts\ArucoTracking.cs" />
+    <Compile Include="Assets\Scripts\aruco_object_placer.cs" />
     <Compile Include="Assets\Scripts\frustrum_plane.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
