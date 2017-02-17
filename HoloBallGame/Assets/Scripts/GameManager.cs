@@ -6,84 +6,89 @@ using UnityEngine.SceneManagement;
 using HoloToolkit.Unity.InputModule;
 
 public class GameManager : MonoBehaviour, IInputClickHandler {
-    public static event Action<GameObject> on_ball_set;
+    public static event Action<GameObject> onBallSet;
+    public static event Action onGameReset;
 
     public GameObject ball;
-    public GameObject victory_text;
+    public GameObject victoryText;
 
-    Vector3 ball_start_pos;
-    Quaternion ball_start_rot;
+    Vector3 ballStartPos;
+    Quaternion ballStartRot;
 
-    public GoalTrigger goal_trigger;
+    public GoalTrigger goalTrigger;
 
     bool paused;
     bool level_complete;
 
 	// Use this for initialization
 	void Start () {
-        ball_start_pos = ball.transform.position;
-        ball_start_rot = ball.transform.rotation;
+        ballStartPos = ball.transform.position;
+        ballStartRot = ball.transform.rotation;
 
         StartCoroutine(emit_start_events());
-        goal_trigger.on_goal_reached += on_goal_reached;
+        goalTrigger.onGoalReached += onGoalReached;
 
         InputManager.Instance.AddGlobalListener(gameObject);
-        pause_game();
+        pauseGame();
 	}
+
+    private void OnDestroy() {
+        goalTrigger.onGoalReached -= onGoalReached;
+    }
 
     //Delaying events that are emitted on start by one frame so we can be sure everyone has subscribed during Start() calls
     private IEnumerator emit_start_events() {
         yield return null;
-        on_ball_set.Invoke(ball);
+        onBallSet.Invoke(ball);
     }
 	
 	// Update is called once per frame
 	void Update () {
 	}
 
-    void on_goal_reached() {
-        //pause_game();
+    void onGoalReached() {
         level_complete = true;
-        Debug.Log("Goal reached!");
-        victory_text.SetActive(true);
+        victoryText.SetActive(true);
     }
 
-    void pause_game() {
+    void pauseGame() {
         Time.timeScale = 0.0f;
         paused = true;
     }
 
-    void unpause_game() {
+    void unpauseGame() {
         Time.timeScale = 1.0f;
         paused = false;
     }
 
-    void reset_game() {
-        //SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    void resetGame() {
         level_complete = false;
-        ball.transform.position = ball_start_pos;
-        ball.transform.rotation = ball_start_rot;
-        Rigidbody ball_rb = ball.GetComponent<Rigidbody>();
-        ball_rb.velocity = Vector3.zero;
-        ball_rb.angularVelocity = Vector3.zero;
+        ball.transform.position = ballStartPos;
+        ball.transform.rotation = ballStartRot;
+        Rigidbody ballRb = ball.GetComponent<Rigidbody>();
+        ballRb.velocity = Vector3.zero;
+        ballRb.angularVelocity = Vector3.zero;
+        victoryText.SetActive(false);
+
+        onGameReset.Invoke();
     }
 
     public void OnInputClicked(InputClickedEventData eventData)
     {
         if (level_complete)
         {
-            reset_game();
-            unpause_game();
+            resetGame();
+            pauseGame();
         }
         else
         {
             if (paused)
             {
-                unpause_game();
+                unpauseGame();
             }
             else
             {
-                pause_game();
+                pauseGame();
             }
         }
     }

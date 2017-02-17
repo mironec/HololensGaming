@@ -4,46 +4,53 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class GoalTrigger : MonoBehaviour {
-    public event Action on_goal_reached;
+    public event Action onGoalReached;
 
-    Collider ball_collider;
+    Collider ballCollider;
+    Rigidbody ballRb;
     private bool ball_inside = false;
     private GameObject ball;
 
 	// Use this for initialization
 	void Start () {
-        GameManager.on_ball_set += on_ball_set;
+        GameManager.onBallSet += onBallSet;
+        GameManager.onGameReset += onGameReset;
 	}
 
     private void OnDestroy() {
-        GameManager.on_ball_set -= on_ball_set;
+        GameManager.onBallSet -= onBallSet;
+        GameManager.onGameReset -= onGameReset;
     }
 
-    private void on_ball_set(GameObject _ball) {
+    private void onBallSet(GameObject _ball) {
         ball = _ball;
-        ball_collider = _ball.GetComponent<Collider>();
+        ballCollider = _ball.GetComponent<Collider>();
+        ballRb = _ball.GetComponent<Rigidbody>();
+    }
+
+    private void onGameReset() {
+        ball_inside = false;
     }
 
     // Update is called once per frame
     void FixedUpdate () {
         if (ball_inside) {
-            Rigidbody ball_rigidbody = ball.GetComponent<Rigidbody>();
             Vector3 force = transform.position - ball.transform.position;
             force *= force.magnitude * 10.0f;
-            ball_rigidbody.velocity = ball_rigidbody.velocity * 0.90f;
-            ball_rigidbody.velocity += force;
+            ballRb.velocity = ballRb.velocity * 0.90f;
+            ballRb.velocity += force;
         }
 	}
 
     private void OnTriggerEnter(Collider other) {
-        if(Collider.Equals(ball_collider, other)) {
-            on_goal_reached.Invoke();
+        if(Collider.Equals(ballCollider, other)) {
+            onGoalReached.Invoke();
             ball_inside = true;
         }
     }
 
     private void OnTriggerExit(Collider other) {
-        if (Collider.Equals(ball_collider, other))
+        if (Collider.Equals(ballCollider, other))
         {
             ball_inside = false;
         }
