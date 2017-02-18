@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviour, IInputClickHandler {
 
     public GameObject ball;
     public GameObject victoryText;
+    public bool pauseOnStart = true;
 
     Vector3 ballStartPos;
     Quaternion ballStartRot;
@@ -29,7 +30,7 @@ public class GameManager : MonoBehaviour, IInputClickHandler {
         goalTrigger.onGoalReached += onGoalReached;
 
         InputManager.Instance.AddGlobalListener(gameObject);
-        pauseGame();
+        if(pauseOnStart) pauseGame();
 	}
 
     private void OnDestroy() {

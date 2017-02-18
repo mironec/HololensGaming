@@ -20,7 +20,8 @@ public class SpeedBoost : MonoBehaviour {
     {
         Rigidbody rigidbody = other.gameObject.GetComponent<Rigidbody>();
         if (rigidbody == null) return;
-        rigidbody.velocity += transform.forward * speedBoostStrength;
+        rigidbody.velocity = Vector3.zero;
+        rigidbody.AddForce(transform.forward * speedBoostStrength, ForceMode.VelocityChange);
         Debug.Log(other.gameObject + " Entered!");
     }
 }
