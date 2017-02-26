@@ -48,13 +48,21 @@ public class GeneralCameraProvider : CameraProvider {
         float[]cameraParams = new float[4 + 5];
         if (hololens) {
             //Hololens camera parameters based on camera photos, which are 1408x792, at 48 horizontal FOV
-            cameraParams[0] = 1.6226756644523603e+03f;
-            cameraParams[1] = 1.6226756644523603e+03f;
+            //cameraParams[0] = 1.6226756644523603e+03f;
+            //cameraParams[1] = 1.6226756644523603e+03f;
+            //cameraParams[0] = 1581.20988f;
+            //cameraParams[1] = 1581.20988f;
+            cameraParams[0] = 1006.2244747090887922651680044105f;
+            cameraParams[1] = 1006.2244747090887922651680044105f;
+            //cameraParams[0] = 
             //camera_params[2] = 6.2516688711209542e+02f;
             //camera_params[3] = 3.8018373700505418e+02f;
             //The opencv calibration program didn't emit useful values for some reason, but normally these are simply half of the image width/height
-            cameraParams[2] = 1408 / 2;
-            cameraParams[3] = 792 / 2;
+            //cameraParams[2] = 1408 / 2;
+            //cameraParams[3] = 792 / 2;
+            cameraParams[2] = 896 / 2;
+            cameraParams[3] = 504 / 2;
+            //1006.2244747090887922651680044105
             cameraParams[4] = -5.6781211352631726e-03f;
             cameraParams[5] = -1.1566538973188603e+00f;
             cameraParams[6] = -1.3849725342370161e-03f;

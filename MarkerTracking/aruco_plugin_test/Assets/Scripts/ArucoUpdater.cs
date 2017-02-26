@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-class ArucoUpdateRunner : MonoBehaviour {
+class ArucoUpdater : MonoBehaviour {
     public ArucoRunner runner;
     
     private void Awake() {

@@ -1,0 +1,2 @@
+This project uses the HoloToolkit unity package. The current used version is 1.5.5.0, as released here: https://github.com/Microsoft/HoloToolkit-Unity/commit/0d477ff21c4d4baff4d671c8f5173f415b05c7af
+Install the package as per the instructions here: https://github.com/Microsoft/HoloToolkit-Unity/blob/master/GettingStarted.md
