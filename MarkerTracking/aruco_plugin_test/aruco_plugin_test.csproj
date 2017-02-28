@@ -312,6 +312,7 @@
     <Compile Include="Assets\Scripts\GeneralCameraProvider.cs" />
     <Compile Include="Assets\Scripts\ImageDisplay.cs" />
     <Compile Include="Assets\Scripts\MarkerObjectPlacer.cs" />
+    <Compile Include="Assets\Scripts\TrackedObject.cs" />
     <Compile Include="Assets\Scripts\frustrum_plane.cs" />
   </ItemGroup>
   <ItemGroup>

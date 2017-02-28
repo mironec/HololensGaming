@@ -9,7 +9,7 @@ public class ArucoFreezeUpdater : MonoBehaviour, IInputClickHandler {
     bool runDetect = true;
 
 	// Use this for initialization
-	void Start () {
+	void Awake () {
         runner.init();
         InputManager.Instance.AddGlobalListener(gameObject);
 	}
