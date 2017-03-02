@@ -5,9 +5,9 @@ PhysicMaterial:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: Bouncy
-  dynamicFriction: 0.01
-  staticFriction: 0.1
-  bounciness: 0.9
+  m_Name: Ice
+  dynamicFriction: 0.005
+  staticFriction: 0.05
+  bounciness: 0
   frictionCombine: 0
   bounceCombine: 2

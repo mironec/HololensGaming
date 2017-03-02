@@ -55,9 +55,6 @@
     <Reference Include="UnityEditor">
       <HintPath>Library\UnityAssemblies\UnityEditor.dll</HintPath>
     </Reference>
-    <Reference Include="UnityEngine.Advertisements">
-      <HintPath>Library\UnityAssemblies\UnityEngine.Advertisements.dll</HintPath>
-    </Reference>
     <Reference Include="UnityEditor.Advertisements">
       <HintPath>Library\UnityAssemblies\UnityEditor.Advertisements.dll</HintPath>
     </Reference>
@@ -100,9 +97,6 @@
     <Reference Include="UnityEngine.HoloLens">
       <HintPath>Library\UnityAssemblies\UnityEngine.HoloLens.dll</HintPath>
     </Reference>
-    <Reference Include="UnityEngine.Purchasing">
-      <HintPath>Library\UnityAssemblies\UnityEngine.Purchasing.dll</HintPath>
-    </Reference>
     <Reference Include="UnityEditor.VR">
       <HintPath>Library\UnityAssemblies\UnityEditor.VR.dll</HintPath>
     </Reference>
@@ -124,9 +118,6 @@
     <Reference Include="Mono.Cecil">
       <HintPath>Library\UnityAssemblies\Mono.Cecil.dll</HintPath>
     </Reference>
-    <Reference Include="Assembly-CSharp">
-      <HintPath>Library\ScriptAssemblies\Assembly-CSharp.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="HoloBallGame.csproj">
@@ -135,11 +126,61 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\HoloToolkit\Build\Editor\BuildDeployPortal.cs" />
+    <Compile Include="Assets\HoloToolkit\Build\Editor\BuildDeployPrefs.cs" />
+    <Compile Include="Assets\HoloToolkit\Build\Editor\BuildDeployTools.cs" />
+    <Compile Include="Assets\HoloToolkit\Build\Editor\BuildDeployWindow.cs" />
+    <Compile Include="Assets\HoloToolkit\Build\Editor\BuildSLNUtilities.cs" />
+    <Compile Include="Assets\HoloToolkit\Build\Editor\HoloToolkitCommands.cs" />
+    <Compile Include="Assets\HoloToolkit\Build\Editor\XdeGuestLocator.cs" />
     <Compile Include="Assets\HoloToolkit\Input\Scripts\Voice\Editor\KeywordAndKeyCodeDrawer.cs" />
     <Compile Include="Assets\HoloToolkit\Input\Scripts\Voice\Editor\SpeechInputSourceEditor.cs" />
+    <Compile Include="Assets\HoloToolkit\Sharing\Editor\SharingMenu.cs" />
+    <Compile Include="Assets\HoloToolkit\Sharing\Editor\SharingStageEditor.cs" />
+    <Compile Include="Assets\HoloToolkit\SpatialSound\Scripts\UAudioManager\Editor\UAudioManagerBaseEditor.cs" />
+    <Compile Include="Assets\HoloToolkit\SpatialSound\Scripts\UAudioManager\Editor\UAudioManagerEditor.cs" />
+    <Compile Include="Assets\HoloToolkit\SpatialSound\Scripts\UAudioManager\Editor\UAudioMiniManagerEditor.cs" />
+    <Compile Include="Assets\HoloToolkit\SpatialSound\Scripts\UAudioManager\Editor\UAudioProfiler.cs" />
+    <Compile Include="Assets\HoloToolkit\Utilities\Editor\AutoConfigureMenu.cs" />
+    <Compile Include="Assets\HoloToolkit\Utilities\Editor\AutoConfigureWindow.cs" />
+    <Compile Include="Assets\HoloToolkit\Utilities\Editor\CapabilitySettingsWindow.cs" />
+    <Compile Include="Assets\HoloToolkit\Utilities\Editor\EditorGUIExtensions.cs" />
+    <Compile Include="Assets\HoloToolkit\Utilities\Editor\EditorGUILayoutExtensions.cs" />
+    <Compile Include="Assets\HoloToolkit\Utilities\Editor\EnforceEditorSettings.cs" />
+    <Compile Include="Assets\HoloToolkit\Utilities\Editor\LayerMaskExtensions.cs" />
+    <Compile Include="Assets\HoloToolkit\Utilities\Editor\ProjectSettingsWindow.cs" />
+    <Compile Include="Assets\HoloToolkit\Utilities\Editor\SceneSettingsWindow.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Assets\HoloToolkit\Input\Shaders\Cursor.shader" />
+    <None Include="Assets\HoloToolkit\Input\Shaders\CursorShader.shader" />
     <None Include="Assets\HoloToolkit\Input\Shaders\EditorHands.shader" />
+    <None Include="Assets\HoloToolkit\Input\Shaders\SpecularHighlight.shader" />
+    <None Include="Assets\HoloToolkit\Input\Tests\Shaders\button_unlit_shader.shader" />
+    <None Include="Assets\HoloToolkit\SpatialMapping\Shaders\Occlusion.shader" />
+    <None Include="Assets\HoloToolkit\SpatialMapping\Shaders\SpatialMappingTap.shader" />
+    <None Include="Assets\HoloToolkit\SpatialMapping\Shaders\Wireframe.shader" />
+    <None Include="Assets\HoloToolkit\SpatialUnderstanding\Materials\SpatialMappingSurface.shader" />
+    <None Include="Assets\HoloToolkit\SpatialUnderstanding\Materials\SpatialUnderstandingSurface.shader" />
+    <None Include="Assets\HoloToolkit\UI\Shaders\3DTextShader.shader" />
+    <None Include="Assets\HoloToolkit\Utilities\Shaders\BlinnPhongConfigurable.cginc" />
+    <None Include="Assets\HoloToolkit\Utilities\Shaders\BlinnPhongConfigurable.shader" />
+    <None Include="Assets\HoloToolkit\Utilities\Shaders\BlinnPhongConfigurableTransparent.shader" />
+    <None Include="Assets\HoloToolkit\Utilities\Shaders\FastConfigurable.shader" />
+    <None Include="Assets\HoloToolkit\Utilities\Shaders\HoloToolkitCommon.cginc" />
+    <None Include="Assets\HoloToolkit\Utilities\Shaders\LambertianConfigurable.cginc" />
+    <None Include="Assets\HoloToolkit\Utilities\Shaders\LambertianConfigurable.shader" />
+    <None Include="Assets\HoloToolkit\Utilities\Shaders\LambertianConfigurableTransparent.shader" />
+    <None Include="Assets\HoloToolkit\Utilities\Shaders\StandardFast.shader" />
+    <None Include="Assets\HoloToolkit\Utilities\Shaders\UnlitConfigurable.cginc" />
+    <None Include="Assets\HoloToolkit\Utilities\Shaders\UnlitConfigurable.shader" />
+    <None Include="Assets\HoloToolkit\Utilities\Shaders\UnlitConfigurableTransparent.shader" />
+    <None Include="Assets\HoloToolkit\Utilities\Shaders\UnlitNoDepthTest.shader" />
+    <None Include="Assets\HoloToolkit\Utilities\Shaders\VertexLitConfigurable.cginc" />
+    <None Include="Assets\HoloToolkit\Utilities\Shaders\VertexLitConfigurable.shader" />
+    <None Include="Assets\HoloToolkit\Utilities\Shaders\VertexLitConfigurableTransparent.shader" />
+    <None Include="Assets\HoloToolkit\Utilities\Shaders\WindowOcclusion.shader" />
+    <None Include="Assets\HoloToolkit\Utilities\Shaders\macro.cginc" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />

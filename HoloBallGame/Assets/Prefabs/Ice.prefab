@@ -9,47 +9,45 @@ Prefab:
     m_Modifications: []
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
-  m_RootGameObject: {fileID: 1842315637430266}
+  m_RootGameObject: {fileID: 1278021224857092}
   m_IsPrefabParent: 1
---- !u!1 &1842315637430266
+--- !u!1 &1278021224857092
 GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 5
   m_Component:
-  - component: {fileID: 4934489713364478}
-  - component: {fileID: 33851542252638520}
-  - component: {fileID: 23725287025121672}
-  - component: {fileID: 65663557377066866}
-  - component: {fileID: 114066424157118282}
-  - component: {fileID: 114065241141009356}
+  - component: {fileID: 4488108376790108}
+  - component: {fileID: 33992132999077866}
+  - component: {fileID: 23788523103467136}
+  - component: {fileID: 64327447618311040}
   m_Layer: 0
-  m_Name: Speed boost
+  m_Name: Ice
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4934489713364478
+--- !u!4 &4488108376790108
 Transform:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1842315637430266}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_GameObject: {fileID: 1278021224857092}
+  m_LocalRotation: {x: 0, y: 0, z: 1, w: 0}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!23 &23725287025121672
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 180}
+--- !u!23 &23788523103467136
 MeshRenderer:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1842315637430266}
+  m_GameObject: {fileID: 1278021224857092}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -57,7 +55,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: 9cd480f661c1a364a9ed0c6ef81f7925, type: 2}
+  - {fileID: 2100000, guid: be23a70db142da54aa911e99e58f1cf9, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -75,46 +73,24 @@ MeshRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingOrder: 0
---- !u!33 &33851542252638520
+--- !u!33 &33992132999077866
 MeshFilter:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1842315637430266}
-  m_Mesh: {fileID: 4300002, guid: 6632bc4bb35cd0e4ba40a8599c4c726d, type: 3}
---- !u!65 &65663557377066866
-BoxCollider:
+  m_GameObject: {fileID: 1278021224857092}
+  m_Mesh: {fileID: 4300000, guid: 7a2d214b26003c848a7b382e690701b5, type: 3}
+--- !u!64 &64327447618311040
+MeshCollider:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1842315637430266}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_GameObject: {fileID: 1278021224857092}
+  m_Material: {fileID: 13400000, guid: a262b99241c448b46b3e2c66eb38e4b8, type: 2}
+  m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.2, y: 0.2, z: 0}
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &114065241141009356
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1842315637430266}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1e524906116a38447b96cccff672bfc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isMoveable: 1
---- !u!114 &114066424157118282
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1842315637430266}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6a963d83eca0f2947adebbd1f3782806, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speedBoostStrength: 1
+  m_Convex: 0
+  m_InflateMesh: 0
+  m_SkinWidth: 0.01
+  m_Mesh: {fileID: 4300000, guid: 7a2d214b26003c848a7b382e690701b5, type: 3}

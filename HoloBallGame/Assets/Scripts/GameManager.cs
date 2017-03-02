@@ -18,7 +18,7 @@ public class GameManager : MonoBehaviour, IInputClickHandler {
 
     public GoalTrigger goalTrigger;
 
-    bool paused;
+    private bool paused;
     bool level_complete;
 
 	// Use this for initialization
@@ -35,6 +35,10 @@ public class GameManager : MonoBehaviour, IInputClickHandler {
 
     private void OnDestroy() {
         goalTrigger.onGoalReached -= onGoalReached;
+    }
+
+    public bool isGamePaused() {
+        return paused;
     }
 
     //Delaying events that are emitted on start by one frame so we can be sure everyone has subscribed during Start() calls
