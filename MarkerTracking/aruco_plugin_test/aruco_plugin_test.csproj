@@ -309,6 +309,7 @@
     <Compile Include="Assets\Scripts\ArucoTrackingUtil.cs" />
     <Compile Include="Assets\Scripts\ArucoUpdater.cs" />
     <Compile Include="Assets\Scripts\CameraProvider.cs" />
+    <Compile Include="Assets\Scripts\FreezeMarkerObjectPlacer.cs" />
     <Compile Include="Assets\Scripts\GeneralCameraProvider.cs" />
     <Compile Include="Assets\Scripts\ImageDisplay.cs" />
     <Compile Include="Assets\Scripts\MarkerObjectPlacer.cs" />

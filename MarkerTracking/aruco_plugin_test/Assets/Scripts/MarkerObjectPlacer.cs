@@ -12,9 +12,9 @@ public class MarkerObjectPlacer : MonoBehaviour {
     
     public GameObject marker_quad_prefab;
 
-    private List<GameObject> quad_instances;
+    protected List<GameObject> quad_instances;
     
-    void Start () {
+    virtual protected void Start () {
         trackingRunner.onDetectionRun += onDetectionRun;
 
         quad_instances = new List<GameObject>();
@@ -26,7 +26,7 @@ public class MarkerObjectPlacer : MonoBehaviour {
         //cam.aspect = (float)cam_width / cam_height;
     }
 
-    private void onDetectionRun() {
+    virtual protected void onDetectionRun() {
 
         //Add/remove quads to match how many we saw
         if (quad_instances.Count > ArucoTracking.marker_count) {
