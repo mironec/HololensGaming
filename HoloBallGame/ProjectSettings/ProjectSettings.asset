@@ -391,7 +391,7 @@ PlayerSettings:
   metroCertificateNotAfter: 0021f40cfda1d301
   metroApplicationDescription: HoloBallGame
   wsaImages: {}
-  metroTileShortName: 
+  metroTileShortName: HoloBallGame
   metroCommandLineArgsFile: 
   metroTileShowName: 0
   metroMediumTileShowName: 0
@@ -425,7 +425,7 @@ PlayerSettings:
       Proximity: False
       RemovableStorage: False
       SharedUserCertificates: False
-      SpatialPerception: False
+      SpatialPerception: True
       UserAccountInformation: False
       VideosLibrary: False
       VoipCall: False
