@@ -25,14 +25,22 @@ public class ArucoRunner : MonoBehaviour {
         }
 	}
 
-    public void runDetect() {
+    public virtual void runDetect() {
         if (!ArucoTracking.lib_inited) return;
 
-        Color32[] img_data = camProvider.getImage();
-        ArucoTracking.detect_markers(img_data);
-
+        trackNewFrame();
+        
         poseDict = ArucoTrackingUtil.createUnityPoseData(ArucoTracking.marker_count, ArucoTracking.ids, ArucoTracking.rvecs, ArucoTracking.tvecs);
 
+        invokeOnDetectionRun();
+    }
+
+    protected void invokeOnDetectionRun() {
         onDetectionRun.Invoke();
+    }
+
+    protected void trackNewFrame() {
+        Color32[] img_data = camProvider.getImage();
+        ArucoTracking.detect_markers(img_data);
     }
 }
