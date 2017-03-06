@@ -36,9 +36,8 @@ public class GoalTrigger : MonoBehaviour {
     void FixedUpdate () {
         if (ball_inside) {
             Vector3 force = transform.position - ball.transform.position;
-            force *= force.magnitude * 10.0f;
-            ballRb.velocity = ballRb.velocity * 0.90f;
-            ballRb.velocity += force;
+            ballRb.AddForce(-(ballRb.velocity / 10.0f), ForceMode.VelocityChange);
+            ballRb.AddForce(force, ForceMode.VelocityChange);
         }
 	}
 

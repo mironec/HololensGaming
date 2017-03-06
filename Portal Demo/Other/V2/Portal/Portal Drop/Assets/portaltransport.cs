@@ -22,6 +22,9 @@ public class portaltransport : MonoBehaviour {
         if(other.tag =="Player")
         {
             other.transform.position = otherPortal.transform.position + otherPortal.transform.forward*0.1f;
+            Rigidbody rigidbody = other.GetComponent<Rigidbody>();
+            rigidbody.velocity = (Quaternion.Inverse(transform.rotation) * otherPortal.transform.rotation) * rigidbody.velocity;
+            //rigidbody.velocity *= 5.0f;
         }
     }
 

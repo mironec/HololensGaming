@@ -9,13 +9,17 @@ public class ArucoFreezeUpdater : MonoBehaviour, IInputClickHandler {
     bool runDetect = true;
 
 	// Use this for initialization
-	void Start () {
+	void Awake () {
         runner.init();
-        InputManager.Instance.AddGlobalListener(gameObject);
+        
 	}
-	
-	// Update is called once per frame
-	void Update () {
+
+    private void Start() {
+        InputManager.Instance.AddGlobalListener(gameObject);
+    }
+
+    // Update is called once per frame
+    void Update () {
         if (runDetect) {
             runner.runDetect();
         }       
