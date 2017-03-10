@@ -6,9 +6,11 @@ public class portaltransport : MonoBehaviour {
 
     public GameObject otherPortal;
     public GameObject ball;
-    public bool isColliderEnable = true; 
-	// Use this for initialization
-	void Start () {
+    public bool isColliderEnable = true;
+    public bool enabled;
+
+    // Use this for initialization
+    void Start () { 
 		
 	}
 	
@@ -19,9 +21,18 @@ public class portaltransport : MonoBehaviour {
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.tag =="Player")
+        if (other.tag == "Player" && isColliderEnable == true)
         {
-            other.transform.position = otherPortal.transform.position + otherPortal.transform.forward*0.2f;
+            isColliderEnable = false;
+            Vector3 relative_pos = other.transform.position - transform.position;
+            other.transform.position = otherPortal.transform.position + relative_pos;
+            Rigidbody rigidbody = other.GetComponent<Rigidbody>();
+            Vector3 velocity = rigidbody.velocity;
+            velocity *= -1;
+            velocity = Quaternion.Inverse(transform.rotation) * velocity;
+            velocity = otherPortal.transform.rotation * velocity;
+            rigidbody.velocity = velocity;
+            
         }
     }
 
