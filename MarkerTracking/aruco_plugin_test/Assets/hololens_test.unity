@@ -275,6 +275,8 @@ GameObject:
   - component: {fileID: 813870591}
   - component: {fileID: 813870589}
   - component: {fileID: 813870592}
+  - component: {fileID: 813870594}
+  - component: {fileID: 813870595}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -344,7 +346,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 813870583}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 8.73, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1795512856}
@@ -362,7 +364,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 98d580f0a75d75b40bc5e42b04fd4f62, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  trackingRunner: {fileID: 813870593}
+  trackingRunner: {fileID: 813870594}
   cam: {fileID: 813870587}
   marker_quad_prefab: {fileID: 1742923712583368, guid: 847059dc646c2e04b84766f5b6d8b343,
     type: 2}
@@ -404,7 +406,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89cbf25dd7c40104b970cdaad2fb36ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  runner: {fileID: 813870593}
+  runner: {fileID: 813870594}
 --- !u!114 &813870592
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -434,6 +436,34 @@ MonoBehaviour:
   camProvider: {fileID: 813870590}
   markerSize: 0.088
   sizeReduce: 4
+--- !u!114 &813870594
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 813870583}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c967e05b933a574e9e80bb7aeca864c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  camProvider: {fileID: 813870590}
+  markerSize: 0.088
+  sizeReduce: 4
+  offset: {x: 0.02, y: 0, z: 0.03}
+  cam: {fileID: 813870587}
+--- !u!114 &813870595
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 813870583}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 88d671198d8059446bcf73441392f6cf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  offsetRunner: {fileID: 813870594}
 --- !u!1001 &965947329
 Prefab:
   m_ObjectHideFlags: 0
@@ -471,7 +501,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4412587869513062, guid: 847059dc646c2e04b84766f5b6d8b343, type: 2}
       propertyPath: m_RootOrder
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4412587869513062, guid: 847059dc646c2e04b84766f5b6d8b343, type: 2}
       propertyPath: m_LocalScale.x
