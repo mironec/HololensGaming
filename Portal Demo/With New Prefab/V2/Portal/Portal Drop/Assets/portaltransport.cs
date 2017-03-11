@@ -6,11 +6,12 @@ public class portaltransport : MonoBehaviour {
 
     public GameObject otherPortal;
     public GameObject ball;
-    public bool isColliderEnable = true;
+    public bool isColliderEnable;
     public bool enabled;
 
     // Use this for initialization
     void Start () { 
+
 		
 	}
 	
