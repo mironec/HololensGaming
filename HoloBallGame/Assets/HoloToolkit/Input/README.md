@@ -245,7 +245,7 @@ It highlights the object being gazed at.
 This class implements IInputClickHandler to handle the tap gesture.
 It increases the scale of the object when tapped.
 
-### [Tests](Tests)
+### [Tests](Tests/Scenes)
 Tests related to the input features. To use the scene:
 
 1. Navigate to the Tests folder.
@@ -294,6 +294,10 @@ Example on how to send keyword messages to currently selected dynamically instan
 Gazing on an object and saying "Select Object" will persistently select that object for interaction with voice commands,
 after which the user can also adjust object size with "Make Smaller" and "Make Bigger" voice commands and finally clear
 currently selected object by saying "Clear Selection".
+
+#### OverrideFocusedObjectTest.unity
+Test scene shows you in a simple way, how to route input to an object not being gazed/focused at.
+Useful for scenarios like placing head locked content or clicking around to create objects.
 
 #### SpeechInputSource.unity
 

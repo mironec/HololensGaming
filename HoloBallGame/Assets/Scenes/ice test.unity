@@ -184,7 +184,7 @@ GameObject:
   - component: {fileID: 102338619}
   - component: {fileID: 102338618}
   - component: {fileID: 102338617}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Plane
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -540,7 +540,7 @@ MonoBehaviour:
   SurfacePlanePrefab: {fileID: 1000010593991404, guid: cd6bb67d67909584291e2b38d947cc43,
     type: 2}
   MinArea: 0.025
-  drawPlanesMask: 0
+  drawPlanesMask: 8
   destroyPlanesMask: 16
 --- !u!1 &628159785 stripped
 GameObject:
@@ -963,6 +963,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1829508853}
   - component: {fileID: 1829508852}
+  - component: {fileID: 1829508854}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -984,7 +985,6 @@ MonoBehaviour:
   ball: {fileID: 2028395914}
   victoryText: {fileID: 2770164}
   holoCamera: {fileID: 332916817}
-  playSpaceAnchor: {fileID: 1228179413}
   pauseOnStart: 1
   goalTrigger: {fileID: 414810112}
 --- !u!4 &1829508853
@@ -1000,6 +1000,18 @@ Transform:
   m_Father: {fileID: 900409366}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1829508854
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1829508851}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5306103538c1a6a4182f9e011bde96f7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playSpaceAnchor: {fileID: 1228179413}
 --- !u!1 &2028395914 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 1559437698137894, guid: 108879cf0eb3f8b4286680f5d223447a,
@@ -1010,3 +1022,20 @@ Transform:
   m_PrefabParentObject: {fileID: 4858648867521892, guid: 108879cf0eb3f8b4286680f5d223447a,
     type: 2}
   m_PrefabInternal: {fileID: 1779767246}
+--- !u!1 &2100954347 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1000010302963436, guid: 2ed75ffdf9031c94e8bce4b3d17b9928,
+    type: 2}
+  m_PrefabInternal: {fileID: 1648631393}
+--- !u!114 &2100954348
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2100954347}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d4077c41b4858904d8088a87ef45baed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BoundsExpansion: 0.1
