@@ -8,6 +8,12 @@ public class ArucoRunner : MonoBehaviour {
     public float markerSize;
     public int sizeReduce;
 
+    public Vector3 offset;
+
+        //Low pass filter values. Defaults right now are such that no filtering happens
+    public float positionLowPass = 0;
+    public float rotationLowPass = 0;
+
     public Dictionary<int, PoseData> poseDict;
 
     public event Action onDetectionRun;
@@ -29,8 +35,13 @@ public class ArucoRunner : MonoBehaviour {
         if (!ArucoTracking.lib_inited) return;
 
         trackNewFrame();
+
+        Dictionary<int, PoseData> newDict = ArucoTrackingUtil.createUnityPoseData(ArucoTracking.marker_count, ArucoTracking.ids, ArucoTracking.rvecs, ArucoTracking.tvecs);
+
+        ArucoTrackingUtil.addCamSpaceOffset(newDict, offset); //Doing this first is important, since PoseDict also has positions with added offset
+        ArucoTrackingUtil.posRotLowpass(poseDict, newDict, positionLowPass, rotationLowPass);
         
-        poseDict = ArucoTrackingUtil.createUnityPoseData(ArucoTracking.marker_count, ArucoTracking.ids, ArucoTracking.rvecs, ArucoTracking.tvecs);
+        poseDict = newDict;
 
         invokeOnDetectionRun();
     }

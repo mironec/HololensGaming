@@ -8,7 +8,7 @@ public class OffsetPhraseRecogniser : MonoBehaviour {
     KeywordRecognizer keywordRecognizer;
     Dictionary<string, System.Action> keywords = new Dictionary<string, System.Action>();
 
-    public OffsetArucoRunner offsetRunner; //Reference the runner so we can adjust the offset from callbacks
+    public ArucoRunner offsetRunner; //Reference the runner so we can adjust the offset from callbacks
 	// Use this for initialization
 	void Start () {
         keywords.Add("left", () => {
