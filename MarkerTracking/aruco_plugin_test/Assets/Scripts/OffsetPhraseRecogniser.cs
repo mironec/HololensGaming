@@ -13,21 +13,45 @@ public class OffsetPhraseRecogniser : MonoBehaviour {
 	void Start () {
         keywords.Add("left", () => {
             offsetRunner.offset.x -= 0.005f;
+            Debug.Log("left");
+            Debug.Log(offsetRunner.offset.x);
+            Debug.Log(offsetRunner.offset.y);
+            Debug.Log(offsetRunner.offset.z);
         });
         keywords.Add("right", () => {
             offsetRunner.offset.x += 0.005f;
+            Debug.Log("right");
+            Debug.Log(offsetRunner.offset.x);
+            Debug.Log(offsetRunner.offset.y);
+            Debug.Log(offsetRunner.offset.z);
         });
         keywords.Add("up", () => {
             offsetRunner.offset.y += 0.005f;
+            Debug.Log("up");
+            Debug.Log(offsetRunner.offset.x);
+            Debug.Log(offsetRunner.offset.y);
+            Debug.Log(offsetRunner.offset.z);
         });
         keywords.Add("down", () => {
             offsetRunner.offset.y -= 0.005f;
+            Debug.Log("down");
+            Debug.Log(offsetRunner.offset.x);
+            Debug.Log(offsetRunner.offset.y);
+            Debug.Log(offsetRunner.offset.z);
         });
-        keywords.Add("forwards", () => {
+        keywords.Add("to", () => {
             offsetRunner.offset.z += 0.005f;
+            Debug.Log("to");
+            Debug.Log(offsetRunner.offset.x);
+            Debug.Log(offsetRunner.offset.y);
+            Debug.Log(offsetRunner.offset.z);
         });
-        keywords.Add("backwards", () => {
+        keywords.Add("from", () => {
             offsetRunner.offset.z -= 0.005f;
+            Debug.Log("from");
+            Debug.Log(offsetRunner.offset.x);
+            Debug.Log(offsetRunner.offset.y);
+            Debug.Log(offsetRunner.offset.z);
         });
 
         keywordRecognizer = new KeywordRecognizer(keywords.Keys.ToArray());

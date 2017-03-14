@@ -450,7 +450,7 @@ MonoBehaviour:
   camProvider: {fileID: 813870590}
   markerSize: 0.088
   sizeReduce: 4
-  offset: {x: 0.02, y: 0, z: 0.03}
+  offset: {x: 0.02, y: 0, z: 0.06}
   cam: {fileID: 813870587}
 --- !u!114 &813870595
 MonoBehaviour:

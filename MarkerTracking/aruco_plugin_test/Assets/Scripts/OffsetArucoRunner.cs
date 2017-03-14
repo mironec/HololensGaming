@@ -18,8 +18,9 @@ public class OffsetArucoRunner : ArucoRunner {
         List<int> keys = new List<int>(poseDict.Keys);
         foreach(int key in keys) {
             PoseData data = poseDict[key];
-            
-            data.pos += cam.transform.TransformDirection(offset);
+
+            //data.pos += cam.transform.TransformDirection(offset);
+            data.pos += offset;
             poseDict[key] = data;
         }
 
