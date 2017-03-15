@@ -45,7 +45,7 @@ public class ArucoTrackingUtil {
             dict[key] = data;
         }
     }
-        
+      
         //Performs a lowpass check on the position and rotation of each marker in newDict, comparing them to those in oldDict
         //If a marker moved less than posThreshold, its old position is copied to newDict
         //If a marker rotated less than rotThreshold degrees, its old rotation is copied to newDict

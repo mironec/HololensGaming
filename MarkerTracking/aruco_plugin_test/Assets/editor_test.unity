@@ -434,8 +434,7 @@ MonoBehaviour:
   markerSize: 0.088
   sizeReduce: 4
   offset: {x: 0, y: 0, z: 0}
-  positionLowPass: 0.005
-  rotationLowPass: 3
+  averageMemoryLength: 5
 --- !u!1001 &965947329
 Prefab:
   m_ObjectHideFlags: 0
