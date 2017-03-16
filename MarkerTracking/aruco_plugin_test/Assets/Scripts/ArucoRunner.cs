@@ -12,8 +12,8 @@ public class ArucoRunner : MonoBehaviour {
     public Vector3 offset;
 
     //Low pass filter values. Defaults right now are such that no filtering happens
-    //public float positionLowPass = 0;
-    //public float rotationLowPass = 0;
+    public float positionLowPass = 0;
+    public float rotationLowPass = 0;
 
     public int averageMemoryLength;
     PoseRunningAverage average;
@@ -50,7 +50,7 @@ public class ArucoRunner : MonoBehaviour {
         Dictionary<int, PoseData> newDict = ArucoTrackingUtil.createUnityPoseData(ArucoTracking.marker_count, ArucoTracking.ids, ArucoTracking.rvecs, ArucoTracking.tvecs);
 
         ArucoTrackingUtil.addCamSpaceOffset(newDict, offset); //Doing this first is important, since PoseDict also has positions with added offset
-        //ArucoTrackingUtil.posRotLowpass(poseDict, newDict, positionLowPass, rotationLowPass);
+        ArucoTrackingUtil.posRotLowpass(poseDict, newDict, positionLowPass, rotationLowPass);
         average.averageNewState(newDict);
 
         poseDict = newDict;
