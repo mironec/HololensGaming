@@ -10,7 +10,6 @@ public class PlayfieldPlacer : MonoBehaviour, IInputClickHandler
     private bool playfieldSelected = false;
     private GameObject selectedSurfacePlane;
     private bool planeFindingStarted = false;
-    private float lastObserveStarted = 0.0f;
     private List<GameObject> shownPlayspaces;
 
     public GameObject playSpaceAnchor;
@@ -19,7 +18,6 @@ public class PlayfieldPlacer : MonoBehaviour, IInputClickHandler
         playfieldSelected = false;
         selectedSurfacePlane = null;
         shownPlayspaces = new List<GameObject>();
-        lastObserveStarted = Time.unscaledTime;
         SurfaceMeshesToPlanes.Instance.MakePlanesComplete += OnPlanesComplete;
         InputManager.Instance.AddGlobalListener(gameObject);
 	}
@@ -29,11 +27,6 @@ public class PlayfieldPlacer : MonoBehaviour, IInputClickHandler
     }
 	
 	void Update () {
-        if (Time.unscaledTime - lastObserveStarted > 15.0f)
-        {
-            Debug.Log("Trying to stop the observer.");
-            SpatialMappingManager.Instance.StopObserver();
-        }
         if (!planeFindingStarted && !SpatialMappingManager.Instance.IsObserverRunning() && SpatialMappingManager.Instance.GetMeshFilters().Count > 0)
         {
             Debug.Log("Plane finding started.");
@@ -44,18 +37,22 @@ public class PlayfieldPlacer : MonoBehaviour, IInputClickHandler
 
     public void OnInputClicked(InputClickedEventData eventData)
     {
-        GameObject hit = GazeManager.Instance.HitObject;
-        if (hit.CompareTag("SurfacePlane")) {
-            if (hit.GetComponent<SurfacePlane>().PlaneType == PlaneTypes.Table) {
-                selectedSurfacePlane = hit;
-                playSpaceAnchor.transform.position = selectedSurfacePlane.transform.position;
+        Transform gazeTransform = GazeManager.Instance.GazeTransform;
+        RaycastHit[] hits = Physics.RaycastAll(gazeTransform.position, gazeTransform.forward, 100.0f);
+        foreach (var hit in hits) {
+            GameObject hitObject = hit.collider.gameObject;
+            if (hitObject.CompareTag("SurfacePlane")) {
+                if (hitObject.GetComponent<SurfacePlane>().PlaneType == PlaneTypes.Table) {
+                    selectedSurfacePlane = hitObject;
+                    playSpaceAnchor.transform.position = selectedSurfacePlane.transform.position;
+                }
             }
         }
     }
 
     void OnPlanesComplete(object source, EventArgs args)
     {
-        if (playfieldSelected) {
+        if (selectedSurfacePlane != null) {
             foreach (var plane in SurfaceMeshesToPlanes.Instance.ActivePlanes)
             {
                 plane.SetActive(false);
@@ -73,6 +70,17 @@ public class PlayfieldPlacer : MonoBehaviour, IInputClickHandler
             RemoveSurfaceVertices.Instance.RemoveSurfaceVerticesWithinBounds(list);
             cube.GetComponent<BoxCollider>().enabled = false;
             SurfaceMeshesToPlanes.Instance.MakePlanesComplete -= OnPlanesComplete;
+            foreach (var item in SurfaceMeshesToPlanes.Instance.ActivePlanes)
+            {
+                Destroy(item);
+            }
+            foreach (var plane in shownPlayspaces) {
+                if (plane != selectedSurfacePlane)
+                    Destroy(plane);
+                else
+                    plane.GetComponent<Renderer>().enabled = false;
+            }
+            playfieldSelected = true;
             return;
         }
         planeFindingStarted = false;
@@ -84,10 +92,9 @@ public class PlayfieldPlacer : MonoBehaviour, IInputClickHandler
         {
             if (plane.GetComponent<SurfacePlane>().PlaneType != PlaneTypes.Table) continue;
             GameObject planeCopy = Instantiate(plane);
+            planeCopy.tag = "SurfacePlane";
             shownPlayspaces.Add(planeCopy);
         }
-        lastObserveStarted = Time.unscaledTime;
-        SpatialMappingManager.Instance.StartObserver();
     }
 
     void OnRemoveVerticesComplete(object source, EventArgs args) {

@@ -190,7 +190,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!23 &102338617
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -520,28 +520,6 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: a611e772ef8ddf64d8106a9cbb70f31c, type: 2}
   m_IsPrefabParent: 0
---- !u!1 &591795021 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 1000011070707148, guid: 3eddd1c29199313478dd3f912bfab2ab,
-    type: 2}
-  m_PrefabInternal: {fileID: 1465917308}
---- !u!114 &591795022
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 591795021}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: acbc42345d6a90543ab66003022593fa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ActivePlanes: []
-  SurfacePlanePrefab: {fileID: 1000010593991404, guid: cd6bb67d67909584291e2b38d947cc43,
-    type: 2}
-  MinArea: 0.025
-  drawPlanesMask: 8
-  destroyPlanesMask: 16
 --- !u!1 &628159785 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 1278021224857092, guid: 5974d6a4d03290f4193b6f2f98b098a3,
@@ -1039,3 +1017,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   BoundsExpansion: 0.1
+--- !u!114 &2100954349
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2100954347}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: acbc42345d6a90543ab66003022593fa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ActivePlanes: []
+  SurfacePlanePrefab: {fileID: 1000010593991404, guid: cd6bb67d67909584291e2b38d947cc43,
+    type: 2}
+  MinArea: 0.025
+  drawPlanesMask: 8
+  destroyPlanesMask: 16

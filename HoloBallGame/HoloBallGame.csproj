@@ -355,7 +355,6 @@
     <Compile Include="Assets\Scripts\Moveable.cs" />
     <Compile Include="Assets\Scripts\PlaneColliderSwitch.cs" />
     <Compile Include="Assets\Scripts\PlayfieldPlacer.cs" />
-    <Compile Include="Assets\Scripts\SelectPlayfield.cs" />
     <Compile Include="Assets\Scripts\SpeedBoost.cs" />
   </ItemGroup>
   <ItemGroup>
