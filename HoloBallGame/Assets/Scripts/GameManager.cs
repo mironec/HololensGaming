@@ -35,11 +35,13 @@ public class GameManager : MonoBehaviour, IInputClickHandler {
 
         InputManager.Instance.AddGlobalListener(gameObject);
         playfieldPlacer = GetComponent<PlayfieldPlacer>();
+        playfieldPlacer.onPlayfieldSelected += OnPlayfieldSelected;
         if (pauseOnStart) pauseGame();
 	}
 
     private void OnDestroy() {
         goalTrigger.onGoalReached -= onGoalReached;
+        if(playfieldPlacer != null) playfieldPlacer.onPlayfieldSelected -= OnPlayfieldSelected;
     }
 
     public bool isGamePaused() {
@@ -83,10 +85,15 @@ public class GameManager : MonoBehaviour, IInputClickHandler {
         onGameReset.Invoke();
     }
 
+    private void OnPlayfieldSelected() {
+        playfieldPlacer.onPlayfieldSelected -= OnPlayfieldSelected;
+        playfieldPlacer.enabled = false;
+        playfieldPlacer = null;
+    } 
+
     public void OnInputClicked(InputClickedEventData eventData)
     {
         if (playfieldPlacer != null && !playfieldPlacer.isPlayfieldSelected()) { return; }
-        if (playfieldPlacer != null && playfieldPlacer.isPlayfieldSelected()) { playfieldPlacer.enabled = false; playfieldPlacer = null; return; }
         if (level_complete)
         {
             resetGame();

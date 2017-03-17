@@ -7,6 +7,8 @@ using System;
 
 public class PlayfieldPlacer : MonoBehaviour, IInputClickHandler
 {
+    public event Action onPlayfieldSelected;
+
     private bool playfieldSelected = false;
     private GameObject selectedSurfacePlane;
     private bool planeFindingStarted = false;
@@ -19,7 +21,7 @@ public class PlayfieldPlacer : MonoBehaviour, IInputClickHandler
         selectedSurfacePlane = null;
         shownPlayspaces = new List<GameObject>();
         SurfaceMeshesToPlanes.Instance.MakePlanesComplete += OnPlanesComplete;
-        InputManager.Instance.AddGlobalListener(gameObject);
+        // Assume the GameManager subscribed as a global listener
 	}
 
     public bool isPlayfieldSelected() {
@@ -101,5 +103,6 @@ public class PlayfieldPlacer : MonoBehaviour, IInputClickHandler
         GameObject cube = GameObject.FindGameObjectWithTag("TemporaryRemoveVerticesObject");
         Destroy(cube);
         playfieldSelected = true;
+        onPlayfieldSelected.Invoke();
     }
 }
