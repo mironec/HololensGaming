@@ -2,19 +2,31 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof (Rigidbody))]
 public class GravityShifter : MonoBehaviour {
 
-    public Vector3 gravityDirection = Vector3.down;
-    public float magnitude = 9.81f;
-
 	void Start () {
+		
 	}
 	
-	void FixedUpdate () {
-        Rigidbody rigidbody = GetComponent<Rigidbody>();
-        if (!rigidbody.useGravity) {
-            rigidbody.AddForce(gravityDirection.normalized * magnitude * rigidbody.mass, ForceMode.Force);
-        }
+	void Update () {
+		
 	}
+
+    private void OnTriggerEnter(Collider other)
+    {
+        GameObject otherGameObject = other.gameObject;
+        GravityShiftable gravityShiftable = otherGameObject.GetComponent<GravityShiftable>();
+        Rigidbody rigidbody = otherGameObject.GetComponent<Rigidbody>();
+        if (gravityShiftable != null && rigidbody != null) {
+            if (rigidbody.useGravity)
+            {
+                rigidbody.useGravity = false;
+                gravityShiftable.gravityDirection = Vector3.up;
+                gravityShiftable.magnitude = Physics.gravity.magnitude;
+            }
+            else {
+                rigidbody.useGravity = true;
+            }
+        }
+    }
 }
