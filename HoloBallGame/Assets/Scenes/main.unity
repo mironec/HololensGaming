@@ -979,6 +979,16 @@ Prefab:
       propertyPath: m_Radius
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 54388574024206262, guid: 108879cf0eb3f8b4286680f5d223447a,
+        type: 2}
+      propertyPath: m_UseGravity
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114464336639505028, guid: 108879cf0eb3f8b4286680f5d223447a,
+        type: 2}
+      propertyPath: gravityDirection.y
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 108879cf0eb3f8b4286680f5d223447a, type: 2}
   m_IsPrefabParent: 0

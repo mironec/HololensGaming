@@ -351,6 +351,7 @@
     <Compile Include="Assets\Scripts\BouncyHack.cs" />
     <Compile Include="Assets\Scripts\GameManager.cs" />
     <Compile Include="Assets\Scripts\GoalTrigger.cs" />
+    <Compile Include="Assets\Scripts\GravityShifter.cs" />
     <Compile Include="Assets\Scripts\HandDraggable.cs" />
     <Compile Include="Assets\Scripts\Moveable.cs" />
     <Compile Include="Assets\Scripts\PlaneColliderSwitch.cs" />
