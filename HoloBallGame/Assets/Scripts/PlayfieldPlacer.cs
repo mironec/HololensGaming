@@ -15,6 +15,7 @@ public class PlayfieldPlacer : MonoBehaviour, IInputClickHandler
     private List<GameObject> shownPlayspaces;
 
     public GameObject playSpaceAnchor;
+    public float clearingSpaceHeight = 0.5f;
 
     void Start () {
         playfieldSelected = false;
@@ -64,7 +65,7 @@ public class PlayfieldPlacer : MonoBehaviour, IInputClickHandler
             cube.tag = "TemporaryRemoveVerticesObject";
             cube.GetComponent<MeshRenderer>().enabled = false;
             cube.transform.localScale = selectedSurfacePlane.transform.localScale;
-            cube.transform.localScale = new Vector3(cube.transform.localScale.x, cube.transform.localScale.y, 0.5f);
+            cube.transform.localScale = new Vector3(cube.transform.localScale.x, cube.transform.localScale.y, clearingSpaceHeight);
             cube.transform.position = selectedSurfacePlane.transform.position;
             cube.transform.localRotation = selectedSurfacePlane.transform.localRotation;
             list.Add(cube);
