@@ -21,7 +21,6 @@ class PoseRunningAverage {
         previousStates[nextStateIdx].Clear();
 
         Vector3 totalPos = new Vector3();
-        Quaternion totalRotation = new Quaternion(0, 0, 0, 0);
 
         int statesSeen;
         foreach(int key in newDictKeys) {
@@ -31,7 +30,6 @@ class PoseRunningAverage {
             int i = nextStateIdx;
             statesSeen = 0;
             totalPos.Set(0, 0, 0);
-            totalRotation.Set(0, 0, 0, 0);
 
             do {
                 if (!previousStates[i].ContainsKey(key)) break; //Only iterate while the dictionaries still contain this marker
@@ -39,31 +37,18 @@ class PoseRunningAverage {
                 PoseData previousPose = previousStates[i][key];
                 totalPos += previousPose.pos;
                 
-                totalRotation.w += previousPose.rot.w;
-                totalRotation.x += previousPose.rot.x;
-                totalRotation.y += previousPose.rot.y;
-                totalRotation.z += previousPose.rot.z;
                 i = positiveMod(i - 1, stateMemoryLength);
             } while (i != nextStateIdx);
 
             totalPos /= statesSeen;
             newPose.pos = totalPos;
-
-            //Average and normalise the total rotation. Quaternion average code taken from https://forum.unity3d.com/threads/average-quaternions.86898/
-            totalRotation.x /= statesSeen;
-            totalRotation.y /= statesSeen;
-            totalRotation.z /= statesSeen;
-            totalRotation.w /= statesSeen;
-
-            //Normalize. Note: experiment to see whether you
-            //can skip this step.
-            float D = 1.0f / (totalRotation.w * totalRotation.w + totalRotation.x * totalRotation.x + totalRotation.y * totalRotation.y + totalRotation.z * totalRotation.z);
-            totalRotation.x *= D;
-            totalRotation.y *= D;
-            totalRotation.z *= D;
-            totalRotation.w *= D;
-
-            newPose.rot = totalRotation;
+            
+                //Averaging multiple quaternions is not easy or well defined, and the simple "sum and average" method fails on larger steps between quaternions
+                //Instead, we just average between the previous and new frame with slerp to get at least some nice smooth rotation
+            int previousDictIdx = positiveMod(nextStateIdx - 1, stateMemoryLength);
+            if(previousStates[previousDictIdx].ContainsKey(key)) {
+                newPose.rot = Quaternion.Slerp(newPose.rot, previousStates[previousDictIdx][key].rot, 0.5f);
+            }
 
             newDict[key] = newPose;
         }

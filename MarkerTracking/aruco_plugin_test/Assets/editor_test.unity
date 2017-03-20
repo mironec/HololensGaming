@@ -609,7 +609,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   markerId: 987
-  trackingRunner: {fileID: 0}
+  trackingRunner: {fileID: 813870593}
 --- !u!4 &1795512856 stripped
 Transform:
   m_PrefabParentObject: {fileID: 4412587869513062, guid: 847059dc646c2e04b84766f5b6d8b343,
