@@ -6,6 +6,8 @@ public class TrackedObject : MonoBehaviour {
     public int markerId;
 
     public ArucoRunner trackingRunner;
+        //If true, the object will not be deactivated even when the marker is not being detected
+    public bool persist = false;
     
 	void Start () {
         trackingRunner.onDetectionRun += onDetectionRun;
@@ -13,13 +15,13 @@ public class TrackedObject : MonoBehaviour {
 
     private void onDetectionRun() {
         if (trackingRunner.poseDict.ContainsKey(markerId)) {
-            gameObject.SetActive(true);
+            if(!persist) gameObject.SetActive(true);
             PoseData pose = trackingRunner.poseDict[markerId];
             gameObject.transform.localPosition = pose.pos;
             gameObject.transform.localRotation = pose.rot;
         }
         else {
-            gameObject.SetActive(false);
+            if (!persist) gameObject.SetActive(false);
         }
     }
 }
