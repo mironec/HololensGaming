@@ -10,6 +10,7 @@ using HoloToolkit.Unity.SpatialMapping;
 public class GameManager : MonoBehaviour, IInputClickHandler {
     public static event Action<GameObject> onBallSet;
     public static event Action onGameReset;
+    private float startTime;
 
     public GameObject ball;
     public GameObject victoryText;
@@ -36,6 +37,7 @@ public class GameManager : MonoBehaviour, IInputClickHandler {
         InputManager.Instance.AddGlobalListener(gameObject);
         playfieldPlacer = GetComponent<PlayfieldPlacer>();
         playfieldPlacer.onPlayfieldSelected += OnPlayfieldSelected;
+        startTime = Time.unscaledTime;
         if (pauseOnStart) pauseGame();
 	}
 
@@ -56,6 +58,9 @@ public class GameManager : MonoBehaviour, IInputClickHandler {
 	
 	// Update is called once per frame
 	void Update () {
+        if(Time.unscaledTime - startTime > 15) {
+            SpatialMappingManager.Instance.StopObserver();
+        }
     }
 
     void onGoalReached() {
