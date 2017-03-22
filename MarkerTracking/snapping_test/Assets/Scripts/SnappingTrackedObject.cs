@@ -44,7 +44,20 @@ public class SnappingTrackedObject : MonoBehaviour {
             planeSpacePos.z = Mathf.Round(planeSpacePos.z / gridSize) * gridSize;
 
             posePos = plane.rotation * planeSpacePos + plane.origin;
-            poseRot = plane.rotation;
+
+                //Find the rotation such that the normal vectors of the marker and plane are aligned. This way the marker object sits parallel to the plane, but still retains rotation around that axis
+            Quaternion alignRot = Quaternion.FromToRotation(poseRot * Vector3.up, plane.rotation * Vector3.up);
+            //poseRot = alignRot * poseRot;
+
+            Quaternion planeSpaceMarkerRot = plane.inverseRotation * alignRot * poseRot;
+            Vector3 markerPlaneDirection = planeSpaceMarkerRot * Vector3.forward;
+            float angle = Mathf.Atan2(markerPlaneDirection.z, markerPlaneDirection.x);
+            angle -= Mathf.PI / 2; //Make up point along Z
+
+            angle = Mathf.Round(angle / (Mathf.PI / 2)) * (Mathf.PI / 2);
+            
+            Quaternion angleSnapRot = plane.rotation * Quaternion.AngleAxis(-angle * Mathf.Rad2Deg, Vector3.up);
+            poseRot = angleSnapRot;
         }
 
         transform.position = posePos;
