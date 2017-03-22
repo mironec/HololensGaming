@@ -25,10 +25,9 @@ public class SpeedBoost : MonoBehaviour {
         if(removeVelocity)
             rigidbody.velocity = Vector3.zero;
         Vector3 direction = transform.forward;
-        if (speedBoostDirectionRelative != null) {
-            direction = Quaternion.AngleAxis(speedBoostDirectionRelative.x, Vector3.right) * direction;
-            direction = Quaternion.AngleAxis(speedBoostDirectionRelative.y, Vector3.up) * direction;
-            direction = Quaternion.AngleAxis(speedBoostDirectionRelative.z, Vector3.forward) * direction;
+        if (speedBoostDirectionRelative.magnitude != 0)
+        {
+            direction = speedBoostDirectionRelative.normalized;
         }
         rigidbody.AddForce(direction * speedBoostStrength, ForceMode.VelocityChange);
     }

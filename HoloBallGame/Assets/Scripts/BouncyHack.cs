@@ -16,7 +16,5 @@ public class BouncyHack : MonoBehaviour {
 
     private void OnCollisionEnter(Collision collision)
     {
-        Debug.Log(collision.rigidbody.velocity);
-        Debug.Log(collision.impulse);
     }
 }

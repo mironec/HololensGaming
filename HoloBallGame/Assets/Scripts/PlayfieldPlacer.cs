@@ -7,23 +7,47 @@ using System;
 
 public class PlayfieldPlacer : MonoBehaviour, IInputClickHandler
 {
+    [Flags]
+    public enum PlayfieldOptions
+    {
+        MainGamePlane = 1,
+        FloorGamePlane = 2
+    }
     public event Action onPlayfieldSelected;
 
     private bool playfieldSelected = false;
-    private GameObject selectedSurfacePlane;
+    //private GameObject selectedSurfacePlane;
+    private GameObject[] gamePlanes;
+    public PlayfieldOptions playfieldOption = PlayfieldOptions.MainGamePlane;
     private bool planeFindingStarted = false;
     private List<GameObject> shownPlayspaces;
 
     public GameObject playSpaceAnchor;
     public float clearingSpaceHeight = 0.5f;
 
-    void Start () {
+    void Start() {
         playfieldSelected = false;
-        selectedSurfacePlane = null;
         shownPlayspaces = new List<GameObject>();
         SurfaceMeshesToPlanes.Instance.MakePlanesComplete += OnPlanesComplete;
         // Assume the GameManager subscribed as a global listener
-	}
+    }
+
+    private bool hasFlag(PlayfieldOptions flag) {
+        return (playfieldOption & flag) == flag;
+    }
+
+    public GameObject[] getGamePlanes() {
+        return gamePlanes;
+    }
+
+    private int calculateNumberOfGamePlanes() {
+        int toRet = 0;
+        if (hasFlag(PlayfieldOptions.MainGamePlane))
+            toRet++;
+        if (hasFlag(PlayfieldOptions.FloorGamePlane))
+            toRet++;
+        return toRet;
+    }
 
     public bool isPlayfieldSelected() {
         return playfieldSelected;
@@ -46,8 +70,12 @@ public class PlayfieldPlacer : MonoBehaviour, IInputClickHandler
             GameObject hitObject = hit.collider.gameObject;
             if (hitObject.CompareTag("SurfacePlane")) {
                 if (hitObject.GetComponent<SurfacePlane>().PlaneType == PlaneTypes.Table) {
-                    selectedSurfacePlane = hitObject;
-                    playSpaceAnchor.transform.position = selectedSurfacePlane.transform.position;
+                    gamePlanes = new GameObject[calculateNumberOfGamePlanes()];
+                    int index = 0;
+                    if (hasFlag(PlayfieldOptions.MainGamePlane)) gamePlanes[index++] = hitObject;
+                    if (hasFlag(PlayfieldOptions.FloorGamePlane)) gamePlanes[index++] = SurfaceMeshesToPlanes.Instance.GetActivePlanes(PlaneTypes.Floor)[0];
+                    playSpaceAnchor.transform.position = hitObject.transform.position;
+                    playSpaceAnchor.transform.rotation = hitObject.transform.rotation * Quaternion.AngleAxis(-90, Vector3.right) * Quaternion.AngleAxis(-90, Vector3.up);
                 }
             }
         }
@@ -55,7 +83,7 @@ public class PlayfieldPlacer : MonoBehaviour, IInputClickHandler
 
     void OnPlanesComplete(object source, EventArgs args)
     {
-        if (selectedSurfacePlane != null) {
+        if (gamePlanes != null) {
             foreach (var plane in SurfaceMeshesToPlanes.Instance.ActivePlanes)
             {
                 plane.SetActive(false);
@@ -64,10 +92,10 @@ public class PlayfieldPlacer : MonoBehaviour, IInputClickHandler
             GameObject cube = GameObject.CreatePrimitive(PrimitiveType.Cube);
             cube.tag = "TemporaryRemoveVerticesObject";
             cube.GetComponent<MeshRenderer>().enabled = false;
-            cube.transform.localScale = selectedSurfacePlane.transform.localScale;
+            cube.transform.localScale = gamePlanes[0].transform.localScale;
             cube.transform.localScale = new Vector3(cube.transform.localScale.x, cube.transform.localScale.y, clearingSpaceHeight);
-            cube.transform.position = selectedSurfacePlane.transform.position;
-            cube.transform.localRotation = selectedSurfacePlane.transform.localRotation;
+            cube.transform.position = gamePlanes[0].transform.position;
+            cube.transform.localRotation = gamePlanes[0].transform.localRotation;
             list.Add(cube);
             RemoveSurfaceVertices.Instance.RemoveVerticesComplete += OnRemoveVerticesComplete;
             RemoveSurfaceVertices.Instance.RemoveSurfaceVerticesWithinBounds(list);
@@ -77,11 +105,19 @@ public class PlayfieldPlacer : MonoBehaviour, IInputClickHandler
             {
                 Destroy(item);
             }
+            
             foreach (var plane in shownPlayspaces) {
-                if (plane != selectedSurfacePlane)
+                bool inGamePlanes = false;
+                foreach(var gplane in gamePlanes) {
+                    if (gplane == plane)
+                    {
+                        plane.GetComponent<Renderer>().enabled = false;
+                        inGamePlanes = true;
+                        break;
+                    }
+                }
+                if(!inGamePlanes)
                     Destroy(plane);
-                else
-                    plane.GetComponent<Renderer>().enabled = false;
             }
             playfieldSelected = true;
             return;
