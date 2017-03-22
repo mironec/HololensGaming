@@ -358,7 +358,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 813870583}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5a8a3ae0de5026446a8e40e11a5044b1, type: 3}
   m_Name: 
@@ -450,11 +450,11 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4412587869513062, guid: 847059dc646c2e04b84766f5b6d8b343, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -0.09
       objectReference: {fileID: 0}
     - target: {fileID: 4412587869513062, guid: 847059dc646c2e04b84766f5b6d8b343, type: 2}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: 0.4706
       objectReference: {fileID: 0}
     - target: {fileID: 4412587869513062, guid: 847059dc646c2e04b84766f5b6d8b343, type: 2}
       propertyPath: m_LocalRotation.x
@@ -490,7 +490,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 1742923712583368, guid: 847059dc646c2e04b84766f5b6d8b343, type: 2}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 847059dc646c2e04b84766f5b6d8b343, type: 2}
@@ -608,8 +608,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1aebfce5d7e07f14fa2b8a85ee792add, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  markerId: 987
+  markerId: 989
   trackingRunner: {fileID: 813870593}
+  persist: 1
 --- !u!4 &1795512856 stripped
 Transform:
   m_PrefabParentObject: {fileID: 4412587869513062, guid: 847059dc646c2e04b84766f5b6d8b343,
