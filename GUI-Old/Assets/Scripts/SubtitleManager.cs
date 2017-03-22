@@ -7,18 +7,18 @@ using UnityEngine.Windows.Speech;
 public class SubtitleManager : MonoBehaviour {
     GestureRecognizer _gestureRecognizer;
 
-    bool _isSleeping = false;
+    bool _isSleeping = true;
     public Text _statusText;
     public RawImage _statusImage;
     public Text _subtitleText;
     DictationRecognizer _dictationRecognizer; 
     // Use this for initialization
     void Start () {
-        /*_gestureRecognizer = new GestureRecognizer();
+        _gestureRecognizer = new GestureRecognizer();
         _gestureRecognizer.TappedEvent += _gestureRecognizer_TappedEvent;
-        _gestureRecognizer.StartCapturingGestures(); */
-        _dictationRecognizer.Start();
-    }
+        _gestureRecognizer.StartCapturingGestures(); 
+	
+	}
 
     void Awake()
     {
@@ -33,8 +33,8 @@ public class SubtitleManager : MonoBehaviour {
 
     private void _dictationRecognizer_DictationComplete(DictationCompletionCause cause)
     {
+        _dictationRecognizer.Stop();
         SetSleeping();
-        _dictationRecognizer.Start();
     }
 
     private void _dictationRecognizer_DictationResult(string text, ConfidenceLevel confidence)
@@ -55,7 +55,7 @@ public class SubtitleManager : MonoBehaviour {
         if(_isSleeping)
         {
             SetSleeping();
-     
+            _dictationRecognizer.Stop();
         }
         else
         {
