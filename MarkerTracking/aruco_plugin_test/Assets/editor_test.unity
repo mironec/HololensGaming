@@ -271,11 +271,10 @@ GameObject:
   - component: {fileID: 813870585}
   - component: {fileID: 813870584}
   - component: {fileID: 813870589}
-  - component: {fileID: 813870593}
   - component: {fileID: 813870591}
   - component: {fileID: 813870590}
   - component: {fileID: 813870592}
-  - component: {fileID: 813870594}
+  - component: {fileID: 813870593}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -359,12 +358,12 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 813870583}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5a8a3ae0de5026446a8e40e11a5044b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  trackingRunner: {fileID: 813870594}
+  trackingRunner: {fileID: 813870593}
   cam: {fileID: 813870587}
   marker_quad_prefab: {fileID: 1742923712583368, guid: 847059dc646c2e04b84766f5b6d8b343,
     type: 2}
@@ -419,7 +418,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16a44ece3b29d7548a4909b08c512d79, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  runner: {fileID: 813870594}
+  runner: {fileID: 813870593}
 --- !u!114 &813870593
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -434,22 +433,10 @@ MonoBehaviour:
   camProvider: {fileID: 813870590}
   markerSize: 0.088
   sizeReduce: 4
---- !u!114 &813870594
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 813870583}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9c967e05b933a574e9e80bb7aeca864c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  camProvider: {fileID: 813870590}
-  markerSize: 0.088
-  sizeReduce: 4
   offset: {x: 0, y: 0, z: 0}
-  cam: {fileID: 813870587}
+  positionLowPass: 0.005
+  rotationLowPass: 3
+  averageMemoryLength: 5
 --- !u!1001 &965947329
 Prefab:
   m_ObjectHideFlags: 0
@@ -463,11 +450,11 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4412587869513062, guid: 847059dc646c2e04b84766f5b6d8b343, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -0.09
       objectReference: {fileID: 0}
     - target: {fileID: 4412587869513062, guid: 847059dc646c2e04b84766f5b6d8b343, type: 2}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: 0.4706
       objectReference: {fileID: 0}
     - target: {fileID: 4412587869513062, guid: 847059dc646c2e04b84766f5b6d8b343, type: 2}
       propertyPath: m_LocalRotation.x
@@ -503,7 +490,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 1742923712583368, guid: 847059dc646c2e04b84766f5b6d8b343, type: 2}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 847059dc646c2e04b84766f5b6d8b343, type: 2}
@@ -621,8 +608,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1aebfce5d7e07f14fa2b8a85ee792add, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  markerId: 987
+  markerId: 989
   trackingRunner: {fileID: 813870593}
+  persist: 1
 --- !u!4 &1795512856 stripped
 Transform:
   m_PrefabParentObject: {fileID: 4412587869513062, guid: 847059dc646c2e04b84766f5b6d8b343,

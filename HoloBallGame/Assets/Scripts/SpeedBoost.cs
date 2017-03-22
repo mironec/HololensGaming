@@ -5,6 +5,8 @@ using UnityEngine;
 public class SpeedBoost : MonoBehaviour {
 
     public float speedBoostStrength = 1.0f;
+    public Vector3 speedBoostDirectionRelative;
+    public bool removeVelocity = false;
 
 	// Use this for initialization
 	void Start () {
@@ -20,8 +22,13 @@ public class SpeedBoost : MonoBehaviour {
     {
         Rigidbody rigidbody = other.gameObject.GetComponent<Rigidbody>();
         if (rigidbody == null) return;
-        rigidbody.velocity = Vector3.zero;
-        rigidbody.AddForce(transform.forward * speedBoostStrength, ForceMode.VelocityChange);
-        Debug.Log(other.gameObject + " Entered!");
+        if(removeVelocity)
+            rigidbody.velocity = Vector3.zero;
+        Vector3 direction = transform.forward;
+        if (speedBoostDirectionRelative.magnitude != 0)
+        {
+            direction = speedBoostDirectionRelative.normalized;
+        }
+        rigidbody.AddForce(direction * speedBoostStrength, ForceMode.VelocityChange);
     }
 }

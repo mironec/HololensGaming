@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class GoalTrigger : MonoBehaviour {
     public event Action onGoalReached;
+    public bool allowBallToEscape = false;
 
     Collider ballCollider;
     Rigidbody ballRb;
@@ -45,13 +46,18 @@ public class GoalTrigger : MonoBehaviour {
         if(other.Equals(ballCollider)) {
             onGoalReached.Invoke();
             ball_inside = true;
+            Rigidbody rigidbody = other.GetComponent<Rigidbody>();
+            if (rigidbody != null) {
+                rigidbody.useGravity = true;
+            }
         }
     }
 
     private void OnTriggerExit(Collider other) {
         if (other.Equals(ballCollider))
         {
-            ball_inside = false;
+            if(allowBallToEscape)
+                ball_inside = false;
         }
     }
 }

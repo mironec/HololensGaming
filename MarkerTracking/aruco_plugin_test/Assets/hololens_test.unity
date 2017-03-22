@@ -275,8 +275,8 @@ GameObject:
   - component: {fileID: 813870591}
   - component: {fileID: 813870589}
   - component: {fileID: 813870592}
-  - component: {fileID: 813870594}
   - component: {fileID: 813870595}
+  - component: {fileID: 813870594}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -435,7 +435,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   camProvider: {fileID: 813870590}
   markerSize: 0.088
-  sizeReduce: 4
+  sizeReduce: 8
+  offset: {x: 0, y: 0, z: 0}
+  averageMemoryLength: 0
 --- !u!114 &813870594
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -444,14 +446,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 813870583}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9c967e05b933a574e9e80bb7aeca864c, type: 3}
+  m_Script: {fileID: 11500000, guid: d5b402c8a6f4c1f42819aaad1eed6803, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   camProvider: {fileID: 813870590}
   markerSize: 0.088
   sizeReduce: 4
   offset: {x: 0.02, y: 0, z: 0.06}
-  cam: {fileID: 813870587}
+  averageMemoryLength: 5
 --- !u!114 &813870595
 MonoBehaviour:
   m_ObjectHideFlags: 0
