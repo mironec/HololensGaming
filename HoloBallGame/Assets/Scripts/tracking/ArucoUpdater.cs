@@ -6,7 +6,9 @@ class ArucoUpdater : MonoBehaviour {
     public ArucoRunner runner;
     
     private void Awake() {
-        runner.init();
+        if (isActiveAndEnabled) {
+            runner.init();
+        }
     }
 
     private void Update() {

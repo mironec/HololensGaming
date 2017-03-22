@@ -18,6 +18,8 @@ public class PlayfieldPlacer : MonoBehaviour, IInputClickHandler
     private bool playfieldSelected = false;
     //private GameObject selectedSurfacePlane;
     private GameObject[] gamePlanes;
+    public PlaneInfo[] abstractGamePlanes { get; private set; }
+
     public PlayfieldOptions playfieldOption = PlayfieldOptions.MainGamePlane;
     private bool planeFindingStarted = false;
     private List<GameObject> shownPlayspaces;
@@ -34,10 +36,6 @@ public class PlayfieldPlacer : MonoBehaviour, IInputClickHandler
 
     private bool hasFlag(PlayfieldOptions flag) {
         return (playfieldOption & flag) == flag;
-    }
-
-    public GameObject[] getGamePlanes() {
-        return gamePlanes;
     }
 
     private int calculateNumberOfGamePlanes() {
@@ -70,15 +68,39 @@ public class PlayfieldPlacer : MonoBehaviour, IInputClickHandler
             GameObject hitObject = hit.collider.gameObject;
             if (hitObject.CompareTag("SurfacePlane")) {
                 if (hitObject.GetComponent<SurfacePlane>().PlaneType == PlaneTypes.Table) {
-                    gamePlanes = new GameObject[calculateNumberOfGamePlanes()];
+                    int gamePlanesCount = calculateNumberOfGamePlanes();
+                    gamePlanes = new GameObject[gamePlanesCount];
+                    abstractGamePlanes = new PlaneInfo[gamePlanesCount];
                     int index = 0;
-                    if (hasFlag(PlayfieldOptions.MainGamePlane)) gamePlanes[index++] = hitObject;
-                    if (hasFlag(PlayfieldOptions.FloorGamePlane)) gamePlanes[index++] = SurfaceMeshesToPlanes.Instance.GetActivePlanes(PlaneTypes.Floor)[0];
+                    if (hasFlag(PlayfieldOptions.MainGamePlane)) {
+                        gamePlanes[index] = hitObject;
+                        abstractGamePlanes[index] = createGamePlaneInfo(hitObject);
+                        index++;
+                    }
+                    if (hasFlag(PlayfieldOptions.FloorGamePlane)) {
+                        gamePlanes[index] = SurfaceMeshesToPlanes.Instance.GetActivePlanes(PlaneTypes.Floor)[0];
+                        abstractGamePlanes[index] = createGamePlaneInfo(gamePlanes[index]);
+                        index++;
+                    }
                     playSpaceAnchor.transform.position = hitObject.transform.position;
                     playSpaceAnchor.transform.rotation = hitObject.transform.rotation * Quaternion.AngleAxis(-90, Vector3.right) * Quaternion.AngleAxis(-90, Vector3.up);
                 }
             }
         }
+    }
+
+    PlaneInfo createGamePlaneInfo(GameObject planeObj) {
+        PlaneInfo newPlane = new PlaneInfo();
+        newPlane.origin = planeObj.transform.position;
+        newPlane.rotation = planeObj.transform.rotation * Quaternion.AngleAxis(-90, Vector2.right);
+        newPlane.inverseRotation = Quaternion.Inverse(newPlane.rotation);
+        newPlane.normal = newPlane.rotation * Vector3.up;
+
+        Vector2 size = new Vector2();
+        size.x = planeObj.transform.localScale.x;
+        size.y = planeObj.transform.localScale.y;
+        newPlane.size = size;
+        return newPlane;
     }
 
     void OnPlanesComplete(object source, EventArgs args)
@@ -142,4 +164,12 @@ public class PlayfieldPlacer : MonoBehaviour, IInputClickHandler
         playfieldSelected = true;
         onPlayfieldSelected.Invoke();
     }
+}
+
+public struct PlaneInfo {
+    public Vector3 origin;
+    public Vector3 normal;
+    public Quaternion rotation;
+    public Quaternion inverseRotation;
+    public Vector2 size;
 }
