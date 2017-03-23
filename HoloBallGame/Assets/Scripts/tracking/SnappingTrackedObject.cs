@@ -26,8 +26,11 @@ public class SnappingTrackedObject : MonoBehaviour {
         PoseData pose = trackingRunner.poseDict[markerId];
 
             //Rotate by 90 along x axis to make the normal of the marker Y+, not Z+
-        Quaternion poseRot = parentCamera.transform.rotation * pose.rot * Quaternion.AngleAxis(90, Vector2.right) * baseRotation;
-
+            //This is the marker rotation, which is different to the rotation that we want our game object to have!
+            //This distinction is important because the rotation of the game object may alter our coordinate system, so then we can't rely on a certain orientation relative to the marker for angle calculations later.
+            //The object rotation is only brought in at the very end by applying the baseRotation locally to the markerRot, after that was adjusted for snapping etc
+        Quaternion markerRot = parentCamera.transform.rotation * pose.rot * Quaternion.AngleAxis(90, Vector2.right);
+        
         Vector3 posePos = pose.pos;
         posePos.z = -posePos.z;
 
@@ -50,23 +53,24 @@ public class SnappingTrackedObject : MonoBehaviour {
 
                 posePos = plane.rotation * planeSpacePos + plane.origin;
 
-                //Find the rotation such that the normal vectors of the marker and plane are aligned. This way the marker object sits parallel to the plane, but still retains rotation around that axis
-                Quaternion alignRot = Quaternion.FromToRotation(poseRot * Vector3.up, plane.rotation * Vector3.up);
-                //poseRot = alignRot * poseRot;
+                    //Find the rotation such that the normal vectors of the marker and plane are aligned. This way the marker object sits parallel to the plane, but still retains rotation around that axis
+                Quaternion alignRot = Quaternion.FromToRotation(markerRot * Vector3.up, plane.rotation * Vector3.up);
 
-                Quaternion planeSpaceMarkerRot = plane.inverseRotation * alignRot * poseRot;
+                Quaternion planeSpaceMarkerRot = plane.inverseRotation * alignRot * markerRot;
                 Vector3 markerPlaneDirection = planeSpaceMarkerRot * Vector3.forward;
                 float angle = Mathf.Atan2(markerPlaneDirection.z, markerPlaneDirection.x);
-                angle -= Mathf.PI / 2; //Make up point along Z
+                Debug.Log(angle);
+                angle -= Mathf.PI / 2; //Make up point along Z+ on the plane
 
                 angle = Mathf.Round(angle / (Mathf.PI / 2)) * (Mathf.PI / 2);
 
-                poseRot = plane.rotation * Quaternion.AngleAxis(-angle * Mathf.Rad2Deg, Vector3.up) * baseRotation;
+                markerRot = plane.rotation * Quaternion.AngleAxis(-angle * Mathf.Rad2Deg, Vector3.up);
             }
         }
 
         transform.position = posePos;
 
-        gameObject.transform.localRotation = poseRot;
+            //Now apply the object rotation before applying the marker rotation so that we can align our object in editor
+        gameObject.transform.localRotation = markerRot * baseRotation;
     }
 }
