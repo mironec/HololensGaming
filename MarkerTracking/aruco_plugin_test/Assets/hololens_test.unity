@@ -277,6 +277,7 @@ GameObject:
   - component: {fileID: 813870592}
   - component: {fileID: 813870595}
   - component: {fileID: 813870594}
+  - component: {fileID: 813870596}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -437,6 +438,8 @@ MonoBehaviour:
   markerSize: 0.088
   sizeReduce: 8
   offset: {x: 0, y: 0, z: 0}
+  positionLowPass: 0
+  rotationLowPass: 0
   averageMemoryLength: 0
 --- !u!114 &813870594
 MonoBehaviour:
@@ -453,6 +456,8 @@ MonoBehaviour:
   markerSize: 0.088
   sizeReduce: 4
   offset: {x: 0.02, y: 0, z: 0.06}
+  positionLowPass: 0
+  rotationLowPass: 0
   averageMemoryLength: 5
 --- !u!114 &813870595
 MonoBehaviour:
@@ -466,6 +471,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   offsetRunner: {fileID: 813870594}
+--- !u!114 &813870596
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 813870583}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6cde31c62125a6b4da6f71e1efb1b7df, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  width: 896
+  height: 504
+  fps: 30
 --- !u!1001 &965947329
 Prefab:
   m_ObjectHideFlags: 0
@@ -542,6 +561,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   markerId: 987
   trackingRunner: {fileID: 813870593}
+  persist: 0
+  parentCamera: {fileID: 0}
 --- !u!4 &1795512856 stripped
 Transform:
   m_PrefabParentObject: {fileID: 4412587869513062, guid: 847059dc646c2e04b84766f5b6d8b343,

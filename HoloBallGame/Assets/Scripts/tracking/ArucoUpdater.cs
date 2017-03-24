@@ -2,8 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-class ArucoUpdater : MonoBehaviour {
+public class ArucoUpdater : MonoBehaviour {
     public ArucoRunner runner;
+
+    public bool runDetection = true;
+
+    public Camera cam;
+    public float maxAngularChange = 1;
+    private Quaternion previousCamRot = Quaternion.identity;
     
     private void Awake() {
         if (isActiveAndEnabled) {
@@ -12,7 +18,12 @@ class ArucoUpdater : MonoBehaviour {
     }
 
     private void Update() {
-        runner.runDetect();
+        float camRotationDifference = Quaternion.Angle(cam.transform.rotation, previousCamRot);
+        previousCamRot = cam.transform.rotation;
+
+        if(camRotationDifference < maxAngularChange) {
+            if (runDetection) runner.runDetect();
+        }
     }
 
     private void OnDestroy() {
