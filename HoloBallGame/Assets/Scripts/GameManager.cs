@@ -26,6 +26,8 @@ public class GameManager : MonoBehaviour, IInputClickHandler {
     private PlayfieldPlacer playfieldPlacer;
     bool level_complete;
 
+    private float lastClickTime;
+
 	// Use this for initialization
 	void Start () {
         ballStartPos = ball.transform.position;
@@ -58,8 +60,9 @@ public class GameManager : MonoBehaviour, IInputClickHandler {
 	
 	// Update is called once per frame
 	void Update () {
-        if(Time.unscaledTime - startTime > 15) {
+        if(Time.unscaledTime - startTime > 10 && SpatialMappingManager.Instance.IsObserverRunning()) {
             SpatialMappingManager.Instance.StopObserver();
+            startTime = Time.unscaledTime;
         }
     }
 
@@ -94,6 +97,8 @@ public class GameManager : MonoBehaviour, IInputClickHandler {
         playfieldPlacer.onPlayfieldSelected -= OnPlayfieldSelected;
         playfieldPlacer.enabled = false;
         playfieldPlacer = null;
+        ballStartPos = ball.transform.position;
+        ballStartRot = ball.transform.rotation;
     } 
 
     public void OnInputClicked(InputClickedEventData eventData)
@@ -106,14 +111,23 @@ public class GameManager : MonoBehaviour, IInputClickHandler {
         }
         else
         {
-            if (paused)
+            if (Time.unscaledTime - lastClickTime < 2.5f)
             {
-                unpauseGame();
+                resetGame();
+                pauseGame();
             }
             else
             {
-                pauseGame();
+                if (paused)
+                {
+                    unpauseGame();
+                }
+                else
+                {
+                    pauseGame();
+                }
             }
         }
+        lastClickTime = Time.unscaledTime;
     }
 }

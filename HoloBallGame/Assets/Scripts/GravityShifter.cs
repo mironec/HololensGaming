@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class GravityShifter : MonoBehaviour {
 
+    public bool overrideMagnitude = false;
+    public float magnitude = Physics.gravity.magnitude;
+
 	void Start () {
 		
 	}
@@ -22,7 +25,10 @@ public class GravityShifter : MonoBehaviour {
             {
                 rigidbody.useGravity = false;
                 gravityShiftable.gravityDirection = Vector3.up;
-                gravityShiftable.magnitude = Physics.gravity.magnitude;
+                if (overrideMagnitude)
+                    gravityShiftable.magnitude = magnitude;
+                else
+                    gravityShiftable.magnitude = Physics.gravity.magnitude;
             }
             else {
                 rigidbody.useGravity = true;

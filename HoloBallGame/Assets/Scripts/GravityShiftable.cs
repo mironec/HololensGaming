@@ -5,8 +5,10 @@ using UnityEngine;
 [RequireComponent(typeof (Rigidbody))]
 public class GravityShiftable : MonoBehaviour {
 
+    [HideInInspector]
     public Vector3 gravityDirection = Vector3.down;
-    public float magnitude = 9.81f;
+    [HideInInspector]
+    public float magnitude = Physics.gravity.magnitude;
 
 	void Start () {
 	}

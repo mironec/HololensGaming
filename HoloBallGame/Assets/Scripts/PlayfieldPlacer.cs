@@ -83,7 +83,11 @@ public class PlayfieldPlacer : MonoBehaviour, IInputClickHandler
                         index++;
                     }
                     playSpaceAnchor.transform.position = hitObject.transform.position;
-                    playSpaceAnchor.transform.rotation = hitObject.transform.rotation * Quaternion.AngleAxis(-90, Vector3.right) * Quaternion.AngleAxis(-90, Vector3.up);
+                    Quaternion alignRot = Quaternion.FromToRotation(hitObject.transform.rotation * Vector3.up, Vector3.up);
+                    if (hitObject.transform.localScale.x > hitObject.transform.localScale.y)
+                        playSpaceAnchor.transform.rotation = alignRot * hitObject.transform.rotation * Quaternion.AngleAxis(0, Vector3.up);
+                    else
+                        playSpaceAnchor.transform.rotation = alignRot * hitObject.transform.rotation * Quaternion.AngleAxis(-90, Vector3.up);
                 }
             }
         }
@@ -145,6 +149,7 @@ public class PlayfieldPlacer : MonoBehaviour, IInputClickHandler
             return;
         }
         planeFindingStarted = false;
+        SpatialMappingManager.Instance.StartObserver();
         foreach (var plane in shownPlayspaces) {
             Destroy(plane);
         }
