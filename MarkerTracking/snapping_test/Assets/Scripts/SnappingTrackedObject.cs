@@ -59,7 +59,6 @@ public class SnappingTrackedObject : MonoBehaviour {
                 Quaternion planeSpaceMarkerRot = plane.inverseRotation * alignRot * markerRot;
                 Vector3 markerPlaneDirection = planeSpaceMarkerRot * Vector3.forward;
                 float angle = Mathf.Atan2(markerPlaneDirection.z, markerPlaneDirection.x);
-                Debug.Log(angle);
                 angle -= Mathf.PI / 2; //Make up point along Z+ on the plane
 
                 angle = Mathf.Round(angle / (Mathf.PI / 2)) * (Mathf.PI / 2);

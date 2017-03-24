@@ -778,7 +778,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1453603916
 Transform:
   m_ObjectHideFlags: 0
@@ -1174,6 +1174,7 @@ MonoBehaviour:
   victoryText: {fileID: 2770164}
   holoCamera: {fileID: 0}
   pauseOnStart: 1
+  trackingUpdater: {fileID: 2017298485}
   goalTrigger: {fileID: 414810112}
 --- !u!4 &1829508853
 Transform:
@@ -1363,6 +1364,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   runner: {fileID: 2017298486}
+  runDetection: 1
+  cam: {fileID: 471907640}
+  maxAngularChange: 0.5
 --- !u!114 &2017298486
 MonoBehaviour:
   m_ObjectHideFlags: 0

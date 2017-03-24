@@ -316,6 +316,7 @@
     <Compile Include="Assets\Scripts\OffsetPhraseRecogniser.cs" />
     <Compile Include="Assets\Scripts\PoseRunningAverage.cs" />
     <Compile Include="Assets\Scripts\TrackedObject.cs" />
+    <Compile Include="Assets\Scripts\VideoRecorder.cs" />
     <Compile Include="Assets\Scripts\frustrum_plane.cs" />
   </ItemGroup>
   <ItemGroup>

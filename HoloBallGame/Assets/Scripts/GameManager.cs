@@ -17,6 +17,8 @@ public class GameManager : MonoBehaviour, IInputClickHandler {
     public GameObject holoCamera;
     public bool pauseOnStart = true;
 
+    public ArucoUpdater trackingUpdater;
+
     Vector3 ballStartPos;
     Quaternion ballStartRot;
 
@@ -71,11 +73,13 @@ public class GameManager : MonoBehaviour, IInputClickHandler {
     void pauseGame() {
         Time.timeScale = 0.0f;
         paused = true;
+        trackingUpdater.runDetection = true;
     }
 
     void unpauseGame() {
         Time.timeScale = 1.0f;
         paused = false;
+        trackingUpdater.runDetection = false;
     }
 
     void resetGame() {
