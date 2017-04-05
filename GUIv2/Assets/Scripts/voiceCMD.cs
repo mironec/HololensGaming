@@ -25,7 +25,7 @@ public class voiceCMD : MonoBehaviour {
 
     public void ShowKeyword()
     {
-        MainCanvas.gameObject.SetActive(false);
+        MainCanvas.gameObject.SetActive(true);
     }
 
     public void HideKeyword()
