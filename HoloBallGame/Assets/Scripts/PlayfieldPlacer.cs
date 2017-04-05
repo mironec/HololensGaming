@@ -5,7 +5,7 @@ using HoloToolkit.Unity.InputModule;
 using HoloToolkit.Unity.SpatialMapping;
 using System;
 
-public class PlayfieldPlacer : MonoBehaviour, IInputClickHandler
+public class PlayfieldPlacer : MonoBehaviour, IInputClickHandler, IManipulationHandler
 {
     [Flags]
     public enum PlayfieldOptions
@@ -23,9 +23,14 @@ public class PlayfieldPlacer : MonoBehaviour, IInputClickHandler
     public PlayfieldOptions playfieldOption = PlayfieldOptions.MainGamePlane;
     private bool planeFindingStarted = false;
     private List<GameObject> shownPlayspaces;
+    private bool cleanupPlanes = false;
+    private Quaternion playspaceRotation;
 
     public GameObject playSpaceAnchor;
+    public GameObject playSpacePlane;
+    public GameObject mainCamera;
     public float clearingSpaceHeight = 0.5f;
+    public bool useManual = true;
 
     void Start() {
         playfieldSelected = false;
@@ -60,38 +65,93 @@ public class PlayfieldPlacer : MonoBehaviour, IInputClickHandler
         }
     }
 
-    public void OnInputClicked(InputClickedEventData eventData)
-    {
+    private void PlaceField(GameObject originalPlane, bool applyRotationCorrections = true) {
+        int gamePlanesCount = calculateNumberOfGamePlanes();
+        gamePlanes = new GameObject[gamePlanesCount];
+        abstractGamePlanes = new PlaneInfo[gamePlanesCount];
+        int index = 0;
+        if (hasFlag(PlayfieldOptions.MainGamePlane))
+        {
+            gamePlanes[index] = originalPlane;
+            abstractGamePlanes[index] = createGamePlaneInfo(originalPlane);
+            index++;
+        }
+        if (hasFlag(PlayfieldOptions.FloorGamePlane))
+        {
+            gamePlanes[index] = SurfaceMeshesToPlanes.Instance.GetActivePlanes(PlaneTypes.Floor)[0];
+            abstractGamePlanes[index] = createGamePlaneInfo(gamePlanes[index]);
+            index++;
+        }
+        playSpaceAnchor.transform.position = originalPlane.transform.position;
+        if (applyRotationCorrections)
+        {
+            Quaternion alignRot = Quaternion.FromToRotation(originalPlane.transform.rotation * Vector3.up, Vector3.up);
+            if (originalPlane.transform.localScale.x > originalPlane.transform.localScale.y)
+                playSpaceAnchor.transform.rotation = alignRot * originalPlane.transform.rotation * Quaternion.AngleAxis(0, Vector3.up);
+            else
+                playSpaceAnchor.transform.rotation = alignRot * originalPlane.transform.rotation * Quaternion.AngleAxis(-90, Vector3.up);
+        }
+    }
+
+    public void OnInputClickedPlane(InputClickedEventData eventData) {
         Transform gazeTransform = GazeManager.Instance.GazeTransform;
         RaycastHit[] hits = Physics.RaycastAll(gazeTransform.position, gazeTransform.forward, 100.0f);
-        foreach (var hit in hits) {
+        foreach (var hit in hits)
+        {
             GameObject hitObject = hit.collider.gameObject;
-            if (hitObject.CompareTag("SurfacePlane")) {
-                if (hitObject.GetComponent<SurfacePlane>().PlaneType == PlaneTypes.Table) {
-                    int gamePlanesCount = calculateNumberOfGamePlanes();
-                    gamePlanes = new GameObject[gamePlanesCount];
-                    abstractGamePlanes = new PlaneInfo[gamePlanesCount];
-                    int index = 0;
-                    if (hasFlag(PlayfieldOptions.MainGamePlane)) {
-                        gamePlanes[index] = hitObject;
-                        abstractGamePlanes[index] = createGamePlaneInfo(hitObject);
-                        index++;
-                    }
-                    if (hasFlag(PlayfieldOptions.FloorGamePlane)) {
-                        gamePlanes[index] = SurfaceMeshesToPlanes.Instance.GetActivePlanes(PlaneTypes.Floor)[0];
-                        abstractGamePlanes[index] = createGamePlaneInfo(gamePlanes[index]);
-                        index++;
-                    }
-                    playSpaceAnchor.transform.position = hitObject.transform.position;
-                    Quaternion alignRot = Quaternion.FromToRotation(hitObject.transform.rotation * Vector3.up, Vector3.up);
-                    if (hitObject.transform.localScale.x > hitObject.transform.localScale.y)
-                        playSpaceAnchor.transform.rotation = alignRot * hitObject.transform.rotation * Quaternion.AngleAxis(0, Vector3.up);
-                    else
-                        playSpaceAnchor.transform.rotation = alignRot * hitObject.transform.rotation * Quaternion.AngleAxis(-90, Vector3.up);
+            if (hitObject.CompareTag("SurfacePlane"))
+            {
+                if (hitObject.GetComponent<SurfacePlane>().PlaneType == PlaneTypes.Table)
+                {
+                    PlaceField(hitObject);
+                    cleanupPlanes = true;
                 }
             }
         }
     }
+
+    public void OnInputClickedSpatialMapping(InputClickedEventData eventData)
+    {
+        if (gamePlanes != null) {
+            cleanupPlanes = true;
+            return;
+        }
+        Transform gazeTransform = GazeManager.Instance.GazeTransform;
+        RaycastHit hit;
+        Physics.Raycast(gazeTransform.position, gazeTransform.forward, out hit, 100.0f, SpatialMappingManager.Instance.LayerMask);
+        playSpacePlane.transform.position = hit.point;
+        playSpacePlane.GetComponent<Renderer>().enabled = true;
+        PlaceField(playSpacePlane, false);
+        playSpacePlane.transform.position = hit.point;
+        SurfaceMeshesToPlanes.Instance.drawPlanesMask = 0;
+    }
+
+    public void OnInputClicked(InputClickedEventData eventData)
+    {
+        if (useManual) {
+            OnInputClickedSpatialMapping(eventData);
+        }
+        else {
+            OnInputClickedPlane(eventData);
+        }
+    }
+
+    public void OnManipulationStarted(ManipulationEventData eventData) {
+        playspaceRotation = playSpaceAnchor.transform.rotation;
+    }
+
+    //This is magic, don't touch
+    public void OnManipulationUpdated(ManipulationEventData eventData) {
+        if (gamePlanes != null) {
+            Vector3 v = new Vector3(eventData.CumulativeDelta.x, 0, eventData.CumulativeDelta.z);
+            v = mainCamera.GetComponent<Camera>().worldToCameraMatrix * v;
+            playSpaceAnchor.transform.rotation = playspaceRotation * Quaternion.Euler(0, v.x*360.0f, 0);
+        }
+    }
+
+    public void OnManipulationCompleted(ManipulationEventData eventData) {}
+
+    public void OnManipulationCanceled(ManipulationEventData eventData) {}
 
     PlaneInfo createGamePlaneInfo(GameObject planeObj) {
         PlaneInfo newPlane = new PlaneInfo();
@@ -107,21 +167,26 @@ public class PlayfieldPlacer : MonoBehaviour, IInputClickHandler
         return newPlane;
     }
 
+    private GameObject CreateBoundingObject(GameObject original) {
+        GameObject cube = GameObject.CreatePrimitive(PrimitiveType.Cube);
+        cube.tag = "TemporaryRemoveVerticesObject";
+        cube.GetComponent<MeshRenderer>().enabled = false;
+        cube.transform.localScale = original.transform.localScale;
+        cube.transform.localScale = new Vector3(cube.transform.localScale.x, cube.transform.localScale.y, clearingSpaceHeight);
+        cube.transform.position = original.transform.position;
+        cube.transform.localRotation = original.transform.localRotation;
+        return cube;
+    }
+
     void OnPlanesComplete(object source, EventArgs args)
     {
-        if (gamePlanes != null) {
+        if (cleanupPlanes) {
             foreach (var plane in SurfaceMeshesToPlanes.Instance.ActivePlanes)
             {
                 plane.SetActive(false);
             }
             var list = new List<GameObject>();
-            GameObject cube = GameObject.CreatePrimitive(PrimitiveType.Cube);
-            cube.tag = "TemporaryRemoveVerticesObject";
-            cube.GetComponent<MeshRenderer>().enabled = false;
-            cube.transform.localScale = gamePlanes[0].transform.localScale;
-            cube.transform.localScale = new Vector3(cube.transform.localScale.x, cube.transform.localScale.y, clearingSpaceHeight);
-            cube.transform.position = gamePlanes[0].transform.position;
-            cube.transform.localRotation = gamePlanes[0].transform.localRotation;
+            GameObject cube = CreateBoundingObject(gamePlanes[0]);
             list.Add(cube);
             RemoveSurfaceVertices.Instance.RemoveVerticesComplete += OnRemoveVerticesComplete;
             RemoveSurfaceVertices.Instance.RemoveSurfaceVerticesWithinBounds(list);
