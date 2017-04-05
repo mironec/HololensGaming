@@ -2340,6 +2340,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   runner: {fileID: 1784227703}
+  runDetection: 1
+  cam: {fileID: 510769734}
+  maxAngularChange: 1
 --- !u!4 &1784227706
 Transform:
   m_ObjectHideFlags: 0
@@ -2433,6 +2436,7 @@ MonoBehaviour:
   victoryText: {fileID: 2770164}
   holoCamera: {fileID: 510769733}
   pauseOnStart: 1
+  trackingUpdater: {fileID: 1784227705}
   goalTrigger: {fileID: 414810112}
 --- !u!4 &1829508853
 Transform:
@@ -2460,7 +2464,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playfieldOption: 1
   playSpaceAnchor: {fileID: 1201166753}
+  playSpacePlane: {fileID: 887706020}
+  mainCamera: {fileID: 510769733}
   clearingSpaceHeight: 2.5
+  useManual: 1
 --- !u!1 &1903046720
 GameObject:
   m_ObjectHideFlags: 0
@@ -2941,7 +2948,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a963d83eca0f2947adebbd1f3782806, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speedBoostStrength: 0.75
+  speedBoostStrength: 0.5
   speedBoostDirectionRelative: {x: 0, y: 0, z: 0}
   removeVelocity: 1
 --- !u!65 &2073834824
