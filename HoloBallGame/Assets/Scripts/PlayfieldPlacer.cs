@@ -171,8 +171,9 @@ public class PlayfieldPlacer : MonoBehaviour, IInputClickHandler, IManipulationH
         GameObject cube = GameObject.CreatePrimitive(PrimitiveType.Cube);
         cube.tag = "TemporaryRemoveVerticesObject";
         cube.GetComponent<MeshRenderer>().enabled = false;
-        cube.transform.localScale = original.transform.localScale;
-        cube.transform.localScale = new Vector3(cube.transform.localScale.x, cube.transform.localScale.y, clearingSpaceHeight);
+        //cube.transform.localScale = original.transform.localScale;
+        cube.transform.localScale = original.GetComponent<MeshCollider>().bounds.extents*2;
+        cube.transform.localScale = new Vector3(cube.transform.localScale.x, clearingSpaceHeight, cube.transform.localScale.z);
         cube.transform.position = original.transform.position;
         cube.transform.localRotation = original.transform.localRotation;
         return cube;

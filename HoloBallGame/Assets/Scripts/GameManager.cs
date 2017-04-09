@@ -29,6 +29,8 @@ public class GameManager : MonoBehaviour, IInputClickHandler {
     bool level_complete;
 
     private float lastClickTime;
+    [Tooltip("Whether to listen for HoloLens input to pause, unpause, and reset the game.")]
+    public bool listenForInput = true;
 
 	// Use this for initialization
 	void Start () {
@@ -107,7 +109,8 @@ public class GameManager : MonoBehaviour, IInputClickHandler {
 
     public void OnInputClicked(InputClickedEventData eventData)
     {
-        if (playfieldPlacer != null && !playfieldPlacer.isPlayfieldSelected()) { return; }
+        if (playfieldPlacer != null && !playfieldPlacer.isPlayfieldSelected()) return;
+        if (!listenForInput) return;
         if (level_complete)
         {
             resetGame();
@@ -122,16 +125,20 @@ public class GameManager : MonoBehaviour, IInputClickHandler {
             }
             else
             {
-                if (paused)
-                {
-                    unpauseGame();
-                }
-                else
-                {
-                    pauseGame();
-                }
+                pauseUnpause();
             }
         }
         lastClickTime = Time.unscaledTime;
+    }
+
+    public void pauseUnpause() {
+        if (paused)
+        {
+            unpauseGame();
+        }
+        else
+        {
+            pauseGame();
+        }
     }
 }
