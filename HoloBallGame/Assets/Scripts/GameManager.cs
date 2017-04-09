@@ -75,19 +75,19 @@ public class GameManager : MonoBehaviour, IInputClickHandler {
         victoryText.SetActive(true);
     }
 
-    void pauseGame() {
+    public void pauseGame() {
         Time.timeScale = 0.0f;
         paused = true;
         trackingUpdater.runDetection = true;
     }
 
-    void unpauseGame() {
+    public void unpauseGame() {
         Time.timeScale = 1.0f;
         paused = false;
         trackingUpdater.runDetection = false;
     }
 
-    void resetGame() {
+    public void resetGame() {
         level_complete = false;
         ball.transform.position = ballStartPos;
         ball.transform.rotation = ballStartRot;
