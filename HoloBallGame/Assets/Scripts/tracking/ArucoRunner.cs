@@ -59,7 +59,7 @@ public class ArucoRunner : MonoBehaviour {
     }
 
     protected void invokeOnDetectionRun() {
-        onDetectionRun.Invoke();
+        if(onDetectionRun != null) onDetectionRun.Invoke();
     }
 
     protected void trackNewFrame() {

@@ -7,6 +7,8 @@ public class ArucoUpdater : MonoBehaviour {
 
     public bool runDetection = true;
 
+    public bool detectionDisabled = false;
+
     public Camera cam;
     public float maxAngularChange = 1;
     private Quaternion previousCamRot = Quaternion.identity;
@@ -22,11 +24,19 @@ public class ArucoUpdater : MonoBehaviour {
         previousCamRot = cam.transform.rotation;
 
         if(camRotationDifference < maxAngularChange) {
-            if (runDetection) runner.runDetect();
+            if (runDetection && !detectionDisabled) runner.runDetect();
         }
     }
 
     private void OnDestroy() {
         ArucoTracking.destroy();
+    }
+
+    public void disableDetection() {
+        detectionDisabled = true;
+    }
+
+    public void enableDetection() {
+        detectionDisabled = false;
     }
 }
