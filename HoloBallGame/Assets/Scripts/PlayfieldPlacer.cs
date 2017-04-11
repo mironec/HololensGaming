@@ -5,6 +5,7 @@ using HoloToolkit.Unity.InputModule;
 using HoloToolkit.Unity.SpatialMapping;
 using System;
 
+[RequireComponent(typeof(GameManager))]
 public class PlayfieldPlacer : MonoBehaviour, IInputClickHandler, IManipulationHandler
 {
     [Flags]
@@ -142,6 +143,7 @@ public class PlayfieldPlacer : MonoBehaviour, IInputClickHandler, IManipulationH
 
     //This is magic, don't touch
     public void OnManipulationUpdated(ManipulationEventData eventData) {
+        Debug.Log(GetComponent<GameManager>().isGamePaused());
         if (gamePlanes != null) {
             Vector3 v = new Vector3(eventData.CumulativeDelta.x, 0, eventData.CumulativeDelta.z);
             v = mainCamera.GetComponent<Camera>().worldToCameraMatrix * v;
@@ -194,7 +196,7 @@ public class PlayfieldPlacer : MonoBehaviour, IInputClickHandler, IManipulationH
             cube.GetComponent<BoxCollider>().enabled = false;
             SurfaceMeshesToPlanes.Instance.MakePlanesComplete -= OnPlanesComplete;
             foreach (var item in SurfaceMeshesToPlanes.Instance.ActivePlanes)
-            {
+            { 
                 Destroy(item);
             }
             
@@ -232,6 +234,7 @@ public class PlayfieldPlacer : MonoBehaviour, IInputClickHandler, IManipulationH
     void OnRemoveVerticesComplete(object source, EventArgs args) {
         GameObject cube = GameObject.FindGameObjectWithTag("TemporaryRemoveVerticesObject");
         Destroy(cube);
+        playSpacePlane.GetComponent<Renderer>().enabled = false;
         playfieldSelected = true;
         onPlayfieldSelected.Invoke();
     }
