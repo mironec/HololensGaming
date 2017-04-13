@@ -94,6 +94,7 @@ public class GameManager : MonoBehaviour, IInputClickHandler {
         Rigidbody ballRb = ball.GetComponent<Rigidbody>();
         ballRb.velocity = Vector3.zero;
         ballRb.angularVelocity = Vector3.zero;
+        ballRb.useGravity = true;
         victoryText.SetActive(false);
 
         onGameReset.Invoke();
