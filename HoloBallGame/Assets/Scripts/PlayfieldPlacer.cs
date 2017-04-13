@@ -4,6 +4,7 @@ using UnityEngine;
 using HoloToolkit.Unity.InputModule;
 using HoloToolkit.Unity.SpatialMapping;
 using System;
+using UnityEditor;
 
 [RequireComponent(typeof(GameManager))]
 public class PlayfieldPlacer : MonoBehaviour, IInputClickHandler, IManipulationHandler
@@ -21,6 +22,7 @@ public class PlayfieldPlacer : MonoBehaviour, IInputClickHandler, IManipulationH
     private GameObject[] gamePlanes;
     public PlaneInfo[] abstractGamePlanes { get; private set; }
 
+    [HideInInspector]
     public PlayfieldOptions playfieldOption = PlayfieldOptions.MainGamePlane;
     private bool planeFindingStarted = false;
     private List<GameObject> shownPlayspaces;
@@ -79,7 +81,7 @@ public class PlayfieldPlacer : MonoBehaviour, IInputClickHandler, IManipulationH
         }
         if (hasFlag(PlayfieldOptions.FloorGamePlane))
         {
-            gamePlanes[index] = SurfaceMeshesToPlanes.Instance.GetActivePlanes(PlaneTypes.Floor)[0];
+            gamePlanes[index] = shownPlayspaces.Find(x => x.GetComponent<SurfacePlane>().PlaneType == PlaneTypes.Floor);
             abstractGamePlanes[index] = createGamePlaneInfo(gamePlanes[index]);
             index++;
         }
@@ -224,8 +226,9 @@ public class PlayfieldPlacer : MonoBehaviour, IInputClickHandler, IManipulationH
         shownPlayspaces.Clear();
         foreach (var plane in SurfaceMeshesToPlanes.Instance.ActivePlanes)
         {
-            if (plane.GetComponent<SurfacePlane>().PlaneType != PlaneTypes.Table) continue;
+            //if (plane.GetComponent<SurfacePlane>().PlaneType != PlaneTypes.Table) continue;
             GameObject planeCopy = Instantiate(plane);
+            planeCopy.GetComponent<SurfacePlane>().Plane = plane.GetComponent<SurfacePlane>().Plane;
             planeCopy.tag = "SurfacePlane";
             shownPlayspaces.Add(planeCopy);
         }
@@ -239,6 +242,34 @@ public class PlayfieldPlacer : MonoBehaviour, IInputClickHandler, IManipulationH
         onPlayfieldSelected.Invoke();
     }
 }
+
+#if UNITY_EDITOR
+/// <summary>
+/// Editor extension class to enable multi-selection of the PlayfieldOptions mask.
+/// Modified version of HoloToolkit's SurfaceMeshesToPlanes.
+/// </summary>
+[CustomEditor(typeof(PlayfieldPlacer))]
+public class PlayfieldOptionsEnumEditor : Editor
+{
+    public SerializedProperty playfieldOptionsMask;
+
+    void OnEnable()
+    {
+        playfieldOptionsMask = serializedObject.FindProperty("playfieldOption");
+    }
+
+    public override void OnInspectorGUI()
+    {
+        base.OnInspectorGUI();
+        serializedObject.Update();
+
+        playfieldOptionsMask.intValue = (int)((PlayfieldPlacer.PlayfieldOptions)EditorGUILayout.EnumMaskField
+                ("Playfield Options", (PlayfieldPlacer.PlayfieldOptions)playfieldOptionsMask.intValue));
+
+        serializedObject.ApplyModifiedProperties();
+    }
+}
+#endif
 
 public struct PlaneInfo {
     public Vector3 origin;
