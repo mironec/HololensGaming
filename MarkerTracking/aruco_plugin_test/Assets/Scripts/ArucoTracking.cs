@@ -30,6 +30,12 @@ public class ArucoTracking {
     [DllImport("aruco_plugin", EntryPoint = "destroy")]
     private static extern void lib_destroy();
 
+    [DllImport("aruco_plugin", EntryPoint = "start_recording")]
+    private static extern void lib_start_recording();
+
+    [DllImport("aruco_plugin", EntryPoint = "end_recording")]
+    private static extern void lib_end_recording();
+
     public static bool lib_inited = false;
 
     public static void init(int _width, int _height, float _marker_size, float[] _camera_params, int _size_reduce) {
@@ -95,5 +101,13 @@ public class ArucoTracking {
 
     private static void plugin_debug_log(string _msg) {
         Debug.Log("Aruco plugin: " + _msg);
+    }
+
+    public static void start_recording() {
+        lib_start_recording();
+    }
+
+    public static void end_recording() {
+        lib_end_recording();
     }
 }
