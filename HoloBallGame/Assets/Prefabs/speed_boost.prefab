@@ -93,7 +93,7 @@ BoxCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 0.1, y: 0.1, z: 0.03}
-  m_Center: {x: 0, y: -0.0000000023896696, z: 0.0100230025}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &114690637706653106
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -106,7 +106,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speedBoostStrength: 1.5
-  speedBoostDirectionRelative: {x: 0, y: 0, z: 0}
+  speedBoostDirectionAbsolute: {x: 0, y: 0, z: 0}
+  speedBoostDirectionRelative: {x: -90, y: 0, z: 0}
   removeVelocity: 1
 --- !u!114 &114954354693651640
 MonoBehaviour:
