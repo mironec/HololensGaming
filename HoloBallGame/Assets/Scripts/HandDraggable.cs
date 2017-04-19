@@ -54,6 +54,7 @@ public class HandDraggable : MonoBehaviour,
     private Quaternion gazeAngularOffset;
     private float handRefDistance;
     private Vector3 objRefGrabPoint;
+    private Vector3 objRefPoint;
 
     private Vector3 draggingPosition;
     private Quaternion draggingRotation;
@@ -126,6 +127,7 @@ public class HandDraggable : MonoBehaviour,
         Vector3 objForward = HostTransform.forward;
 
         // Store where the object was grabbed from
+        objRefPoint = HostTransform.position;
         objRefGrabPoint = mainCamera.transform.InverseTransformDirection(HostTransform.position - gazeHitPosition);
 
         Vector3 objDirection = Vector3.Normalize(gazeHitPosition - pivotPosition);
@@ -196,12 +198,18 @@ public class HandDraggable : MonoBehaviour,
         float distanceRatio = currenthandDistance / handRefDistance;
         float distanceOffset = distanceRatio > 0 ? (distanceRatio - 1f) * DistanceScale : 0;
         float targetDistance = objRefDistance + distanceOffset;
+        if (KeepAlignedToXZPlane)
+        {
+            targetDistance = (objRefPoint.y - mainCamera.transform.TransformDirection(objRefGrabPoint).y - pivotPosition.y)/targetDirection.y;
+        }
 
         draggingPosition = pivotPosition + (targetDirection * targetDistance);
-        if (KeepAlignedToXZPlane) {
+        /*if (KeepAlignedToXZPlane) {
             float t = -mainCamera.transform.position.y / targetDirection.y;
-            draggingPosition = new Vector3(mainCamera.transform.position.x + t*(targetDirection.x), 0, mainCamera.transform.position.z + t * (targetDirection.z));
-        }
+            draggingPosition = new Vector3(mainCamera.transform.position.x + t*(targetDirection.x), 
+                objRefPoint.y - mainCamera.transform.TransformDirection(objRefGrabPoint).y, 
+                mainCamera.transform.position.z + t * (targetDirection.z));
+        }*/
 
         if (IsOrientTowardsUser)
         {
@@ -216,7 +224,6 @@ public class HandDraggable : MonoBehaviour,
 
         // Apply Final Position
         HostTransform.position = draggingPosition + mainCamera.transform.TransformDirection(objRefGrabPoint);
-        if (KeepAlignedToXZPlane) HostTransform.position = draggingPosition;
         HostTransform.rotation = draggingRotation;
         if (IsKeepRotation) HostTransform.rotation = objRefRotation;
 
