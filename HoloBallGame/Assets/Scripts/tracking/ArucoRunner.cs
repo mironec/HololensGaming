@@ -35,6 +35,7 @@ public class ArucoRunner : MonoBehaviour {
         }
 
         average = new PoseRunningAverage(averageMemoryLength);
+        poseDict = new Dictionary<int, PoseData>();
 	}
 
     public virtual void runDetect() {

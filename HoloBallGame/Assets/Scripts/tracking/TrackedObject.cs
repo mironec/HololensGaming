@@ -24,14 +24,14 @@ public class TrackedObject : MonoBehaviour {
             PoseData pose = trackingRunner.poseDict[markerId];
             if(parentCamera == null) {
                 gameObject.transform.localPosition = pose.pos;
+                gameObject.transform.localRotation = pose.rot * baseRotation;
             }
             else {
                 Vector3 posePos = pose.pos;
                 posePos.z = -posePos.z;
                 gameObject.transform.position = parentCamera.cameraToWorldMatrix.MultiplyPoint(posePos);
+                gameObject.transform.localRotation = parentCamera.transform.rotation * pose.rot * baseRotation;
             }
-            
-            gameObject.transform.localRotation = pose.rot * baseRotation;
         }
         else {
             if (!persist) gameObject.SetActive(false);
