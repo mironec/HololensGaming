@@ -4,7 +4,10 @@ using UnityEngine;
 using HoloToolkit.Unity.InputModule;
 using HoloToolkit.Unity.SpatialMapping;
 using System;
+
+#if UNITY_EDITOR
 using UnityEditor;
+#endif
 
 [RequireComponent(typeof(GameManager))]
 public class PlayfieldPlacer : MonoBehaviour, IInputClickHandler, IManipulationHandler
