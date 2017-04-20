@@ -11,7 +11,7 @@ using HoloToolkit.Unity;
 /// Dragging is done by calculating the angular delta and z-delta between the current and previous hand positions,
 /// and then repositioning the object based on that.
 /// </summary>
-public class HandDraggable : MonoBehaviour,
+public class CustomHandDraggable : MonoBehaviour,
                                  IFocusable,
                                  IInputHandler,
                                  ISourceStateHandler
@@ -41,6 +41,9 @@ public class HandDraggable : MonoBehaviour,
     [Tooltip("Should the object be oriented towards the user as it is being dragged?")]
     public bool IsOrientTowardsUser = true;
 
+    [Tooltip("Should the object be rotated 90 degrees by double-tapping it?")]
+    public bool rotateByDoubleTapping = false;
+
     public bool KeepAlignedToXZPlane = false;
 
     public bool IsDraggingEnabled = true;
@@ -61,6 +64,7 @@ public class HandDraggable : MonoBehaviour,
 
     private IInputSource currentInputSource = null;
     private uint currentInputSourceId;
+    private float lastInputDown;
 
     private void Start()
     {
@@ -293,6 +297,12 @@ public class HandDraggable : MonoBehaviour,
 
     public void OnInputDown(InputEventData eventData)
     {
+        if (rotateByDoubleTapping && Time.unscaledTime - lastInputDown < 1f)
+        {
+            HostTransform.localRotation = Quaternion.AngleAxis(90f, Vector3.up) * HostTransform.localRotation;
+        }
+        lastInputDown = Time.unscaledTime;
+
         if (isDragging)
         {
             // We're already handling drag input, so we can't start a new drag operation.
