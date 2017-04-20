@@ -210,6 +210,11 @@ Prefab:
       propertyPath: otherPortal
       value: 
       objectReference: {fileID: 755449368}
+    - target: {fileID: 23826729502344246, guid: b9e208a0a3d3a8641918a5697c2a05ed,
+        type: 2}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 01c4f254e6942b04182321b9723449e1, type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: b9e208a0a3d3a8641918a5697c2a05ed, type: 2}
   m_IsPrefabParent: 0
@@ -241,6 +246,23 @@ Transform:
   m_PrefabParentObject: {fileID: 4838357922051294, guid: b9e208a0a3d3a8641918a5697c2a05ed,
     type: 2}
   m_PrefabInternal: {fileID: 128919507}
+--- !u!114 &128919511
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 128919508}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec1c517cadde9a344a43e80211b0ceb6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  markerId: 492
+  playfieldPlacer: {fileID: 804276783}
+  snappingDistance: 0.04
+  gridSize: 0.088
+  trackingRunner: {fileID: 1027878184}
+  parentCamera: {fileID: 1621410763}
 --- !u!1001 &171989765
 Prefab:
   m_ObjectHideFlags: 0
@@ -633,6 +655,11 @@ Prefab:
       propertyPath: otherPortal
       value: 
       objectReference: {fileID: 128919508}
+    - target: {fileID: 23826729502344246, guid: b9e208a0a3d3a8641918a5697c2a05ed,
+        type: 2}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 01c4f254e6942b04182321b9723449e1, type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: b9e208a0a3d3a8641918a5697c2a05ed, type: 2}
   m_IsPrefabParent: 0
@@ -672,12 +699,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 755449368}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e34648e4b02f06245acc5b54d2fe4e4b, type: 3}
+  m_Script: {fileID: 11500000, guid: ec1c517cadde9a344a43e80211b0ceb6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   markerId: 948
+  playfieldPlacer: {fileID: 804276783}
+  snappingDistance: 0.04
+  gridSize: 0.088
   trackingRunner: {fileID: 1027878184}
-  persist: 1
   parentCamera: {fileID: 1621410763}
 --- !u!1 &804276781
 GameObject:
