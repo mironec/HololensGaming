@@ -1,6 +1,6 @@
 fileFormatVersion: 2
-guid: 26051b8d44a22b1449f7786c6faa574a
-timeCreated: 1492690040
+guid: 0b81a0c94f9341246b0fff725e10f259
+timeCreated: 1492700039
 licenseType: Free
 ModelImporter:
   serializedVersion: 19
@@ -9,7 +9,9 @@ ModelImporter:
     400000: //RootNode
     2300000: //RootNode
     3300000: //RootNode
-    4300000: Cube
+    4300000: Plane
+    7400000: Default Take
+    9500000: //RootNode
   materials:
     importMaterials: 0
     materialName: 0
@@ -34,7 +36,7 @@ ModelImporter:
     isReadable: 1
   meshes:
     lODScreenPercentages: []
-    globalScale: 100
+    globalScale: 1
     meshCompression: 0
     addColliders: 0
     importBlendShapes: 1
@@ -72,7 +74,7 @@ ModelImporter:
     hasExtraRoot: 0
     skeletonHasParents: 1
   lastHumanDescriptionAvatarSource: {instanceID: 0}
-  animationType: 0
+  animationType: 2
   humanoidOversampling: 1
   additionalBone: 0
   userData: 
