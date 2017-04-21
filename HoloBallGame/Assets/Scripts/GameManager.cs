@@ -12,6 +12,7 @@ public class GameManager : MonoBehaviour, IInputClickHandler {
     public static event Action onGameReset;
     private float startTime;
 
+    public Material spatialMappingOcclusionMaterial;
     public GameObject ball;
     public GameObject victoryText;
     public GameObject holoCamera;
@@ -104,6 +105,7 @@ public class GameManager : MonoBehaviour, IInputClickHandler {
         playfieldPlacer.onPlayfieldSelected -= OnPlayfieldSelected;
         playfieldPlacer.enabled = false;
         playfieldPlacer = null;
+        SpatialMappingManager.Instance.SetSurfaceMaterial(spatialMappingOcclusionMaterial);
         ballStartPos = ball.transform.position;
         ballStartRot = ball.transform.rotation;
     } 

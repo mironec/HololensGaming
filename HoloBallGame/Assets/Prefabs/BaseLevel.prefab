@@ -3294,7 +3294,6 @@ MonoBehaviour:
   - gravity test
   - floor test
   - portal madness
-  gameManager: {fileID: 0}
   levelSelectButtonPrefab: {fileID: 1286914768271714, guid: c885601ffb498544ab86daf6613a341f,
     type: 2}
 --- !u!114 &114300993024784220
@@ -3932,6 +3931,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bca4578bee404cd43a59aa6daa38f46f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spatialMappingOcclusionMaterial: {fileID: 15302, guid: 0000000000000000f000000000000000,
+    type: 0}
   ball: {fileID: 1599751977118622}
   victoryText: {fileID: 1087845330477904}
   holoCamera: {fileID: 1010269525957144}

@@ -1010,6 +1010,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bca4578bee404cd43a59aa6daa38f46f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spatialMappingOcclusionMaterial: {fileID: 15302, guid: 0000000000000000f000000000000000,
+    type: 0}
   ball: {fileID: 2028395914}
   victoryText: {fileID: 2770164}
   holoCamera: {fileID: 883479183}
@@ -1043,16 +1045,16 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 67212103}
-  - {fileID: 318073537}
-  - {fileID: 1188993453}
   - {fileID: 546288025}
-  - {fileID: 1098970552}
-  - {fileID: 900326765}
-  - {fileID: 429735235}
   - {fileID: 761419366}
-  - {fileID: 714922267}
+  - {fileID: 900326765}
+  - {fileID: 1188993453}
+  - {fileID: 1098970552}
   - {fileID: 1385573186}
   - {fileID: 1018936589}
+  - {fileID: 714922267}
+  - {fileID: 318073537}
+  - {fileID: 429735235}
   m_Father: {fileID: 1815184750}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2564,15 +2566,15 @@ Transform:
   - {fileID: 1148255251}
   - {fileID: 444836841}
   - {fileID: 208408436}
+  - {fileID: 910817008}
   - {fileID: 1151641021}
+  - {fileID: 1013267286}
   - {fileID: 1619879735}
+  - {fileID: 1604713623}
   - {fileID: 477056123}
   - {fileID: 1881036067}
   - {fileID: 1862754370}
   - {fileID: 396008897}
-  - {fileID: 1013267286}
-  - {fileID: 1604713623}
-  - {fileID: 910817008}
   m_Father: {fileID: 1815184750}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 180, y: 0, z: 0}

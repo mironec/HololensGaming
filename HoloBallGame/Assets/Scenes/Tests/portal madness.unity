@@ -3966,6 +3966,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bca4578bee404cd43a59aa6daa38f46f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spatialMappingOcclusionMaterial: {fileID: 15302, guid: 0000000000000000f000000000000000,
+    type: 0}
   ball: {fileID: 803484433}
   victoryText: {fileID: 518803383}
   holoCamera: {fileID: 634563858}
