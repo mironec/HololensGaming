@@ -13,3 +13,5 @@ EditorBuildSettings:
     path: Assets/Scenes/Tests/gravity test.unity
   - enabled: 1
     path: Assets/Scenes/Tests/floor test.unity
+  - enabled: 1
+    path: Assets/Scenes/Tests/portal madness.unity
