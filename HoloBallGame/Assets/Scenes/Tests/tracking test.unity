@@ -37,7 +37,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657874, g: 0.49641252, b: 0.574817, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657826, g: 0.49641263, b: 0.57481676, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -317,7 +317,7 @@ Prefab:
   m_IsPrefabParent: 0
 --- !u!4 &198316258 stripped
 Transform:
-  m_PrefabParentObject: {fileID: 4934489713364478, guid: c76ef38548404d846a3eb083689145e0,
+  m_PrefabParentObject: {fileID: 4690946158091998, guid: c76ef38548404d846a3eb083689145e0,
     type: 2}
   m_PrefabInternal: {fileID: 198316257}
 --- !u!114 &414810112 stripped
@@ -1061,6 +1061,7 @@ MonoBehaviour:
   IsKeepUpright: 0
   IsKeepRotation: 1
   IsOrientTowardsUser: 0
+  rotateByDoubleTapping: 0
   KeepAlignedToXZPlane: 1
   IsDraggingEnabled: 1
 --- !u!114 &1629341134
@@ -1170,12 +1171,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bca4578bee404cd43a59aa6daa38f46f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spatialMappingOcclusionMaterial: {fileID: 0}
   ball: {fileID: 2028395914}
   victoryText: {fileID: 2770164}
   holoCamera: {fileID: 0}
   pauseOnStart: 1
   trackingUpdater: {fileID: 2017298485}
   goalTrigger: {fileID: 414810112}
+  listenForInput: 1
 --- !u!4 &1829508853
 Transform:
   m_ObjectHideFlags: 0
@@ -1202,7 +1205,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playfieldOption: 1
   playSpaceAnchor: {fileID: 1201166753}
+  playSpacePlane: {fileID: 0}
+  mainCamera: {fileID: 0}
   clearingSpaceHeight: 0.5
+  useManual: 1
 --- !u!1001 &1958786250
 Prefab:
   m_ObjectHideFlags: 0
@@ -1365,6 +1371,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   runner: {fileID: 2017298486}
   runDetection: 1
+  detectionDisabled: 0
   cam: {fileID: 471907640}
   maxAngularChange: 0.5
 --- !u!114 &2017298486
@@ -1390,6 +1397,33 @@ GameObject:
   m_PrefabParentObject: {fileID: 1559437698137894, guid: 108879cf0eb3f8b4286680f5d223447a,
     type: 2}
   m_PrefabInternal: {fileID: 1779767246}
+--- !u!114 &2028395915
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2028395914}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 434962515297d534f86e4efdd10badde, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onClick:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1829508852}
+        m_MethodName: pauseUnpause
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
 --- !u!1001 &2071752788
 Prefab:
   m_ObjectHideFlags: 0

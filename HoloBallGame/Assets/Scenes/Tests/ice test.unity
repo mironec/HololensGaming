@@ -315,6 +315,11 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: c76ef38548404d846a3eb083689145e0, type: 2}
   m_IsPrefabParent: 0
+--- !u!4 &198316258 stripped
+Transform:
+  m_PrefabParentObject: {fileID: 4690946158091998, guid: c76ef38548404d846a3eb083689145e0,
+    type: 2}
+  m_PrefabInternal: {fileID: 198316257}
 --- !u!1 &332916817 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 1000011021619270, guid: d379ed0a5618c9f479f58bd83a2d0ad3,
@@ -415,11 +420,6 @@ Transform:
   m_Father: {fileID: 1228179414}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!4 &353323951 stripped
-Transform:
-  m_PrefabParentObject: {fileID: 4934489713364478, guid: c76ef38548404d846a3eb083689145e0,
-    type: 2}
-  m_PrefabInternal: {fileID: 198316257}
 --- !u!114 &414810112 stripped
 MonoBehaviour:
   m_PrefabParentObject: {fileID: 114005115293817968, guid: d37a3847c565f5d4680e93d3d17e427d,
@@ -667,7 +667,7 @@ Transform:
   m_Children:
   - {fileID: 628159789}
   - {fileID: 706246321}
-  - {fileID: 353323951}
+  - {fileID: 198316258}
   - {fileID: 861977652}
   - {fileID: 2028395919}
   - {fileID: 102338620}
@@ -960,11 +960,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bca4578bee404cd43a59aa6daa38f46f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spatialMappingOcclusionMaterial: {fileID: 0}
   ball: {fileID: 2028395914}
   victoryText: {fileID: 2770164}
   holoCamera: {fileID: 332916817}
   pauseOnStart: 1
+  trackingUpdater: {fileID: 0}
   goalTrigger: {fileID: 414810112}
+  listenForInput: 1
 --- !u!4 &1829508853
 Transform:
   m_ObjectHideFlags: 0
@@ -989,12 +992,44 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5306103538c1a6a4182f9e011bde96f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playfieldOption: 1
   playSpaceAnchor: {fileID: 1228179413}
+  playSpacePlane: {fileID: 0}
+  mainCamera: {fileID: 0}
+  clearingSpaceHeight: 0.5
+  useManual: 1
 --- !u!1 &2028395914 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 1559437698137894, guid: 108879cf0eb3f8b4286680f5d223447a,
     type: 2}
   m_PrefabInternal: {fileID: 1779767246}
+--- !u!114 &2028395915
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2028395914}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 434962515297d534f86e4efdd10badde, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onClick:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1829508852}
+        m_MethodName: pauseUnpause
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
 --- !u!4 &2028395919 stripped
 Transform:
   m_PrefabParentObject: {fileID: 4858648867521892, guid: 108879cf0eb3f8b4286680f5d223447a,
