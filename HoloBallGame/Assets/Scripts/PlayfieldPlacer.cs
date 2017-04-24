@@ -152,7 +152,7 @@ public class PlayfieldPlacer : MonoBehaviour, IInputClickHandler, IManipulationH
         if (gamePlanes != null) {
             Vector3 v = new Vector3(eventData.CumulativeDelta.x, 0, eventData.CumulativeDelta.z);
             v = mainCamera.GetComponent<Camera>().worldToCameraMatrix * v;
-            playSpaceAnchor.transform.rotation = playspaceRotation * Quaternion.Euler(0, v.x*360.0f, 0);
+            playSpaceAnchor.transform.rotation = playspaceRotation * Quaternion.Euler(0, v.x*60.0f, 0);
         }
     }
 
