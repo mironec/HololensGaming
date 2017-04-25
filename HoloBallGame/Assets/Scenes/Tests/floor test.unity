@@ -903,7 +903,7 @@ Prefab:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
-    m_TransformParent: {fileID: 0}
+    m_TransformParent: {fileID: 1331250775}
     m_Modifications:
     - target: {fileID: 400004, guid: 70679448aa051df4b84161200f5a907b, type: 3}
       propertyPath: m_LocalPosition.x
@@ -935,19 +935,19 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 400004, guid: 70679448aa051df4b84161200f5a907b, type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 400004, guid: 70679448aa051df4b84161200f5a907b, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.1
+      value: 0.10000006
       objectReference: {fileID: 0}
     - target: {fileID: 400004, guid: 70679448aa051df4b84161200f5a907b, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.1
+      value: 0.10000006
       objectReference: {fileID: 0}
     - target: {fileID: 400004, guid: 70679448aa051df4b84161200f5a907b, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.1
+      value: 0.10000009
       objectReference: {fileID: 0}
     - target: {fileID: 2300004, guid: 70679448aa051df4b84161200f5a907b, type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -974,6 +974,10 @@ MeshCollider:
   m_InflateMesh: 0
   m_SkinWidth: 0.01
   m_Mesh: {fileID: 4300000, guid: 70679448aa051df4b84161200f5a907b, type: 3}
+--- !u!4 &1103197876 stripped
+Transform:
+  m_PrefabParentObject: {fileID: 400004, guid: 70679448aa051df4b84161200f5a907b, type: 3}
+  m_PrefabInternal: {fileID: 1103197873}
 --- !u!1 &1216165551
 GameObject:
   m_ObjectHideFlags: 0
@@ -1219,6 +1223,7 @@ Transform:
   - {fileID: 755449367}
   - {fileID: 564809306}
   - {fileID: 1255574604}
+  - {fileID: 1103197876}
   m_Father: {fileID: 384969277}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

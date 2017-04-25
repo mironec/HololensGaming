@@ -3745,7 +3745,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   markerId: 948
   playfieldPlacer: {fileID: 1192056411}
-  snappingDistance: 0.06
+  snappingDistance: 0.08
   gridSize: 0.088
   trackingRunner: {fileID: 2042851173}
   parentCamera: {fileID: 286327489}
@@ -7435,7 +7435,7 @@ GameObject:
   - component: {fileID: 2093687022}
   - component: {fileID: 2093687021}
   - component: {fileID: 2093687020}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Plane
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7595,7 +7595,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   markerId: 492
   playfieldPlacer: {fileID: 1192056411}
-  snappingDistance: 0.06
+  snappingDistance: 0.08
   gridSize: 0.088
   trackingRunner: {fileID: 2042851173}
   parentCamera: {fileID: 286327489}

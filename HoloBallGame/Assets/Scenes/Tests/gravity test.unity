@@ -1183,7 +1183,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   markerId: 492
   playfieldPlacer: {fileID: 547083318}
-  snappingDistance: 0.04
+  snappingDistance: 0.08
   gridSize: 0.088
   trackingRunner: {fileID: 1243960760}
   parentCamera: {fileID: 883479189}
@@ -1696,7 +1696,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   markerId: 948
   playfieldPlacer: {fileID: 547083318}
-  snappingDistance: 0.04
+  snappingDistance: 0.08
   gridSize: 0.088
   trackingRunner: {fileID: 1243960760}
   parentCamera: {fileID: 883479189}

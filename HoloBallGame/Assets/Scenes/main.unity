@@ -1914,7 +1914,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   markerId: 948
   playfieldPlacer: {fileID: 1829508854}
-  snappingDistance: 0.04
+  snappingDistance: 0.08
   gridSize: 0.088
   trackingRunner: {fileID: 1968594148}
   parentCamera: {fileID: 510769733}
@@ -2913,7 +2913,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   runner: {fileID: 1968594148}
   runDetection: 0
-  detectionDisabled: 1
+  detectionDisabled: 0
   cam: {fileID: 510769733}
   maxAngularChange: 1
 --- !u!114 &1968594148

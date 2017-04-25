@@ -71,7 +71,19 @@ public class PlayfieldPlacer : MonoBehaviour, IInputClickHandler, IManipulationH
         }
     }
 
-    private void PlaceField(GameObject originalPlane, bool applyRotationCorrections = true) {
+    /// <summary>
+    /// Places the playing field on the specified plane. Also records various tidbits that the spatial tracking and game needs.
+    /// </summary>
+    /// <param name="originalPlane">
+    /// The plane on which to place the field.
+    /// </param>
+    /// <param name="applyRotationCorrections">
+    /// Whether to rotate the plane, so that it faces upwards (0, 1, 0).
+    /// </param>
+    /// <param name="applyFurtherRotationCorrections">
+    /// Whether to rotate the plane, so that its long side is along x.
+    /// </param>
+    private void PlaceField(GameObject originalPlane, bool applyRotationCorrections = true, bool applyFurtherRotationCorrections = true) {
         int gamePlanesCount = calculateNumberOfGamePlanes();
         gamePlanes = new GameObject[gamePlanesCount];
         abstractGamePlanes = new PlaneInfo[gamePlanesCount];
@@ -79,7 +91,7 @@ public class PlayfieldPlacer : MonoBehaviour, IInputClickHandler, IManipulationH
         if (hasFlag(PlayfieldOptions.MainGamePlane))
         {
             gamePlanes[index] = originalPlane;
-            abstractGamePlanes[index] = createGamePlaneInfo(originalPlane);
+            abstractGamePlanes[index] = createGamePlaneInfo(originalPlane, applyRotationCorrections);
             index++;
         }
         if (hasFlag(PlayfieldOptions.FloorGamePlane))
@@ -92,10 +104,13 @@ public class PlayfieldPlacer : MonoBehaviour, IInputClickHandler, IManipulationH
         if (applyRotationCorrections)
         {
             Quaternion alignRot = Quaternion.FromToRotation(originalPlane.transform.rotation * Vector3.up, Vector3.up);
-            if (originalPlane.transform.localScale.x > originalPlane.transform.localScale.y)
-                playSpaceAnchor.transform.rotation = alignRot * originalPlane.transform.rotation * Quaternion.AngleAxis(0, Vector3.up);
-            else
-                playSpaceAnchor.transform.rotation = alignRot * originalPlane.transform.rotation * Quaternion.AngleAxis(-90, Vector3.up);
+            if (applyFurtherRotationCorrections)
+            {
+                if (originalPlane.transform.localScale.x > originalPlane.transform.localScale.y)
+                    playSpaceAnchor.transform.rotation = alignRot * originalPlane.transform.rotation * Quaternion.AngleAxis(0, Vector3.up);
+                else
+                    playSpaceAnchor.transform.rotation = alignRot * originalPlane.transform.rotation * Quaternion.AngleAxis(-90, Vector3.up);
+            }
         }
     }
 
@@ -127,7 +142,7 @@ public class PlayfieldPlacer : MonoBehaviour, IInputClickHandler, IManipulationH
         Physics.Raycast(gazeTransform.position, gazeTransform.forward, out hit, 100.0f, SpatialMappingManager.Instance.LayerMask);
         playSpacePlane.transform.position = hit.point;
         playSpacePlane.GetComponent<Renderer>().enabled = true;
-        PlaceField(playSpacePlane, false);
+        PlaceField(playSpacePlane, false, false);
         playSpacePlane.transform.position = hit.point;
         SurfaceMeshesToPlanes.Instance.drawPlanesMask = 0;
     }
@@ -152,7 +167,7 @@ public class PlayfieldPlacer : MonoBehaviour, IInputClickHandler, IManipulationH
         if (gamePlanes != null) {
             Vector3 v = new Vector3(eventData.CumulativeDelta.x, 0, eventData.CumulativeDelta.z);
             v = mainCamera.GetComponent<Camera>().worldToCameraMatrix * v;
-            playSpaceAnchor.transform.rotation = playspaceRotation * Quaternion.Euler(0, v.x*60.0f, 0);
+            playSpaceAnchor.transform.rotation = playspaceRotation * Quaternion.Euler(0, v.x*180.0f, 0);
         }
     }
 
@@ -160,10 +175,13 @@ public class PlayfieldPlacer : MonoBehaviour, IInputClickHandler, IManipulationH
 
     public void OnManipulationCanceled(ManipulationEventData eventData) {}
 
-    PlaneInfo createGamePlaneInfo(GameObject planeObj) {
+    PlaneInfo createGamePlaneInfo(GameObject planeObj, bool applyRotationCorrections = true) {
         PlaneInfo newPlane = new PlaneInfo();
         newPlane.origin = planeObj.transform.position;
-        newPlane.rotation = planeObj.transform.rotation * Quaternion.AngleAxis(-90, Vector2.right);
+        if(applyRotationCorrections)
+            newPlane.rotation = planeObj.transform.rotation * Quaternion.AngleAxis(-90, Vector2.right);
+        else
+            newPlane.rotation = planeObj.transform.rotation;
         newPlane.inverseRotation = Quaternion.Inverse(newPlane.rotation);
         newPlane.normal = newPlane.rotation * Vector3.up;
 
