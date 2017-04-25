@@ -91,7 +91,8 @@ public class PlayfieldPlacer : MonoBehaviour, IInputClickHandler, IManipulationH
         if (hasFlag(PlayfieldOptions.MainGamePlane))
         {
             gamePlanes[index] = originalPlane;
-            abstractGamePlanes[index] = createGamePlaneInfo(originalPlane, applyRotationCorrections);
+            //Temporary fix with using applyRotationCorrections two times - change later
+            abstractGamePlanes[index] = createGamePlaneInfo(originalPlane, applyRotationCorrections, !applyRotationCorrections);
             index++;
         }
         if (hasFlag(PlayfieldOptions.FloorGamePlane))
@@ -175,7 +176,7 @@ public class PlayfieldPlacer : MonoBehaviour, IInputClickHandler, IManipulationH
 
     public void OnManipulationCanceled(ManipulationEventData eventData) {}
 
-    PlaneInfo createGamePlaneInfo(GameObject planeObj, bool applyRotationCorrections = true) {
+    PlaneInfo createGamePlaneInfo(GameObject planeObj, bool applyRotationCorrections = true, bool applySizeCorrections = false) {
         PlaneInfo newPlane = new PlaneInfo();
         newPlane.origin = planeObj.transform.position;
         if(applyRotationCorrections)
@@ -188,6 +189,10 @@ public class PlayfieldPlacer : MonoBehaviour, IInputClickHandler, IManipulationH
         Vector2 size = new Vector2();
         size.x = planeObj.transform.localScale.x;
         size.y = planeObj.transform.localScale.y;
+        if (applySizeCorrections) {
+            size.x *= 10.0f;
+            size.y *= 10.0f;
+        }
         newPlane.size = size;
         return newPlane;
     }
